@@ -117,7 +117,11 @@
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="CoachCar.h" />
+    <ClInclude Include="CoveredFreightCar.h" />
+    <ClInclude Include="FreightCar.h" />
+    <ClInclude Include="OpenFreightCar.h" />
     <ClInclude Include="PassengerCar.h" />
+    <ClInclude Include="SleepingCar.h" />
     <ClInclude Include="Train.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

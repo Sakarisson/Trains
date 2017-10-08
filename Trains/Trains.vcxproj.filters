@@ -35,5 +35,17 @@
     <ClInclude Include="CoachCar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SleepingCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenFreightCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreightCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoveredFreightCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

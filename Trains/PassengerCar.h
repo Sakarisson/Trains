@@ -3,9 +3,10 @@
 
 #include "Car.h"
 
-class PassengerCar : Car {
+class PassengerCar : public Car {
 protected:
 public:
+    PassengerCar() {}
     virtual ~PassengerCar() {}
 };
 

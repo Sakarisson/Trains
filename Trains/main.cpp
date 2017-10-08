@@ -1,6 +1,9 @@
-#include "CoachCar.h"
+#include "Train.h"
+
+using namespace std;
 
 int main() {
-    CoachCar c;
+    Train t;
+    t.addCar(COACHCAR);
     return 0;
 }

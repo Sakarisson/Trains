@@ -3,9 +3,10 @@
 
 #include "PassengerCar.h"
 
-class CoachCar : PassengerCar {
+class CoachCar : public PassengerCar {
 private:
 public:
+    CoachCar() {}
     ~CoachCar() {}
 };
 

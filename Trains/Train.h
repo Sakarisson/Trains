@@ -2,16 +2,20 @@
 #define TRAIN_H
 
 #include <vector>
+#include <memory>
 
 #include "Car.h"
+
+using namespace std;
 
 class Train
 {
 private:
-    std::vector<Car> _cars;
+    vector<unique_ptr<Car>> _cars;
 public:
     Train();
     ~Train();
+    bool addCar(CarType type);
 };
 
 #endif // !TRAIN_H
