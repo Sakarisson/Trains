@@ -9,6 +9,10 @@ protected:
     bool _hasInternet = false;
 public:
     CoachCar() {}
+    CoachCar(int numberOfChairs, bool hasInternet) {
+        _numberOfChairs = numberOfChairs;
+        _hasInternet = hasInternet;
+    }
     ~CoachCar() {}
 
     virtual int getNumberOfChairs() const { return _numberOfChairs; }

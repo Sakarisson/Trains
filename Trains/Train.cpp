@@ -17,16 +17,16 @@ Train::~Train() {
 bool Train::addCar(CarType type) {
     switch (type) {
     case COACHCAR:
-        _cars.push_back(make_shared<CoachCar>());
+        _cars.push_back(make_shared<CoachCar>(3, true));
         break;
     case SLEEPINGCAR:
-        _cars.push_back(make_shared<SleepingCar>());
+        _cars.push_back(make_shared<SleepingCar>(8));
         break;
     case OPENFREIGHTCAR:
-        _cars.push_back(make_shared<OpenFreightCar>());
+        _cars.push_back(make_shared<OpenFreightCar>(76.64));
         break;
     case COVEREDFREIGHTCAR:
-        _cars.push_back(make_shared<CoveredFreightCar>());
+        _cars.push_back(make_shared<CoveredFreightCar>(22.3));
         break;
     default:
         return false;
