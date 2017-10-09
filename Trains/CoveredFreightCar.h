@@ -9,6 +9,7 @@ class CoveredFreightCar : public FreightCar {
 protected:
 public:
     CoveredFreightCar() {}
+    CoveredFreightCar(double capacity) { _capacity = capacity; }
     virtual ~CoveredFreightCar() {}
     virtual string getCapacityString() const {
         string cap = to_string(_capacity);
