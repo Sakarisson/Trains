@@ -19,7 +19,7 @@ public:
 
     // Capacity functions for Freight Car
     virtual double getCapacityDouble() const { return 0; }
-    virtual string getCapacityString() const { return "No cargo capacity"; }
+    virtual string getCapacityString() const { return ""; }
 
     // Virtual functions for CoachCar
     virtual int getNumberOfChairs() const { return 0; }
