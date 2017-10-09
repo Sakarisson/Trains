@@ -4,10 +4,15 @@
 #include "PassengerCar.h"
 
 class CoachCar : public PassengerCar {
-private:
+protected:
+    int _numberOfChairs = 0;
+    bool _hasInternet = false;
 public:
     CoachCar() {}
     ~CoachCar() {}
+
+    virtual int getNumberOfChairs() const { return _numberOfChairs; }
+    virtual bool hasInternet() const { return _hasInternet; }
 };
 
 #endif // !COACHCAR_H

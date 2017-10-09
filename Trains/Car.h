@@ -1,8 +1,6 @@
 #ifndef CAR_H
 #define CAR_H
 
-#include <iostream>
-
 using namespace std;
 
 enum CarType {
@@ -18,6 +16,17 @@ protected:
 public:
     Car() {}
     virtual ~Car() {}
+
+    // Capacity functions for Freight Car
+    virtual double getCapacityDouble() const { return 0; }
+    virtual string getCapacityString() const { return ""; }
+
+    // Virtual functions for CoachCar
+    virtual int getNumberOfChairs() const { return 0; }
+    virtual bool hasInternet() const { return false; }
+
+    // Virtual functions for SleepingCar
+    virtual int getNumberOfBeds() const { return 0; }
 };
 
 #endif // !CAR_H

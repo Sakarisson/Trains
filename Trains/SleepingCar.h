@@ -5,9 +5,11 @@
 
 class SleepingCar : public PassengerCar {
 private:
+    int _numberOfBeds = 0;
 public:
     SleepingCar() {}
     ~SleepingCar() {}
+    virtual int getNumberOfBeds() const{ return _numberOfBeds; }
 };
 
 #endif // !SLEEPINGCAR_H
