@@ -10,7 +10,7 @@ int main() {
     t.addCar(OPENFREIGHTCAR);
     t.addCar(COVEREDFREIGHTCAR);
     t.addCar(SLEEPINGCAR);
-    for each (auto c in t.getCars()) {
+    for each (auto &c in t.getCars()) {
         cout <<
             "Capacity: " << c->getCapacityString() << endl <<
             "Capacity: " << c->getCapacityDouble() << endl <<
