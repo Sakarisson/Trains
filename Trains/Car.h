@@ -7,9 +7,15 @@ using namespace std;
 
 class Car {
 protected:
+    int _id;
 public:
     Car() {}
     virtual ~Car() {}
+
+    // Static functions for all Cars
+    int getId() const { return _id; }
+
+    void setId(int id) { _id = id; }
 
     // Capacity functions for Freight Cars
     virtual int getCapacity() const { return 0; }

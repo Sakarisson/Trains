@@ -56,6 +56,7 @@ public:
     string getDestinationStation() const;
     string getDestinationTime() const;
     TrainState getCurrentState() const;
+    string getCurrentStateString() const;
 
     // -------- SETTERS --------
     void setTrainNumber(string trainNumber);

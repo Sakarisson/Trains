@@ -25,23 +25,23 @@
     <Filter Include="Header Files\Cars\PassengerCars">
       <UniqueIdentifier>{d6030009-7819-4c6b-8db7-f13c16dcb98a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Train">
+      <UniqueIdentifier>{c8ac1f21-a5fb-42fc-a689-6688cd9cfc91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Train">
+      <UniqueIdentifier>{d18fb292-a12b-49e2-b584-952eb77256d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Train.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Train</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Train.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FreightCar.h">
@@ -70,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="DieselEngine.h">
       <Filter>Header Files\Cars\Engines</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>Header Files\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="Train.h">
+      <Filter>Header Files\Train</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

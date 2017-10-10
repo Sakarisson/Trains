@@ -63,6 +63,27 @@ TrainState Train::getCurrentState() const {
     return _currentState;
 }
 
+string Train::getCurrentStateString() const {
+    switch (_currentState) {
+    case NOT_ASSEMBLED:
+        return "Not assembled";
+    case INCOMPLETE:
+        return "Incomplete";
+    case ASSEMBLED:
+        return "Assembled";
+    case READY:
+        return "Ready";
+    case RUNNING:
+        return "Running";
+    case ARRIVED:
+        return "Arrived";
+    case FINISHED:
+        return "Finished";
+    default:
+        return "Unknown";
+    }
+}
+
 // -------- SETTERS --------
 void Train::setTrainNumber(string trainNumber) {
     _trainNumber = trainNumber;
