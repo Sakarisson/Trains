@@ -29,7 +29,6 @@ enum TrainState {
 class Train
 {
 private:
-    vector<shared_ptr<Engine>> _engines;
     vector<shared_ptr<Car>> _cars;
     string _trainNumber;
     string _departureStation;
@@ -62,7 +61,6 @@ public:
 
     // ------------------ TEMP -------------------------
     /*-----*/vector<shared_ptr<Car>> getCars();//-------
-    /*---*/vector<shared_ptr<Engine>> getEngines();//---
     // ------------------ TEMP -------------------------
 };
 

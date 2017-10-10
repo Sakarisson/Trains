@@ -12,13 +12,13 @@ public:
     virtual ~Car() {}
 
     // Capacity functions for Freight Cars
-    virtual double getCapacityDouble() const { return 0; }
+    virtual int getCapacity() const { return 0; }
     virtual string getCapacityString() const { return "No cargo capacity"; }
 
     virtual void setCapacity(double) {}
 
     // Virtual functions foor Open Freight Car
-    virtual double getArea() const { return 0; }
+    virtual int getArea() const { return 0; }
 
     virtual void setArea(double) {}
 
@@ -37,7 +37,7 @@ public:
     // Virtual functions for Engine
     virtual int getMaxSpeed() const { return 0; }
     virtual int getConsumption() const { return 0; }
-    virtual string getConsumptionString() const { return ""; }
+    virtual string getConsumptionString() const { return "No energy consumption"; }
 
     virtual void setMaxSpeed(int) {}
     virtual void setConsumption(int) {}

@@ -20,6 +20,7 @@ int main() {
             "Number of beds: " << c->getNumberOfBeds() << endl <<
             "Has internet: " << c->hasInternet() << endl <<
             "Number of chairs: " << c->getNumberOfChairs() << endl <<
+            "Energy consumption: " << c->getConsumptionString() << endl <<
             "----------------" << endl;
     }
     getchar();

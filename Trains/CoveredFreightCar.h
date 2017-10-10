@@ -15,7 +15,7 @@ public:
     // -------- GETTERS --------
     virtual string getCapacityString() const {
         string cap = to_string(_capacity);
-        return cap + " m3";
+        return cap + " cubic meters";
     }
 
     virtual CarType getType() const { return COVEREDFREIGHTCAR; }

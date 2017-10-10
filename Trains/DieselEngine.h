@@ -10,6 +10,11 @@ public:
     virtual ~DieselEngine() {}
 
     // -------- GETTERS --------
+    virtual string getConsumptionString() const {
+        string con = to_string(_energyConsumption);
+        return con + " liters / h";
+    }
+
     virtual CarType getType() const { return DIESELENGINE; }
     virtual string getTypeString() const { return "Diesel Engine"; }
 };

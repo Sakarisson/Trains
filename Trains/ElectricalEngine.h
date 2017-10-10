@@ -10,6 +10,11 @@ public:
     virtual ~ElectricalEngine() {}
 
     // -------- GETTERS --------
+    virtual string getConsumptionString() const {
+        string con = to_string(_energyConsumption);
+        return con + " KW";
+    }
+
     virtual CarType getType() const { return ELECTRICALENGINE; }
     virtual string getTypeString() const { return "Electrical Engine"; }
 };

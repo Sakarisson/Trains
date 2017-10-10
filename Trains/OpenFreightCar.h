@@ -9,18 +9,21 @@ using namespace std;
 
 class OpenFreightCar : public FreightCar {
 protected:
-    double _area = 0;
+    int _area = 0;
 public:
     OpenFreightCar() {}
-    OpenFreightCar(double capacity) { _capacity = capacity; }
+    OpenFreightCar(int capacity, int area) {
+        _capacity = capacity; 
+        _area = area;
+    }
     virtual ~OpenFreightCar() {}
 
     // -------- GETTERS --------
     virtual string getCapacityString() const { 
         string cap = to_string(_capacity);
-        return cap + " tons"; 
+        return cap + " tonnes"; 
     }
-    virtual double getArea() const { return _area; }
+    virtual int getArea() const { return _area; }
 
     virtual CarType getType() const { return OPENFREIGHTCAR; }
     virtual string getTypeString() const { return "Open Freight Car"; }

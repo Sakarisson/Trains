@@ -5,13 +5,13 @@
 
 class FreightCar : public Car {
 protected:
-    double _capacity = 0; // Tons for open and cubic meters for covered
+    int _capacity = 0; // Tons for open and cubic meters for covered
 public:
     FreightCar() {}
     virtual ~FreightCar() {}
 
     // -------- GETTERS --------
-    virtual double getCapacity() const { return _capacity; } // Identical implementation for covered and open
+    virtual int getCapacity() const { return _capacity; } // Identical implementation for covered and open
 
     // -------- SETTERS --------
     virtual void setCapacity(double capacity) { _capacity = capacity; }
