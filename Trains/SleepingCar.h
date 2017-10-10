@@ -9,7 +9,7 @@ private:
 public:
     SleepingCar() {}
     SleepingCar(int numberOfBeds) { _numberOfBeds = numberOfBeds; }
-    ~SleepingCar() {}
+    virtual ~SleepingCar() {}
 
     // -------- GETTERS --------
     virtual int getNumberOfBeds() const{ return _numberOfBeds; }

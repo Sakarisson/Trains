@@ -30,6 +30,7 @@ private:
     string _departureStation;
     string _departureTime;
     string _destinationStation;
+    string _destinationTime;
     TrainState _currentState;
 public:
     Train();
@@ -40,7 +41,7 @@ public:
     string getDepartureStation() const;
     string getDepartureTime() const;
     string getDestinationStation() const;
-    string getDestinationTime() const; // Logical getter. No setter
+    string getDestinationTime() const;
     TrainState getCurrentState() const;
 
     // -------- SETTERS --------
@@ -48,6 +49,7 @@ public:
     void setDepartureStation(string departureStation);
     void setDepartureTime(string departureTime);
     void setDestinationStation(string destinationStation);
+    void setDestinationTime(string destinationTime);
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------

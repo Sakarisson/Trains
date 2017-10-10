@@ -9,6 +9,7 @@ using namespace std;
 
 class OpenFreightCar : public FreightCar {
 protected:
+    double _area = 0;
 public:
     OpenFreightCar() {}
     OpenFreightCar(double capacity) { _capacity = capacity; }
@@ -17,13 +18,15 @@ public:
     // -------- GETTERS --------
     virtual string getCapacityString() const { 
         string cap = to_string(_capacity);
-        return cap + " m2"; 
+        return cap + " tons"; 
     }
+    virtual double getArea() const { return _area; }
 
     virtual CarType getType() const { return OPENFREIGHTCAR; }
     virtual string getTypeString() const { return "Open Freight Car"; }
 
     // -------- SETTERS --------
+    virtual void setArea(double area) { _area = area; } // Area in square meters
 };
 
 #endif // !OPENFREIGHTCAR_H

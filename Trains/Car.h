@@ -17,11 +17,16 @@ public:
     Car() {}
     virtual ~Car() {}
 
-    // Capacity functions for Freight Car
+    // Capacity functions for Freight Cars
     virtual double getCapacityDouble() const { return 0; }
     virtual string getCapacityString() const { return "No cargo capacity"; }
 
     virtual void setCapacity(double) {}
+
+    // Virtual functions foor Open Freight Car
+    virtual double getArea() const { return 0; }
+
+    virtual void setArea(double) {}
 
     // Virtual functions for CoachCar
     virtual int getNumberOfChairs() const { return 0; }

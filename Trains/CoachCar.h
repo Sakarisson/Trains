@@ -13,7 +13,7 @@ public:
         _numberOfChairs = numberOfChairs;
         _hasInternet = hasInternet;
     }
-    ~CoachCar() {}
+    virtual ~CoachCar() {}
 
     // -------- GETTERS --------
     virtual int getNumberOfChairs() const { return _numberOfChairs; }

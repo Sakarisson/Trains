@@ -32,8 +32,7 @@ string Train::getDestinationStation() const {
 }
 
 string Train::getDestinationTime() const {
-    // DO LOGIC...
-    return "00:00";
+    return _destinationTime;
 }
 
 TrainState Train::getCurrentState() const {
@@ -51,6 +50,14 @@ void Train::setDepartureStation(string departureStation) {
 
 void Train::setDepartureTime(string departureTime) {
     _departureTime = departureTime;
+}
+
+void Train::setDestinationStation(string destinationStation) {
+    _destinationStation = destinationStation;
+}
+
+void Train::setDestinationTime(string destinationTime) {
+    _destinationTime = destinationTime;
 }
 
 void Train::setCurrentState(TrainState currentState) {

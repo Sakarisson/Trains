@@ -14,7 +14,7 @@ int main() {
         cout <<
             "Type: " << c->getTypeString() << endl <<
             "Capacity: " << c->getCapacityString() << endl <<
-            "Capacity: " << c->getCapacityDouble() << endl <<
+            "Area: " << c->getArea() << endl <<
             "Number of beds: " << c->getNumberOfBeds() << endl <<
             "Has internet: " << c->hasInternet() << endl <<
             "Number of chairs: " << c->getNumberOfChairs() << endl <<
