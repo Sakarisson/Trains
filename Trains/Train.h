@@ -30,15 +30,32 @@ private:
     string _departureStation;
     string _departureTime;
     string _destinationStation;
-    // string _destinationTime;
     TrainState _currentState;
 public:
     Train();
     ~Train();
-    bool addCar(CarType type);
 
-    // TEMP TEST
-    vector<shared_ptr<Car>> getCars();
+    // -------- GETTERS --------
+    string getTrainNumber() const;
+    string getDepartureStation() const;
+    string getDepartureTime() const;
+    string getDestinationStation() const;
+    string getDestinationTime() const; // Logical getter. No setter
+    TrainState getCurrentState() const;
+
+    // -------- SETTERS --------
+    void setTrainNumber(string trainNumber);
+    void setDepartureStation(string departureStation);
+    void setDepartureTime(string departureTime);
+    void setDestinationStation(string destinationStation);
+    void setCurrentState(TrainState currentState);
+
+    // --------- LOGIC ---------
+    void addCar(CarType type);
+
+    // ------------------ TEMP -------------------------
+    /*-----*/vector<shared_ptr<Car>> getCars();//-------
+    // ------------------ TEMP -------------------------
 };
 
 #endif // !TRAIN_H
