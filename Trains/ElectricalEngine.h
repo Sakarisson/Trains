@@ -7,6 +7,10 @@ class ElectricalEngine : public Engine {
 protected:
 public:
     ElectricalEngine() {}
+    ElectricalEngine(int maxSpeed, int energyConsumption) {
+        _maxSpeed = maxSpeed;
+        _energyConsumption = energyConsumption;
+    }
     virtual ~ElectricalEngine() {}
 
     // -------- GETTERS --------

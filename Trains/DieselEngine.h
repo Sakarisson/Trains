@@ -7,6 +7,10 @@ class DieselEngine : public Engine {
 protected:
 public:
     DieselEngine() {}
+    DieselEngine(int maxSpeed, int energyConsumption) {
+        _maxSpeed = maxSpeed;
+        _energyConsumption = energyConsumption;
+    }
     virtual ~DieselEngine() {}
 
     // -------- GETTERS --------

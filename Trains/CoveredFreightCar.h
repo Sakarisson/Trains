@@ -9,7 +9,7 @@ class CoveredFreightCar : public FreightCar {
 protected:
 public:
     CoveredFreightCar() {}
-    CoveredFreightCar(double capacity) { _capacity = capacity; }
+    CoveredFreightCar(int capacity) { _capacity = capacity; }
     virtual ~CoveredFreightCar() {}
 
     // -------- GETTERS --------
@@ -20,8 +20,6 @@ public:
 
     virtual CarType getType() const { return COVEREDFREIGHTCAR; }
     virtual string getTypeString() const { return "Covered Freight Car"; }
-
-    // -------- SETTERS --------
 };
 
 #endif // !COVEREDFREIGHTCAR_H
