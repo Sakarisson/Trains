@@ -89,6 +89,12 @@ void Train::setCurrentState(TrainState currentState) {
 }
 
 // --------- LOGIC ---------
+
+/*
+Add Car to Train
+Possible to choose between all valid Cars
+Possibility for 2 different parameters, which default to 0
+*/
 void Train::addCar(CarType type, int param0, int param1) {
     switch (type) {
     case COACHCAR:
