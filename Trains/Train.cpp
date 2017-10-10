@@ -17,6 +17,22 @@ Train::Train() {
 
 }
 
+Train::Train(
+    int id,
+    string departureStation,
+    string destinationStation,
+    string departureTime,
+    string destinationTime,
+    int maxSpeed
+) {
+    _id = id;
+    _departureStation = departureStation;
+    _destinationStation = destinationStation;
+    _departureTime = departureStation;
+    _destinationTime = destinationTime;
+    _maxSpeed = maxSpeed;
+}
+
 
 Train::~Train() {
 
@@ -73,25 +89,25 @@ void Train::setCurrentState(TrainState currentState) {
 }
 
 // --------- LOGIC ---------
-void Train::addCar(CarType type) {
+void Train::addCar(CarType type, int param0, int param1) {
     switch (type) {
     case COACHCAR:
-        _cars.push_back(make_shared<CoachCar>());
+        _cars.push_back(make_shared<CoachCar>(param0, param1));
         break;
     case SLEEPINGCAR:
-        _cars.push_back(make_shared<SleepingCar>());
+        _cars.push_back(make_shared<SleepingCar>(param0));
         break;
     case OPENFREIGHTCAR:
-        _cars.push_back(make_shared<OpenFreightCar>());
+        _cars.push_back(make_shared<OpenFreightCar>(param0, param1));
         break;
     case COVEREDFREIGHTCAR:
-        _cars.push_back(make_shared<CoveredFreightCar>());
+        _cars.push_back(make_shared<CoveredFreightCar>(param0));
         break;
     case ELECTRICALENGINE:
-        _cars.push_back(make_shared<ElectricalEngine>());
+        _cars.push_back(make_shared<ElectricalEngine>(param0, param1));
         break;
     case DIESELENGINE:
-        _cars.push_back(make_shared<DieselEngine>());
+        _cars.push_back(make_shared<DieselEngine>(param0, param1));
         break;
     default:
         break;

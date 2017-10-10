@@ -30,14 +30,23 @@ class Train
 {
 private:
     vector<shared_ptr<Car>> _cars;
+    int _id;
     string _trainNumber;
     string _departureStation;
     string _departureTime;
     string _destinationStation;
     string _destinationTime;
+    int _maxSpeed;
     TrainState _currentState;
 public:
     Train();
+    Train(
+        int id, 
+        string departureStation, 
+        string destinationStation, 
+        string departureTime, 
+        string destinationTime, 
+        int maxSpeed);
     ~Train();
 
     // -------- GETTERS --------
@@ -57,7 +66,7 @@ public:
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------
-    void addCar(CarType type);
+    void addCar(CarType type, int param0 = 0, int param1 = 0);
 
     // ------------------ TEMP -------------------------
     /*-----*/vector<shared_ptr<Car>> getCars();//-------
