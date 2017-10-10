@@ -12,7 +12,6 @@ public:
 
     // -------- GETTERS --------
     virtual double getCapacity() const { return _capacity; } // Identical implementation for covered and open
-    virtual string getCapacityString() const = 0; // Pure virtual
 
     // -------- SETTERS --------
     virtual void setCapacity(double capacity) { _capacity = capacity; }

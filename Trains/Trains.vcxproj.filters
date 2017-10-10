@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Cars">
+      <UniqueIdentifier>{07d7fc6e-b88a-45ad-9f4c-642fa2c9611a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cars\Engines">
+      <UniqueIdentifier>{87fbb9d3-4903-457f-a17f-31d0dd722f4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cars\FreightCars">
+      <UniqueIdentifier>{cda7af1e-c337-4cc5-9882-d7810a8dca36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cars\PassengerCars">
+      <UniqueIdentifier>{d6030009-7819-4c6b-8db7-f13c16dcb98a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,29 +35,41 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Train.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PassengerCar.h">
+    <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoachCar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SleepingCar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenFreightCar.h">
+    <ClInclude Include="Car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FreightCar.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Cars</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files\Cars</Filter>
+    </ClInclude>
+    <ClInclude Include="PassengerCar.h">
+      <Filter>Header Files\Cars</Filter>
+    </ClInclude>
+    <ClInclude Include="CoachCar.h">
+      <Filter>Header Files\Cars\PassengerCars</Filter>
+    </ClInclude>
+    <ClInclude Include="SleepingCar.h">
+      <Filter>Header Files\Cars\PassengerCars</Filter>
     </ClInclude>
     <ClInclude Include="CoveredFreightCar.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Cars\FreightCars</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenFreightCar.h">
+      <Filter>Header Files\Cars\FreightCars</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricalEngine.h">
+      <Filter>Header Files\Cars\Engines</Filter>
+    </ClInclude>
+    <ClInclude Include="DieselEngine.h">
+      <Filter>Header Files\Cars\Engines</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

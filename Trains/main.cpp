@@ -6,6 +6,8 @@ using namespace std;
 
 int main() {
     Train t;
+    t.addCar(ELECTRICALENGINE);
+    t.addCar(DIESELENGINE);
     t.addCar(COACHCAR);
     t.addCar(OPENFREIGHTCAR);
     t.addCar(COVEREDFREIGHTCAR);

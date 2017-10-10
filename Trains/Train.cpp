@@ -1,7 +1,15 @@
-#include "Train.h"
-
 #include <vector>
 #include <memory>
+
+#include "Train.h"
+#include "Constants.h"
+
+#include "CoachCar.h"
+#include "SleepingCar.h"
+#include "CoveredFreightCar.h"
+#include "OpenFreightCar.h"
+#include "ElectricalEngine.h"
+#include "DieselEngine.h"
 
 using namespace std;
 
@@ -78,6 +86,12 @@ void Train::addCar(CarType type) {
         break;
     case COVEREDFREIGHTCAR:
         _cars.push_back(make_shared<CoveredFreightCar>());
+        break;
+    case ELECTRICALENGINE:
+        _cars.push_back(make_shared<ElectricalEngine>());
+        break;
+    case DIESELENGINE:
+        _cars.push_back(make_shared<DieselEngine>());
         break;
     default:
         break;

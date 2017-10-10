@@ -1,0 +1,14 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+enum CarType {
+    COACHCAR,
+    SLEEPINGCAR,
+    OPENFREIGHTCAR,
+    COVEREDFREIGHTCAR,
+    ELECTRICALENGINE,
+    DIESELENGINE,
+    UNKNOWN // Unknown car type
+};
+
+#endif // !CONSTANTS_H

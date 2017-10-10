@@ -5,10 +5,14 @@
 #include <memory>
 
 #include "Car.h"
+#include "Engine.h"
+
 #include "CoachCar.h"
 #include "SleepingCar.h"
 #include "CoveredFreightCar.h"
 #include "OpenFreightCar.h"
+#include "ElectricalEngine.h"
+#include "DieselEngine.h"
 
 using namespace std;
 
@@ -25,6 +29,7 @@ enum TrainState {
 class Train
 {
 private:
+    vector<shared_ptr<Engine>> _engines;
     vector<shared_ptr<Car>> _cars;
     string _trainNumber;
     string _departureStation;
@@ -57,6 +62,7 @@ public:
 
     // ------------------ TEMP -------------------------
     /*-----*/vector<shared_ptr<Car>> getCars();//-------
+    /*---*/vector<shared_ptr<Engine>> getEngines();//---
     // ------------------ TEMP -------------------------
 };
 

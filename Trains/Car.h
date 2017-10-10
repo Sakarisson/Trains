@@ -1,15 +1,9 @@
 #ifndef CAR_H
 #define CAR_H
 
-using namespace std;
+#include "Constants.h"
 
-enum CarType {
-    COACHCAR,
-    SLEEPINGCAR,
-    OPENFREIGHTCAR,
-    COVEREDFREIGHTCAR,
-    UNKNOWN // Unknown car type
-};
+using namespace std;
 
 class Car {
 protected:
@@ -40,9 +34,17 @@ public:
 
     virtual void setNumberOfBeds(int) {}
 
-    // Virtual functions for all types
-    virtual CarType getType() const { return UNKNOWN; }
-    virtual string getTypeString() const { return "Unknown type"; }
+    // Virtual functions for Engine
+    virtual int getMaxSpeed() const { return 0; }
+    virtual int getConsumption() const { return 0; }
+    virtual string getConsumptionString() const { return ""; }
+
+    virtual void setMaxSpeed(int) {}
+    virtual void setConsumption(int) {}
+    
+    // Pure virtual functions for getting type
+    virtual CarType getType() const = 0;
+    virtual string getTypeString() const = 0;
 };
 
 #endif // !CAR_H
