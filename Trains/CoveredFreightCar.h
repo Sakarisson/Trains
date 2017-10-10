@@ -11,10 +11,17 @@ public:
     CoveredFreightCar() {}
     CoveredFreightCar(double capacity) { _capacity = capacity; }
     virtual ~CoveredFreightCar() {}
+
+    // -------- GETTERS --------
     virtual string getCapacityString() const {
         string cap = to_string(_capacity);
         return cap + " m3";
     }
+
+    virtual CarType getType() const { return COVEREDFREIGHTCAR; }
+    virtual string getTypeString() const { return "Covered Freight Car"; }
+
+    // -------- SETTERS --------
 };
 
 #endif // !COVEREDFREIGHTCAR_H

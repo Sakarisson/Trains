@@ -15,8 +15,16 @@ public:
     }
     ~CoachCar() {}
 
+    // -------- GETTERS --------
     virtual int getNumberOfChairs() const { return _numberOfChairs; }
     virtual bool hasInternet() const { return _hasInternet; }
+
+    virtual CarType getType() const { return COACHCAR; }
+    virtual string getTypeString() const { return "Coach Car"; }
+
+    // -------- SETTERS --------
+    virtual void setNumberOfChairs(int numberOfChairs) { _numberOfChairs = numberOfChairs; }
+    virtual void setInternetAccess(bool hasInternet) { _hasInternet = hasInternet; }
 };
 
 #endif // !COACHCAR_H

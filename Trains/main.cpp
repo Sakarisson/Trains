@@ -12,6 +12,7 @@ int main() {
     t.addCar(SLEEPINGCAR);
     for each (auto &c in t.getCars()) {
         cout <<
+            "Type: " << c->getTypeString() << endl <<
             "Capacity: " << c->getCapacityString() << endl <<
             "Capacity: " << c->getCapacityDouble() << endl <<
             "Number of beds: " << c->getNumberOfBeds() << endl <<
