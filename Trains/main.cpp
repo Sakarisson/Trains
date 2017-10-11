@@ -2,6 +2,7 @@
 #include "CoveredFreightCar.h"
 
 #include "Station.h"
+#include "DataReader.h"
 
 #include <iostream>
 
@@ -19,7 +20,9 @@ int main() {
     Station s;
     unique_ptr<Car> c = s.removeAtIndex(2);
     t.addCar(c);
-    s.addToPool(t.removeFirstCar());
+    s.addToPool(t.detachFirstCar());
+
+    DataReader d;
 
     return 0;
 }

@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="Train.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="CoachCar.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CoveredFreightCar.h" />
+    <ClInclude Include="DataReader.h" />
     <ClInclude Include="DieselEngine.h" />
     <ClInclude Include="ElectricalEngine.h" />
     <ClInclude Include="Engine.h" />
