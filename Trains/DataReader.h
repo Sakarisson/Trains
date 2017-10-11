@@ -3,22 +3,22 @@
 
 #include <string>
 #include <fstream>
-
-#include <iostream>
+#include <vector>
 
 using namespace std;
 
 class DataReader
 {
 private:
-    string _trainsFileName = "Trains.txt";
-    string _trainStationsFileName = "TrainStations.txt";
-    ifstream _trainsFile;
-    ifstream _trainStationsFile;
-    void openFiles();
+    string _filename;
+    ifstream _infile;
+    vector<string> _lines;
+    void openFile();
+    void read();
 public:
-    DataReader();
+    DataReader(string);
     ~DataReader();
+    vector<string> getLines() const;
 };
 
 #endif // !DATAREADER_H

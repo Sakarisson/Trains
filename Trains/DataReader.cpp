@@ -1,28 +1,39 @@
 #include "DataReader.h"
 
-DataReader::DataReader() {
+#include <iostream>
+
+DataReader::DataReader(string filename) {
+    _filename = filename;
     try {
-        openFiles();
+        openFile();
+        read();
     }
     catch (exception e) {
         cout <<
-            "An error occurred while attempting to open datafiles:" << endl <<
+            "An error occurred while attempting to open datafile:" << endl <<
             e.what() << endl;
     }
 }
 
 
 DataReader::~DataReader() {
-    
+    _infile.close();
 }
 
-void DataReader::openFiles() {
-    _trainsFile.open(_trainsFileName);
-    _trainStationsFile.open(_trainStationsFileName);
-    if (!_trainsFile.is_open()) {
-        throw runtime_error("Could not open " + _trainsFileName);
+vector<string> DataReader::getLines() const {
+    return _lines;
+}
+
+void DataReader::openFile() {
+    _infile.open(_filename);
+    if (!_infile.is_open()) {
+        throw runtime_error("Could not open " + _filename);
     }
-    if (!_trainStationsFile.is_open()) {
-        throw runtime_error("Could not open " + _trainStationsFileName);
+}
+
+void DataReader::read() {
+    string line;
+    while (getline(_infile, line)) {
+        _lines.push_back(line);
     }
 }

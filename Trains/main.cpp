@@ -22,7 +22,10 @@ int main() {
     t.addCar(c);
     s.addToPool(t.detachFirstCar());
 
-    DataReader d;
+    DataReader d("Trains.txt");
+    for each (string line in d.getLines()) {
+        cout << line << endl;
+    }
 
     return 0;
 }
