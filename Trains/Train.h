@@ -29,7 +29,7 @@ enum TrainState {
 class Train
 {
 private:
-    vector<shared_ptr<Car>> _cars;
+    vector<unique_ptr<Car>> _cars;
     int _id;
     string _trainNumber;
     string _departureStation;
@@ -68,9 +68,10 @@ public:
 
     // --------- LOGIC ---------
     void addCar(CarType type, int param0 = 0, int param1 = 0);
+    void addCar(unique_ptr<Car>&);
 
     // ------------------ TEMP -------------------------
-    /*-----*/vector<shared_ptr<Car>> getCars();//-------
+    /*-----*/vector<unique_ptr<Car>> getCars();//-------
     // ------------------ TEMP -------------------------
 };
 

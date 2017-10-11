@@ -119,29 +119,33 @@ Possibility for 2 different parameters, which default to 0
 void Train::addCar(CarType type, int param0, int param1) {
     switch (type) {
     case COACHCAR:
-        _cars.push_back(make_shared<CoachCar>(param0, param1));
+        _cars.push_back(make_unique<CoachCar>(param0, param1));
         break;
     case SLEEPINGCAR:
-        _cars.push_back(make_shared<SleepingCar>(param0));
+        _cars.push_back(make_unique<SleepingCar>(param0));
         break;
     case OPENFREIGHTCAR:
-        _cars.push_back(make_shared<OpenFreightCar>(param0, param1));
+        _cars.push_back(make_unique<OpenFreightCar>(param0, param1));
         break;
     case COVEREDFREIGHTCAR:
-        _cars.push_back(make_shared<CoveredFreightCar>(param0));
+        _cars.push_back(make_unique<CoveredFreightCar>(param0));
         break;
     case ELECTRICALENGINE:
-        _cars.push_back(make_shared<ElectricalEngine>(param0, param1));
+        _cars.push_back(make_unique<ElectricalEngine>(param0, param1));
         break;
     case DIESELENGINE:
-        _cars.push_back(make_shared<DieselEngine>(param0, param1));
+        _cars.push_back(make_unique<DieselEngine>(param0, param1));
         break;
     default:
         break;
     }
 }
-
-// ------------------ TEMP -------------------------
-vector<shared_ptr<Car>> Train::getCars() {
-    return _cars;
+void Train::addCar(unique_ptr<Car> &car) {
+    unique_ptr<Car> something;
+    something = move(car);
 }
+
+//// ------------------ TEMP -------------------------
+//vector<unique_ptr<Car>> Train::getCars() {
+//    return _cars;
+//}

@@ -39,6 +39,9 @@
     <ClCompile Include="Train.cpp">
       <Filter>Source Files\Train</Filter>
     </ClCompile>
+    <ClCompile Include="Station.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Train.h">
       <Filter>Header Files\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="Station.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
