@@ -67,12 +67,9 @@ public:
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------
-    void addCar(CarType type, int param0 = 0, int param1 = 0);
-    void addCar(unique_ptr<Car>&);
-
-    // ------------------ TEMP -------------------------
-    /*-----*/vector<unique_ptr<Car>> getCars();//-------
-    // ------------------ TEMP -------------------------
+    void addCar(CarType type, int param0 = 0, int param1 = 0);  // Create new Car
+    void addCar(unique_ptr<Car>&);                              // Add existing Car
+    unique_ptr<Car> detachFirstCar();
 };
 
 #endif // !TRAIN_H

@@ -16,28 +16,10 @@ int main() {
     t.addCar(COVEREDFREIGHTCAR, 66);
     t.addCar(SLEEPINGCAR, 12);
     t.setCurrentState(READY);
-    //int i = 0;
-    //for each (auto &c in t.getCars()) {
-    //    c->setId(i++);
-    //    cout <<
-    //        "Type: " << c->getTypeString() << endl <<
-    //        "Capacity: " << c->getCapacityString() << endl <<
-    //        "Area: " << c->getArea() << endl <<
-    //        "Number of beds: " << c->getNumberOfBeds() << endl <<
-    //        "Has internet: " << c->hasInternet() << endl <<
-    //        "Number of chairs: " << c->getNumberOfChairs() << endl <<
-    //        "Max speed: " << c->getMaxSpeed() << " km/h" << endl <<
-    //        "Energy consumption: " << c->getConsumptionString() << endl <<
-    //        "ID: " << c->getId() << endl <<
-    //        "----------------" << endl;
-    //}
-    //cout <<
-    //    "Train state: " << t.getCurrentStateString() << endl;
     Station s;
-    unique_ptr<Car> c = s.removeFirst();
-    cout << (s.removeFirst() == nullptr) << endl;
-    cout << (s.removeFirst() == nullptr) << endl;
-    cout << (s.removeFirst() == nullptr) << endl;
-    cout << (s.removeFirst() == nullptr) << endl;
+    unique_ptr<Car> c = s.removeAtIndex(2);
+    t.addCar(c);
+    s.addToPool(t.removeFirstCar());
+
     return 0;
 }

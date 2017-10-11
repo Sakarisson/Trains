@@ -5,6 +5,11 @@
 
 using namespace std;
 
+/*
+Base class for train cars
+Class is abstract, which means it can't be instanciated
+Contains functions for interfacing with various derived classes
+*/
 class Car {
 protected:
     int _id;

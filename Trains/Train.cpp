@@ -112,7 +112,7 @@ void Train::setCurrentState(TrainState currentState) {
 // --------- LOGIC ---------
 
 /*
-Add Car to Train
+Create a new Car and add to Train
 Possible to choose between all valid Cars
 Possibility for 2 different parameters, which default to 0
 */
@@ -140,12 +140,30 @@ void Train::addCar(CarType type, int param0, int param1) {
         break;
     }
 }
+
+/*
+Move ownership of Car object to Train
+Params:  unique_ptr<Car> passed by reference
+Returns: void
+*/
 void Train::addCar(unique_ptr<Car> &car) {
-    unique_ptr<Car> something;
-    something = move(car);
+    if (car != nullptr) {
+        _cars.push_back(move(car));
+    }
 }
 
-//// ------------------ TEMP -------------------------
-//vector<unique_ptr<Car>> Train::getCars() {
-//    return _cars;
-//}
+/*
+Remove ownership of Car from Train
+Params:  none
+Returns: Unowned pointer to Car OR nullptr
+*/
+unique_ptr<Car> Train::detachFirstCar() {
+    if (_cars.size() > 0) {
+        unique_ptr<Car> first = move(_cars[0]);
+        _cars.erase(_cars.begin());
+        return move(first);
+    }
+    else {
+        return nullptr;
+    }
+}
