@@ -17,7 +17,7 @@ public:
     // -------- GETTERS --------
     virtual string getConsumptionString() const {
         string con = to_string(_energyConsumption);
-        return con + " KW";
+        return con + " kw";
     }
 
     virtual CarType getType() const { return ELECTRICALENGINE; }

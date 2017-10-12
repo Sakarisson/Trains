@@ -1,6 +1,8 @@
 #ifndef CAR_H
 #define CAR_H
 
+#include <string>
+
 #include "Constants.h"
 
 using namespace std;
@@ -34,10 +36,10 @@ public:
     virtual void setArea(double) {}
 
     // Virtual functions for CoachCar
-    virtual int getNumberOfChairs() const { return 0; }
+    virtual int getNumberOfSeats() const { return 0; }
     virtual bool hasInternet() const { return false; }
 
-    virtual void setNumberOfChairs(int) {}
+    virtual void setNumberOfSeats(int) {}
     virtual void setInternetAccess(bool) {}
 
     // Virtual functions for SleepingCar
@@ -56,6 +58,7 @@ public:
     // Pure virtual functions for getting type
     virtual CarType getType() const = 0;
     virtual string getTypeString() const = 0;
+    virtual string getInfo() const { return ""; }
 };
 
 #endif // !CAR_H

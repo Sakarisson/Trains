@@ -27,6 +27,9 @@ void TrainController::processTrains() {
             data[4],
             stoi(data[5])
         );
+        for (size_t i = 6; i < data.size(); ++i) {
+            newTrain->requestCar(CarType(stoi(data[i])));
+        }
         _trains.push_back(move(newTrain));
     }
 }
@@ -56,7 +59,12 @@ void TrainController::processStations() {
             while (values.size() < 4) {
                 values.push_back("0"); // Insert "0" values at end to avoid out of range errors
             }
-            newStation->addToPool(stoi(values[0]), CarType(stoi(values[1])), stoi(values[2]), stoi(values[3]));
+            newStation->addToPool(
+                stoi(values[0]), 
+                CarType(stoi(values[1])), 
+                stoi(values[2]), 
+                stoi(values[3])
+            );
         }
         _stations.push_back(move(newStation));
     }

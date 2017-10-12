@@ -1,5 +1,6 @@
 #include <vector>
 #include <memory>
+#include <iostream>
 
 #include "Train.h"
 #include "Constants.h"
@@ -112,36 +113,6 @@ void Train::setCurrentState(TrainState currentState) {
 // --------- LOGIC ---------
 
 /*
-Create a new Car and add to Train
-Possible to choose between all valid Cars
-Possibility for 2 different parameters, which default to 0
-*/
-//void Train::addCar(CarType type, int param0, int param1) {
-//    switch (type) {
-//    case COACHCAR:
-//        _cars.push_back(make_unique<CoachCar>(param0, param1));
-//        break;
-//    case SLEEPINGCAR:
-//        _cars.push_back(make_unique<SleepingCar>(param0));
-//        break;
-//    case OPENFREIGHTCAR:
-//        _cars.push_back(make_unique<OpenFreightCar>(param0, param1));
-//        break;
-//    case COVEREDFREIGHTCAR:
-//        _cars.push_back(make_unique<CoveredFreightCar>(param0));
-//        break;
-//    case ELECTRICALENGINE:
-//        _cars.push_back(make_unique<ElectricalEngine>(param0, param1));
-//        break;
-//    case DIESELENGINE:
-//        _cars.push_back(make_unique<DieselEngine>(param0, param1));
-//        break;
-//    default:
-//        break;
-//    }
-//}
-
-/*
 Move ownership of Car object to Train
 Params:  unique_ptr<Car> passed by reference
 Returns: void
@@ -150,6 +121,10 @@ void Train::addCar(unique_ptr<Car> &car) {
     if (car != nullptr) {
         _cars.push_back(move(car));
     }
+}
+
+void Train::requestCar(CarType type) {
+    _requestedCars.push_back(type);
 }
 
 /*
@@ -165,5 +140,11 @@ unique_ptr<Car> Train::detachFirstCar() {
     }
     else {
         return nullptr;
+    }
+}
+
+void Train::print() const {
+    for each(auto &car in _cars) {
+        cout << car->getInfo() << endl;
     }
 }

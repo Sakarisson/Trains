@@ -17,7 +17,7 @@ public:
     // -------- GETTERS --------
     virtual string getConsumptionString() const {
         string con = to_string(_energyConsumption);
-        return con + " liters / h";
+        return con + " l/h";
     }
 
     virtual CarType getType() const { return DIESELENGINE; }

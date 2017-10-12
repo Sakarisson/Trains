@@ -19,6 +19,14 @@ public:
     virtual CarType getType() const { return SLEEPINGCAR; }
     virtual string getTypeString() const { return "Sleeping Car"; }
 
+    virtual string getInfo() const {
+        string info = "";
+        info += "[" + this->getTypeString() + "] ";
+        info += "id: " + to_string(_id) + ", ";
+        info += "beds: " + to_string(_numberOfBeds);
+        return info;
+    }
+
     // -------- SETTERS --------
     virtual void setNumberOfBeds(int numberOfBeds) { _numberOfBeds = numberOfBeds; }
 };

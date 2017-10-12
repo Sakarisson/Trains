@@ -18,11 +18,18 @@ public:
     // -------- GETTERS --------
     virtual string getCapacityString() const {
         string cap = to_string(_capacity);
-        return cap + " cubic meters";
+        return cap + " m^3";
     }
 
     virtual CarType getType() const { return COVEREDFREIGHTCAR; }
     virtual string getTypeString() const { return "Covered Freight Car"; }
+    virtual string getInfo() const {
+        string info = "";
+        info += "[" + this->getTypeString() + "] ";
+        info += "id: " + to_string(_id) + ", ";
+        info += "cargo volume: " + this->getCapacityString();
+        return info;
+    }
 };
 
 #endif // !COVEREDFREIGHTCAR_H
