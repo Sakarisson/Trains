@@ -144,12 +144,13 @@ unique_ptr<Car> Train::detachFirstCar() {
 }
 
 void Train::print() const {
+    int i = 0;
     cout <<
         "Train [" << to_string(_id) << "] " <<
         "from " << _departureStation << " " << _departureTime <<
         " to " << _destinationStation << " " << _destinationTime << endl <<
-        "  Vehicles:" << endl;
+        "  Vehicles: (" << _cars.size() << ")" << endl;
     for each(auto &car in _cars) {
-        cout << "    " << car->getInfo() << endl;
+        cout << "    " << ++i << ": " << car->getInfo() << endl;
     }
 }
