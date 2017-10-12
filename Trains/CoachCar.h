@@ -9,7 +9,8 @@ protected:
     bool _hasInternet = false;
 public:
     CoachCar() {}
-    CoachCar(int numberOfChairs, bool hasInternet) {
+    CoachCar(int id, int numberOfChairs, bool hasInternet) {
+        _id = id;
         _numberOfChairs = numberOfChairs;
         _hasInternet = hasInternet;
     }

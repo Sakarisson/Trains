@@ -12,7 +12,8 @@ protected:
     int _area = 0;
 public:
     OpenFreightCar() {}
-    OpenFreightCar(int capacity, int area) {
+    OpenFreightCar(int id, int capacity, int area) {
+        _id = id;
         _capacity = capacity; 
         _area = area;
     }

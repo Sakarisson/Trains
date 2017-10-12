@@ -20,13 +20,13 @@ class Station
 private:
     vector<unique_ptr<Car>> _carPool;
     string _name;
-    int _id;
 public:
     Station();
+    Station(string);
     ~Station();
     unique_ptr<Car> removeFirst();
     unique_ptr<Car> removeAtIndex(int);
-    void addToPool(CarType type, int param0 = 0, int param1 = 0);
+    void addToPool(int id, CarType type, int param0 = 0, int param1 = 0);
     void addToPool(unique_ptr<Car>&);
 };
 

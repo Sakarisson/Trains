@@ -8,7 +8,10 @@ private:
     int _numberOfBeds = 0;
 public:
     SleepingCar() {}
-    SleepingCar(int numberOfBeds) { _numberOfBeds = numberOfBeds; }
+    SleepingCar(int id, int numberOfBeds) {
+        _id = id;
+        _numberOfBeds = numberOfBeds;
+    }
     virtual ~SleepingCar() {}
 
     // -------- GETTERS --------

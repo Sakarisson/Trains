@@ -7,7 +7,8 @@ class DieselEngine : public Engine {
 protected:
 public:
     DieselEngine() {}
-    DieselEngine(int maxSpeed, int energyConsumption) {
+    DieselEngine(int id, int maxSpeed, int energyConsumption) {
+        _id = id;
         _maxSpeed = maxSpeed;
         _energyConsumption = energyConsumption;
     }

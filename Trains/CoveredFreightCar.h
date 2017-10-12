@@ -9,7 +9,10 @@ class CoveredFreightCar : public FreightCar {
 protected:
 public:
     CoveredFreightCar() {}
-    CoveredFreightCar(int capacity) { _capacity = capacity; }
+    CoveredFreightCar(int id, int capacity) {
+        _id = id;
+        _capacity = capacity; 
+    }
     virtual ~CoveredFreightCar() {}
 
     // -------- GETTERS --------
