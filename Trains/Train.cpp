@@ -22,15 +22,13 @@ Train::Train(
     string departureStation,
     string destinationStation,
     string departureTime,
-    string destinationTime,
-    int maxSpeed
+    string destinationTime
 ) {
     _id = id;
     _departureStation = departureStation;
     _destinationStation = destinationStation;
     _departureTime = departureStation;
     _destinationTime = destinationTime;
-    _maxSpeed = maxSpeed;
 }
 
 
@@ -116,30 +114,30 @@ Create a new Car and add to Train
 Possible to choose between all valid Cars
 Possibility for 2 different parameters, which default to 0
 */
-void Train::addCar(CarType type, int param0, int param1) {
-    switch (type) {
-    case COACHCAR:
-        _cars.push_back(make_unique<CoachCar>(param0, param1));
-        break;
-    case SLEEPINGCAR:
-        _cars.push_back(make_unique<SleepingCar>(param0));
-        break;
-    case OPENFREIGHTCAR:
-        _cars.push_back(make_unique<OpenFreightCar>(param0, param1));
-        break;
-    case COVEREDFREIGHTCAR:
-        _cars.push_back(make_unique<CoveredFreightCar>(param0));
-        break;
-    case ELECTRICALENGINE:
-        _cars.push_back(make_unique<ElectricalEngine>(param0, param1));
-        break;
-    case DIESELENGINE:
-        _cars.push_back(make_unique<DieselEngine>(param0, param1));
-        break;
-    default:
-        break;
-    }
-}
+//void Train::addCar(CarType type, int param0, int param1) {
+//    switch (type) {
+//    case COACHCAR:
+//        _cars.push_back(make_unique<CoachCar>(param0, param1));
+//        break;
+//    case SLEEPINGCAR:
+//        _cars.push_back(make_unique<SleepingCar>(param0));
+//        break;
+//    case OPENFREIGHTCAR:
+//        _cars.push_back(make_unique<OpenFreightCar>(param0, param1));
+//        break;
+//    case COVEREDFREIGHTCAR:
+//        _cars.push_back(make_unique<CoveredFreightCar>(param0));
+//        break;
+//    case ELECTRICALENGINE:
+//        _cars.push_back(make_unique<ElectricalEngine>(param0, param1));
+//        break;
+//    case DIESELENGINE:
+//        _cars.push_back(make_unique<DieselEngine>(param0, param1));
+//        break;
+//    default:
+//        break;
+//    }
+//}
 
 /*
 Move ownership of Car object to Train

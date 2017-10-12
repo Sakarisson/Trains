@@ -36,7 +36,7 @@ private:
     string _departureTime;
     string _destinationStation;
     string _destinationTime;
-    int _maxSpeed;
+    // int _maxSpeed;
     TrainState _currentState;
 public:
     Train();
@@ -45,8 +45,7 @@ public:
         string departureStation, 
         string destinationStation, 
         string departureTime, 
-        string destinationTime, 
-        int maxSpeed);
+        string destinationTime);
     ~Train();
 
     // -------- GETTERS --------
@@ -67,7 +66,7 @@ public:
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------
-    void addCar(CarType type, int param0 = 0, int param1 = 0);  // Create new Car
+    // void addCar(CarType type, int param0 = 0, int param1 = 0);  // Create new Car
     void addCar(unique_ptr<Car>&);                              // Add existing Car
     unique_ptr<Car> detachFirstCar();
 };
