@@ -22,13 +22,15 @@ Train::Train(
     string departureStation,
     string destinationStation,
     string departureTime,
-    string destinationTime
+    string destinationTime,
+    int maxSpeed
 ) {
     _id = id;
     _departureStation = departureStation;
     _destinationStation = destinationStation;
-    _departureTime = departureStation;
+    _departureTime = departureTime;
     _destinationTime = destinationTime;
+    _maxSpeed = maxSpeed;
 }
 
 

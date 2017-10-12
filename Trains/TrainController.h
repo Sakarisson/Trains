@@ -19,7 +19,7 @@ class TrainController
     unique_ptr<DataReader> _trainStationData;
     vector<unique_ptr<Station>> _stations;
     vector<unique_ptr<Train>> _trains;
-    vector<int> split(string&);
+    vector<string> splitBySpace(string&);
 public:
     TrainController();
     ~TrainController();

@@ -36,8 +36,8 @@ private:
     string _departureTime;
     string _destinationStation;
     string _destinationTime;
-    // int _maxSpeed;
-    TrainState _currentState;
+    int _maxSpeed;
+    TrainState _currentState = NOT_ASSEMBLED;
 public:
     Train();
     Train(
@@ -45,7 +45,8 @@ public:
         string departureStation, 
         string destinationStation, 
         string departureTime, 
-        string destinationTime);
+        string destinationTime,
+        int maxSpeed);
     ~Train();
 
     // -------- GETTERS --------
