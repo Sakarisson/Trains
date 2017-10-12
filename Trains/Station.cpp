@@ -62,8 +62,14 @@ void Station::addToPool(int id, CarType type, int param0, int param1) {
     }
 }
 
-void Station::addToPool(unique_ptr<Car> &car) {
+void Station::addToPool(unique_ptr<Car>& car) {
     if (car != nullptr) {
         _carPool.push_back(move(car));
+    }
+}
+
+void Station::addTrain(unique_ptr<Train>& train) {
+    if (train != nullptr) {
+        _trains.push_back(move(train));
     }
 }
