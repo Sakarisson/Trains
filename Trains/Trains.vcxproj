@@ -114,6 +114,7 @@
     <ClCompile Include="DataReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Station.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Train.cpp" />
     <ClCompile Include="TrainController.cpp" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <ClInclude Include="PassengerCar.h" />
     <ClInclude Include="SleepingCar.h" />
     <ClInclude Include="Station.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Train.h" />
     <ClInclude Include="TrainController.h" />
   </ItemGroup>

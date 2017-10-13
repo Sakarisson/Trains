@@ -1,11 +1,16 @@
 #include "TrainController.h"
+#include "TimeManager.h"
+#include <iostream>
 
 using namespace std;
 
 int main() {
-    TrainController tc;
+    /*TrainController tc;
     tc.processStations();
-    tc.processTrains();
+    tc.processTrains();*/
+
+    TimeManager tm(121);
+    cout << tm.toString() << endl;
     getchar();
     return 0;
 }

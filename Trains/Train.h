@@ -38,7 +38,7 @@ private:
     string _destinationStation;
     string _destinationTime;
     int _maxSpeed;
-    TrainState _currentState = NOT_ASSEMBLED;
+    TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
     Train();
     Train(
