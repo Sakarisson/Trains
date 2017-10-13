@@ -11,6 +11,8 @@ int main() {
 
     TimeManager tm(121);
     cout << tm.toString() << endl;
+    tm++;
+    cout << tm++.toString() << endl;
     getchar();
     return 0;
 }

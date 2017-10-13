@@ -13,6 +13,7 @@ public:
     TimeManager(int);
     ~TimeManager();
     string toString() const;
+    TimeManager &operator++(int);
 };
 
 #endif // !TIMEMANAGER_H

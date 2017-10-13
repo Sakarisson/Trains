@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <sstream>
+#include <memory>
 
 #include "TimeManager.h"
 
@@ -22,4 +23,10 @@ string TimeManager::toString() const {
     stringstream ss;
     ss << setw(2) << setfill('0') << hours << ":" << setw(2) << setfill('0') << minutes;
     return ss.str();
+}
+
+TimeManager &TimeManager::operator++(int) {
+    TimeManager* old = new TimeManager(*this);
+    _minutesSinceMidnight++;
+    return *old;
 }
