@@ -41,6 +41,18 @@ public:
     virtual void processEvent();
 };
 
+class GetReadyEvent : public Event {
+protected:
+    Simulation* _sim;
+    std::shared_ptr<Station> _station;
+    int _trainId;
+public:
+    GetReadyEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+
+    virtual void processEvent();
+};
+
 class LeaveStationEvent : public Event {
 protected:
     Simulation* _sim;

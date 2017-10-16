@@ -1,9 +1,7 @@
 #include "Simulation.h"
-#include "Time.h"
 
-#include <iostream>
-
-using namespace std;
+#include <vector>
+#include <algorithm>
 
 int main() {
     Simulation sim;

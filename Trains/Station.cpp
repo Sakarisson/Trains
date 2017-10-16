@@ -1,5 +1,5 @@
 #include "Station.h"
-#include <algorithm>    // std::find_if
+#include <algorithm>    // std::find_if, remove_if
 
 Station::Station() {
 
@@ -34,6 +34,22 @@ std::unique_ptr<Car> Station::removeAtIndex(int i) {
     else {
         return nullptr;
     }
+}
+
+std::unique_ptr<Train>& Station::getTrainById(int id) {
+    return *std::find_if(_trains.begin(), _trains.end(), [id](std::unique_ptr<Train>& t) { return t->getId() == id; });
+}
+
+std::unique_ptr<Train> Station::removeTrainById(int id) {
+    std::unique_ptr<Train> train = nullptr;
+    for (size_t i = 0; i < _trains.size(); ++i) {
+        if (_trains[i]->getId() == id) {
+            train = move(_trains[i]);
+            _trains.erase(_trains.begin() + i);
+            break;
+        }
+    }
+    return train;
 }
 
 bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {

@@ -84,7 +84,8 @@ void Simulation::processStations() {
 }
 
 bool Simulation::processNextEvent() {
-    if (_currentTime->pastMidnight() && _trainsInTransit.size() <= 0) {
+    if (_currentTime->pastMidnight()// && _trainsInTransit.size() <= 0) {
+        ){
         return false;
     }
     std::shared_ptr<Event> nextEvent = _eventQueue.top();

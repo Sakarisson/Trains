@@ -29,6 +29,8 @@ public:
     ~Station();
     std::unique_ptr<Car> removeFirst();
     std::unique_ptr<Car> removeAtIndex(int);
+    std::unique_ptr<Train>& getTrainById(int);
+    std::unique_ptr<Train> removeTrainById(int);
     void addToPool(int id, CarType type, int param0 = 0, int param1 = 0);
     void addToPool(std::unique_ptr<Car>&);
     void addTrain(std::unique_ptr<Train>&);
