@@ -104,13 +104,21 @@ bool Station::assembleTrain(int trainId) {
     }
     else {
         int i = 0;
-        for each(CarType request in (*it)->getMissingCars()) {
+        (*it)->setCurrentState(INCOMPLETE);
+        for each (CarType request in (*it)->getMissingCars()) {
             if (addCarToTrain(request, (*it))) {
                 (*it)->eraseMissingCar(i);
             }
             else {
                 ++i;
             }
+        }
+        if ((*it)->getMissingCars().size() == 0) {
+            (*it)->setCurrentState(ASSEMBLED);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }
