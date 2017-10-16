@@ -4,6 +4,7 @@
 #include <iterator>
 
 #include "Simulation.h"
+#include "Event.h"
 
 using std::cout;
 using std::endl;
@@ -62,7 +63,7 @@ void Simulation::processStations() {
         catch (std::regex_error &e) {
             cout << e.what() << endl;
         }
-        std::unique_ptr<Station> newStation = std::make_unique<Station>(name);
+        std::shared_ptr<Station> newStation = std::make_shared<Station>(name);
         for each (std::string d in rawCarData) {
             std::vector<std::string> values = splitBySpace(d);
             while (values.size() < 4) {
@@ -75,7 +76,7 @@ void Simulation::processStations() {
                 stoi(values[3])
             );
         }
-        _stations.push_back(move(newStation));
+        _stations.push_back(newStation);
     }
 }
 
@@ -89,4 +90,9 @@ std::vector<std::string> Simulation::splitBySpace(std::string& input) {
         result.push_back(item);
     }
     return result;
+}
+
+void Simulation::scheduleEvent(std::unique_ptr<Event>& e) {
+    std::vector<std::unique_ptr<Event>> vec;
+    vec.push_back(move(e));
 }

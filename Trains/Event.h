@@ -5,7 +5,7 @@
 
 // Forward declarations
 class Simulation;
-class Train; 
+class Station;
 
 // Abstract Event base class
 class Event
@@ -23,20 +23,29 @@ public:
 // From the example project, McSmack burgerbar
 class EventComparison {
 public:
-    bool operator() (Event * left, Event * right) {
+    bool operator() (Event* left, Event* right) {
         return left->getTime() > right->getTime();
     }
 };
 
 class AssembleEvent : public Event {
 protected:
-    std::shared_ptr<Simulation> _sim;
-    std::shared_ptr<Train> _train;
+    Simulation* _sim;
+    std::shared_ptr<Station> _station;
+    int _trainId;
 public:
-    AssembleEvent(std::shared_ptr<Simulation> sim, std::shared_ptr<Train> train, int time)
-    : Event(time), _sim(sim), _train(train) {}
+    AssembleEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, int time)
+        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
 
     virtual void processEvent();
+};
+
+class LeaveStationEvent : public Event {
+protected:
+public:
+    LeaveStationEvent(int time) : Event(time) {}
+
+    virtual void processEvent() {}
 };
 
 #endif // !EVENT_H
