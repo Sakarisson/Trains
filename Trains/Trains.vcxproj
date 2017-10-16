@@ -115,6 +115,7 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Station.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Train.cpp" />
     <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
@@ -133,6 +134,7 @@
     <ClInclude Include="PassengerCar.h" />
     <ClInclude Include="SleepingCar.h" />
     <ClInclude Include="Station.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Train.h" />
     <ClInclude Include="Simulation.h" />
   </ItemGroup>
