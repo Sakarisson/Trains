@@ -23,17 +23,15 @@ Train::Train(
     int id,
     std::string departureStation,
     std::string destinationStation,
-    std::string departureTime,
-    std::string destinationTime,
+    Time departureTime,
+    Time destinationTime,
     int maxSpeed
-) {
-    _id = id;
-    _departureStation = departureStation;
-    _destinationStation = destinationStation;
-    _departureTime = departureTime;
-    _destinationTime = destinationTime;
-    _maxSpeed = maxSpeed;
-}
+) : _id(id), 
+    _departureStation(departureStation),
+    _destinationStation(destinationStation),
+    _departureTime(departureTime),
+    _destinationTime(destinationTime),
+    _maxSpeed(maxSpeed) {}
 
 
 Train::~Train() {
@@ -49,16 +47,24 @@ std::string Train::getDepartureStation() const {
     return _departureStation;
 }
 
-std::string Train::getDepartureTime() const {
-    return _departureTime;
+int Train::getDepartureTime() const {
+    return _departureTime.getMinutes();
+}
+
+std::string Train::getDepartureTimeString() const {
+    return _departureTime.getString();
 }
 
 std::string Train::getDestinationStation() const {
     return _destinationStation;
 }
 
-std::string Train::getDestinationTime() const {
-    return _destinationTime;
+int Train::getDestinationTime() const {
+    return _destinationTime.getMinutes();
+}
+
+std::string Train::getDestinationTimeString() const {
+    return _destinationTime.getString();
 }
 
 TrainState Train::getCurrentState() const {
@@ -142,8 +148,8 @@ void Train::print() const {
     int i = 0;
     cout <<
         "Train [" << std::to_string(_id) << "] " <<
-        "from " << _departureStation << " " << _departureTime <<
-        " to " << _destinationStation << " " << _destinationTime << endl <<
+        "from " << _departureStation << " " << _departureTime.getString() <<
+        " to " << _destinationStation << " " << _destinationTime .getString() << endl <<
         "  Vehicles: (" << _cars.size() << ")" << endl;
     for each(auto &car in _cars) {
         cout << "    " << ++i << ": " << car->getInfo() << endl;

@@ -13,6 +13,7 @@
 #include "OpenFreightCar.h"
 #include "ElectricalEngine.h"
 #include "DieselEngine.h"
+#include "Time.h"
 
 enum TrainState {
     NOT_ASSEMBLED, // Train only exists as a logical concept
@@ -32,9 +33,9 @@ private:
     int _id;
     std::string _trainNumber;
     std::string _departureStation;
-    std::string _departureTime;
+    Time _departureTime;
     std::string _destinationStation;
-    std::string _destinationTime;
+    Time _destinationTime;
     int _maxSpeed;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
@@ -43,17 +44,19 @@ public:
         int id,
         std::string departureStation,
         std::string destinationStation,
-        std::string departureTime,
-        std::string destinationTime,
+        Time departureTime,
+        Time destinationTime,
         int maxSpeed);
     ~Train();
 
     // -------- GETTERS --------
     std::string getTrainNumber() const;
     std::string getDepartureStation() const;
-    std::string getDepartureTime() const;
+    int getDepartureTime() const;
+    std::string getDepartureTimeString() const;
     std::string getDestinationStation() const;
-    std::string getDestinationTime() const;
+    int getDestinationTime() const;
+    std::string getDestinationTimeString() const;
     TrainState getCurrentState() const;
     std::string getCurrentStateString() const;
     int getId() const;

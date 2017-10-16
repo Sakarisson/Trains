@@ -45,7 +45,7 @@ protected:
 public:
     LeaveStationEvent(int time) : Event(time) {}
 
-    virtual void processEvent() {}
+    virtual void processEvent();
 };
 
 #endif // !EVENT_H
