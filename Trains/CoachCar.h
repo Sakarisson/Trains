@@ -33,10 +33,6 @@ public:
         info += internet;
         return info;
     }
-
-    // -------- SETTERS --------
-    virtual void setNumberOfSeats(int numberOfSeats) { _numberOfSeats = numberOfSeats; }
-    virtual void setInternetAccess(bool hasInternet) { _hasInternet = hasInternet; }
 };
 
 #endif // !COACHCAR_H

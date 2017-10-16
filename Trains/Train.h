@@ -60,11 +60,6 @@ public:
     std::vector<CarType> getMissingCars();
 
     // -------- SETTERS --------
-    void setTrainNumber(std::string trainNumber);
-    void setDepartureStation(std::string departureStation);
-    void setDepartureTime(std::string departureTime);
-    void setDestinationStation(std::string destinationStation);
-    void setDestinationTime(std::string destinationTime);
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------

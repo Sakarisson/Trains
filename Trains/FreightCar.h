@@ -12,9 +12,6 @@ public:
 
     // -------- GETTERS --------
     virtual int getCapacity() const { return _capacity; } // Identical implementation for covered and open
-
-    // -------- SETTERS --------
-    virtual void setCapacity(int capacity) { _capacity = capacity; }
 };
 
 #endif // !FREIGHTCAR_H

@@ -23,10 +23,6 @@ public:
         info += "power: " + this->getConsumptionString();
         return info;
     }
-
-    // -------- SETTERS --------
-    virtual void setMaxSpeed(int maxSpeed) { _maxSpeed = maxSpeed; }
-    virtual void setConsumption(int energyConsumption) { _energyConsumption = energyConsumption; }
 };
 
 #endif // !ENGINE_H

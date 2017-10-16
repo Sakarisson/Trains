@@ -35,9 +35,6 @@ public:
         info += "cargo area: " + std::to_string(_area) + " m^2";
         return info;
     }
-
-    // -------- SETTERS --------
-    virtual void setArea(int area) { _area = area; } // Area in square meters
 };
 
 #endif // !OPENFREIGHTCAR_H

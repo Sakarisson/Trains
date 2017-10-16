@@ -95,26 +95,6 @@ std::string Train::getCurrentStateString() const {
 }
 
 // -------- SETTERS --------
-void Train::setTrainNumber(std::string trainNumber) {
-    _trainNumber = trainNumber;
-}
-
-void Train::setDepartureStation(std::string departureStation) {
-    _departureStation = departureStation;
-}
-
-void Train::setDepartureTime(std::string departureTime) {
-    _departureTime = departureTime;
-}
-
-void Train::setDestinationStation(std::string destinationStation) {
-    _destinationStation = destinationStation;
-}
-
-void Train::setDestinationTime(std::string destinationTime) {
-    _destinationTime = destinationTime;
-}
-
 void Train::setCurrentState(TrainState currentState) {
     _currentState = currentState;
 }

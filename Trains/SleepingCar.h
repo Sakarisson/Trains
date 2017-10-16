@@ -26,9 +26,6 @@ public:
         info += "beds: " + std::to_string(_numberOfBeds);
         return info;
     }
-
-    // -------- SETTERS --------
-    virtual void setNumberOfBeds(int numberOfBeds) { _numberOfBeds = numberOfBeds; }
 };
 
 #endif // !SLEEPINGCAR_H
