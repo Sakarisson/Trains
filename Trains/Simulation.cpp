@@ -11,8 +11,8 @@ using std::endl;
 Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
-    processTrains();
     processStations();
+    processTrains();
 }
 
 

@@ -1,4 +1,5 @@
 #include "Station.h"
+#include <algorithm>    // std::find_if
 
 Station::Station() {
 
@@ -32,6 +33,30 @@ std::unique_ptr<Car> Station::removeAtIndex(int i) {
     }
     else {
         return nullptr;
+    }
+}
+
+bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
+    auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](std::unique_ptr<Car> &c) { return c->getType() == type; });
+    if (it == _carPool.end()) {
+        return false;
+    }
+    else {
+        train->addCar(move(*it));
+        eraseEmptyCars();
+        return true;
+    }
+}
+
+void Station::eraseEmptyCars() {
+    while (true) {
+        for (size_t i = 0; i < _carPool.size(); ++i) {
+            if (_carPool[i] == nullptr) {
+                _carPool.erase(_carPool.begin() + i);
+                break;
+            }
+        }
+        return;
     }
 }
 
@@ -69,6 +94,24 @@ void Station::addToPool(std::unique_ptr<Car>& car) {
 void Station::addTrain(std::unique_ptr<Train>& train) {
     if (train != nullptr) {
         _trains.push_back(move(train));
+    }
+}
+
+bool Station::assembleTrain(int trainId) {
+    auto it = std::find_if(_trains.begin(), _trains.end(), [trainId](auto &t) { return t->getId() == trainId; });
+    if (it == _trains.end()) {
+        return false;
+    }
+    else {
+        int i = 0;
+        for each(CarType request in (*it)->getMissingCars()) {
+            if (addCarToTrain(request, (*it))) {
+                (*it)->eraseMissingCar(i);
+            }
+            else {
+                ++i;
+            }
+        }
     }
 }
 

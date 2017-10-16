@@ -27,7 +27,7 @@ enum TrainState {
 class Train
 {
 private:
-    std::vector<CarType> _requestedCars;
+    std::vector<CarType> _missingCars;
     std::vector<std::unique_ptr<Car>> _cars;
     int _id;
     std::string _trainNumber;
@@ -56,6 +56,8 @@ public:
     std::string getDestinationTime() const;
     TrainState getCurrentState() const;
     std::string getCurrentStateString() const;
+    int getId() const;
+    std::vector<CarType> getMissingCars();
 
     // -------- SETTERS --------
     void setTrainNumber(std::string trainNumber);
@@ -66,9 +68,10 @@ public:
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------
-    void requestCar(CarType);           // Add car to RequestedCars vector
+    void requestCar(CarType);                // Add car to RequestedCars vector
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();
+    void eraseMissingCar(int);
     void print() const;
 };
 

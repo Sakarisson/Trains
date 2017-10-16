@@ -65,6 +65,14 @@ TrainState Train::getCurrentState() const {
     return _currentState;
 }
 
+int Train::getId() const {
+    return _id;
+}
+
+std::vector<CarType> Train::getMissingCars() {
+    return _missingCars;
+}
+
 std::string Train::getCurrentStateString() const {
     switch (_currentState) {
     case NOT_ASSEMBLED:
@@ -125,7 +133,7 @@ void Train::addCar(std::unique_ptr<Car> &car) {
 }
 
 void Train::requestCar(CarType type) {
-    _requestedCars.push_back(type);
+    _missingCars.push_back(type);
 }
 
 /*
@@ -141,6 +149,12 @@ std::unique_ptr<Car> Train::detachFirstCar() {
     }
     else {
         return nullptr;
+    }
+}
+
+void Train::eraseMissingCar(int index) {
+    if (_missingCars.size() > index) {
+        _missingCars.erase(_missingCars.begin() + index);
     }
 }
 
