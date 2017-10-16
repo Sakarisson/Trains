@@ -1,10 +1,8 @@
 #include "Event.h"
-
-Event::Event() {
-    
-}
+#include "Simulation.h"
+#include "Train.h"
 
 
-Event::~Event() {
-    
+void AssembleEvent::processEvent() {
+    _time = _time * 2;
 }

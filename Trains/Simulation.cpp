@@ -3,20 +3,20 @@
 #include <sstream>
 #include <iterator>
 
-#include "TrainController.h"
+#include "Simulation.h"
 
 
-TrainController::TrainController() {
+Simulation::Simulation() {
     _trainData = make_unique<DataReader>(_trainsFile);
     _trainStationData = make_unique<DataReader>(_trainStationsFile);
 }
 
 
-TrainController::~TrainController() {
+Simulation::~Simulation() {
     
 }
 
-void TrainController::processTrains() {
+void Simulation::processTrains() {
     for each (string line in _trainData->getLines()) {
         vector<string> data = splitBySpace(line);
         unique_ptr<Train> newTrain = make_unique<Train>(
@@ -30,11 +30,17 @@ void TrainController::processTrains() {
         for (size_t i = 6; i < data.size(); ++i) {
             newTrain->requestCar(CarType(stoi(data[i])));
         }
-        _trains.push_back(move(newTrain));
+        for each (auto &s in _stations) {
+            if (s->getName() == newTrain->getDepartureStation()) {
+                s->addTrain(move(newTrain));
+                break;
+            }
+        }
+        //_trainsInTransit.push_back(move(newTrain));
     }
 }
 
-void TrainController::processStations() {
+void Simulation::processStations() {
     for each (string line in _trainStationData->getLines()) {
         string name = line.substr(0, line.find(" ")); // Name is anything before the first space
         vector<string> rawCarData;
@@ -70,7 +76,7 @@ void TrainController::processStations() {
     }
 }
 
-vector<string> TrainController::splitBySpace(string& input) {
+vector<string> Simulation::splitBySpace(string& input) {
     vector<string> result;
     char delim = ' ';
     stringstream ss;

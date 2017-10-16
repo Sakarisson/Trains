@@ -1,18 +1,16 @@
-#include "TrainController.h"
-#include "TimeManager.h"
-#include <iostream>
-
-using namespace std;
+#include "Event.h"
+#include "Simulation.h"
+#include "Train.h"
+#include "Simulation.h"
+#include <memory>
 
 int main() {
-    /*TrainController tc;
+    Simulation tc;
     tc.processStations();
-    tc.processTrains();*/
-
-    TimeManager tm(121);
-    cout << tm.toString() << endl;
-    tm++;
-    cout << tm++.toString() << endl;
-    getchar();
+    tc.processTrains();
+    shared_ptr<Simulation> s = std::make_shared<Simulation>();
+    shared_ptr<Train> t = std::make_shared<Train>();
+    std::unique_ptr<AssembleEvent> a = std::make_unique<AssembleEvent>(s, t, 10);
+    a->processEvent();
     return 0;
 }

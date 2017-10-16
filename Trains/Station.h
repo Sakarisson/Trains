@@ -15,8 +15,6 @@
 
 #include "Constants.h"
 
-using namespace std;
-
 class Station
 {
 private:
@@ -32,6 +30,7 @@ public:
     void addToPool(int id, CarType type, int param0 = 0, int param1 = 0);
     void addToPool(unique_ptr<Car>&);
     void addTrain(unique_ptr<Train>&);
+    string getName() const;
 };
 
 #endif // !STATION_H

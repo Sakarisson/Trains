@@ -73,3 +73,7 @@ void Station::addTrain(unique_ptr<Train>& train) {
         _trains.push_back(move(train));
     }
 }
+
+string Station::getName() const {
+    return _name;
+}

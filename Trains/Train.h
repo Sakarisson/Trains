@@ -14,8 +14,6 @@
 #include "ElectricalEngine.h"
 #include "DieselEngine.h"
 
-using namespace std;
-
 enum TrainState {
     NOT_ASSEMBLED, // Train only exists as a logical concept
     INCOMPLETE,    // Train is partly assembled

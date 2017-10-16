@@ -116,7 +116,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="Train.cpp" />
-    <ClCompile Include="TrainController.cpp" />
+    <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
@@ -134,7 +134,7 @@
     <ClInclude Include="SleepingCar.h" />
     <ClInclude Include="Station.h" />
     <ClInclude Include="Train.h" />
-    <ClInclude Include="TrainController.h" />
+    <ClInclude Include="Simulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
