@@ -37,7 +37,9 @@ void Simulation::processTrains() {
         }
         for each (auto &s in _stations) {
             if (s->getName() == newTrain->getDepartureStation()) {
+                std::unique_ptr<Event> assembleEvent = std::make_unique<AssembleEvent>(this, newTrain->getId(), s, newTrain->getDepartureTime() - 30);
                 s->addTrain(move(newTrain));
+                scheduleEvent(assembleEvent);
                 break;
             }
         }
@@ -93,6 +95,7 @@ std::vector<std::string> Simulation::splitBySpace(std::string& input) {
 }
 
 void Simulation::scheduleEvent(std::unique_ptr<Event>& e) {
-    std::vector<std::unique_ptr<Event>> vec;
-    vec.push_back(move(e));
+   /* std::vector<std::unique_ptr<Event>> vec;
+    vec.push_back(move(e));*/
+    eventQueue.push(move(e));
 }
