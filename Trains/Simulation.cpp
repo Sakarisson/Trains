@@ -95,7 +95,5 @@ std::vector<std::string> Simulation::splitBySpace(std::string& input) {
 }
 
 void Simulation::scheduleEvent(std::unique_ptr<Event>& e) {
-   /* std::vector<std::unique_ptr<Event>> vec;
-    vec.push_back(move(e));*/
     eventQueue.push(move(e));
 }

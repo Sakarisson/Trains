@@ -1,6 +1,6 @@
 #include "Simulation.h"
 
 int main() {
-    Simulation tc;
+    Simulation sim;
     return 0;
 }

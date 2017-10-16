@@ -25,3 +25,8 @@ std::string Time::getString() const {
     ss << std::setw(2) << std::setfill('0') << hours << ":" << std::setw(2) << std::setfill('0') << minutes;
     return ss.str();
 }
+
+Time& Time::operator+=(Time& addedTime) {
+    this->_minutesSinceMidnight += addedTime.getMinutes();
+    return *this;
+}

@@ -10,12 +10,14 @@
 #include "Station.h"
 #include "Train.h"
 #include "Event.h"
+#include "Time.h"
 
 class Event;
 
 class Simulation
 {
 private:
+    Time currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
     std::unique_ptr<DataReader> _trainData;

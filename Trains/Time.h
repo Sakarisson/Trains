@@ -14,6 +14,7 @@ public:
     ~Time();
     int getMinutes() const;
     std::string getString() const;
+    Time& operator+=(Time&);
 };
 
 #endif // !TIME_H
