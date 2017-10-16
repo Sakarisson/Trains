@@ -12,6 +12,7 @@ using std::endl;
 Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
+    _currentTime = std::make_shared<Time>();
     processStations();
     processTrains();
 }
@@ -37,7 +38,7 @@ void Simulation::processTrains() {
         }
         for each (auto &s in _stations) {
             if (s->getName() == newTrain->getDepartureStation()) {
-                std::unique_ptr<Event> assembleEvent = std::make_unique<AssembleEvent>(this, newTrain->getId(), s, newTrain->getDepartureTime() - 30);
+                std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(this, newTrain->getId(), s, newTrain->getDepartureTime() - 30);
                 s->addTrain(move(newTrain));
                 scheduleEvent(assembleEvent);
                 break;
@@ -82,6 +83,17 @@ void Simulation::processStations() {
     }
 }
 
+bool Simulation::processNextEvent() {
+    std::shared_ptr<Event> nextEvent = _eventQueue.top();
+    if (nextEvent == nullptr) {
+        return false;
+    }
+    _eventQueue.pop();
+    _currentTime = nextEvent->getTime();
+    nextEvent->processEvent();
+    return true;
+}
+
 std::vector<std::string> Simulation::splitBySpace(std::string& input) {
     std::vector<std::string> result;
     char delim = ' ';
@@ -94,6 +106,14 @@ std::vector<std::string> Simulation::splitBySpace(std::string& input) {
     return result;
 }
 
-void Simulation::scheduleEvent(std::unique_ptr<Event>& e) {
-    eventQueue.push(move(e));
+void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
+    _eventQueue.push(e);
+}
+
+int Simulation::getTime() const {
+    return _currentTime->getMinutes();
+}
+
+std::string Simulation::getTimeString() const {
+    return _currentTime->getString();
 }

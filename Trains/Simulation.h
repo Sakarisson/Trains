@@ -17,7 +17,7 @@ class Event;
 class Simulation
 {
 private:
-    Time currentTime;
+    std::shared_ptr<Time> _currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
     std::unique_ptr<DataReader> _trainData;
@@ -25,15 +25,18 @@ private:
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
 
-    std::priority_queue<std::unique_ptr<Event>, std::vector<std::unique_ptr<Event>>, EventComparison> eventQueue;
+    std::priority_queue<std::shared_ptr<Event>, std::vector<std::shared_ptr<Event>>, EventComparison> _eventQueue;
     
     std::vector<std::string> splitBySpace(std::string&);
     void processTrains();
     void processStations();
+    bool processNextEvent();
 public:
     Simulation();
     ~Simulation();
-    void scheduleEvent(std::unique_ptr<Event>&);
+    void scheduleEvent(std::shared_ptr<Event>);
+    int getTime() const;
+    std::string getTimeString() const;
 };
 
 #endif // !SIMULATION_H

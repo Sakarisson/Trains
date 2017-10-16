@@ -12,12 +12,11 @@ class Station;
 class Event
 {
 protected:
-    //unsigned int _time = 0; // Minutes since midnight
-    Time _time;
+    std::shared_ptr<Time> _time;
 public:
-    Event(Time time) : _time(time) {}
+    Event(Time time) : _time(std::make_shared<Time>(time)) {}
     virtual ~Event() {}
-    unsigned int getTime() const { return _time.getMinutes(); }
+    std::shared_ptr<Time> getTime() const { return _time; }
     virtual void processEvent() = 0; // Pure virtual
 };
 
@@ -25,8 +24,8 @@ public:
 // From the example project, McSmack burgerbar
 class EventComparison {
 public:
-    bool operator() (std::unique_ptr<Event>& left, std::unique_ptr<Event>& right) {
-        return left->getTime() > right->getTime();
+    bool operator() (std::shared_ptr<Event>& left, std::shared_ptr<Event>& right) {
+        return left->getTime()->getMinutes() > right->getTime()->getMinutes();
     }
 };
 
