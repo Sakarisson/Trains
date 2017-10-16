@@ -13,6 +13,7 @@ public:
     Time(std::string);
     ~Time();
     int getMinutes() const;
+    bool pastMidnight() const;
     std::string getString() const;
     Time& operator+=(Time&);
 };

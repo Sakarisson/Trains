@@ -30,13 +30,15 @@ private:
     std::vector<std::string> splitBySpace(std::string&);
     void processTrains();
     void processStations();
-    bool processNextEvent();
+    //bool processNextEvent();
 public:
     Simulation();
     ~Simulation();
     void scheduleEvent(std::shared_ptr<Event>);
     int getTime() const;
     std::string getTimeString() const;
+    void addTrainToTransit(std::unique_ptr<Train>&);
+    bool processNextEvent();
 };
 
 #endif // !SIMULATION_H

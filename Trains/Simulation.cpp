@@ -84,6 +84,9 @@ void Simulation::processStations() {
 }
 
 bool Simulation::processNextEvent() {
+    if (_currentTime->pastMidnight() && _trainsInTransit.size() <= 0) {
+        return false;
+    }
     std::shared_ptr<Event> nextEvent = _eventQueue.top();
     if (nextEvent == nullptr) {
         return false;
@@ -116,4 +119,8 @@ int Simulation::getTime() const {
 
 std::string Simulation::getTimeString() const {
     return _currentTime->getString();
+}
+
+void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
+    _trainsInTransit.push_back(move(train));
 }

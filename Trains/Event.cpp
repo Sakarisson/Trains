@@ -5,8 +5,8 @@
 
 void AssembleEvent::processEvent() {
     if (_station->assembleTrain(_trainId)) {
-        // Leave station...
-        std::shared_ptr<Event> leaveStation = std::make_shared<LeaveStationEvent>(_time->getMinutes() + 30);
+        // Leave station in 30 minutes
+        std::shared_ptr<Event> leaveStation = std::make_shared<LeaveStationEvent>(_sim, _trainId, _station, _time->getMinutes() + 30);
         _sim->scheduleEvent(leaveStation);
     }
     else {
@@ -17,5 +17,6 @@ void AssembleEvent::processEvent() {
 }
 
 void LeaveStationEvent::processEvent() {
-    // Do leave station logic...
+    // Do leave station logic
+    
 }

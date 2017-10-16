@@ -18,6 +18,10 @@ int Time::getMinutes() const {
     return _minutesSinceMidnight;
 }
 
+bool Time::pastMidnight() const {
+    return this->getMinutes() >= 1440;
+}
+
 std::string Time::getString() const {
     int hours = _minutesSinceMidnight / 60;
     int minutes = _minutesSinceMidnight - (hours * 60);

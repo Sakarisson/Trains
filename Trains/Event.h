@@ -43,8 +43,12 @@ public:
 
 class LeaveStationEvent : public Event {
 protected:
+    Simulation* _sim;
+    std::shared_ptr<Station> _station;
+    int _trainId;
 public:
-    LeaveStationEvent(int time) : Event(time) {}
+    LeaveStationEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
 
     virtual void processEvent();
 };
