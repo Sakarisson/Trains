@@ -32,7 +32,7 @@ Train::Train(
     _destinationStation(destinationStation),
     _departureTime(departureTime),
     _destinationTime(destinationTime),
-    _maxSpeed(maxSpeed) {}
+    _averageSpeed(maxSpeed) {}
 
 
 Train::~Train() {

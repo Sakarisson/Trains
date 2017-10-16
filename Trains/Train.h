@@ -36,7 +36,7 @@ private:
     Time _departureTime;
     std::string _destinationStation;
     Time _destinationTime;
-    int _maxSpeed;
+    int _averageSpeed;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
     Train();
