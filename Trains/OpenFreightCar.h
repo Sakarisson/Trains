@@ -5,8 +5,6 @@
 
 #include <string>
 
-using namespace std;
-
 class OpenFreightCar : public FreightCar {
 protected:
     int _area = 0;
@@ -20,21 +18,21 @@ public:
     virtual ~OpenFreightCar() {}
 
     // -------- GETTERS --------
-    virtual string getCapacityString() const { 
-        string cap = to_string(_capacity);
+    virtual std::string getCapacityString() const { 
+        std::string cap = std::to_string(_capacity);
         return cap + " ton"; 
     }
     virtual int getArea() const { return _area; }
 
     virtual CarType getType() const { return OPENFREIGHTCAR; }
-    virtual string getTypeString() const { return "Open Freight Car"; }
+    virtual std::string getTypeString() const { return "Open Freight Car"; }
 
-    virtual string getInfo() const {
-        string info = "";
+    virtual std::string getInfo() const {
+        std::string info = "";
         info += "[" + this->getTypeString() + "] ";
-        info += "id: " + to_string(_id) + ", ";
+        info += "id: " + std::to_string(_id) + ", ";
         info += "cargo capacity: " + this->getCapacityString() + ", ";
-        info += "cargo area: " + to_string(_area) + " m^2";
+        info += "cargo area: " + std::to_string(_area) + " m^2";
         return info;
     }
 

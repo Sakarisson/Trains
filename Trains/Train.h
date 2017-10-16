@@ -27,48 +27,48 @@ enum TrainState {
 class Train
 {
 private:
-    vector<CarType> _requestedCars;
-    vector<unique_ptr<Car>> _cars;
+    std::vector<CarType> _requestedCars;
+    std::vector<std::unique_ptr<Car>> _cars;
     int _id;
-    string _trainNumber;
-    string _departureStation;
-    string _departureTime;
-    string _destinationStation;
-    string _destinationTime;
+    std::string _trainNumber;
+    std::string _departureStation;
+    std::string _departureTime;
+    std::string _destinationStation;
+    std::string _destinationTime;
     int _maxSpeed;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
     Train();
     Train(
-        int id, 
-        string departureStation, 
-        string destinationStation, 
-        string departureTime, 
-        string destinationTime,
+        int id,
+        std::string departureStation,
+        std::string destinationStation,
+        std::string departureTime,
+        std::string destinationTime,
         int maxSpeed);
     ~Train();
 
     // -------- GETTERS --------
-    string getTrainNumber() const;
-    string getDepartureStation() const;
-    string getDepartureTime() const;
-    string getDestinationStation() const;
-    string getDestinationTime() const;
+    std::string getTrainNumber() const;
+    std::string getDepartureStation() const;
+    std::string getDepartureTime() const;
+    std::string getDestinationStation() const;
+    std::string getDestinationTime() const;
     TrainState getCurrentState() const;
-    string getCurrentStateString() const;
+    std::string getCurrentStateString() const;
 
     // -------- SETTERS --------
-    void setTrainNumber(string trainNumber);
-    void setDepartureStation(string departureStation);
-    void setDepartureTime(string departureTime);
-    void setDestinationStation(string destinationStation);
-    void setDestinationTime(string destinationTime);
+    void setTrainNumber(std::string trainNumber);
+    void setDepartureStation(std::string departureStation);
+    void setDepartureTime(std::string departureTime);
+    void setDestinationStation(std::string destinationStation);
+    void setDestinationTime(std::string destinationTime);
     void setCurrentState(TrainState currentState);
 
     // --------- LOGIC ---------
     void requestCar(CarType);           // Add car to RequestedCars vector
-    void addCar(unique_ptr<Car>&);      // Add existing Car
-    unique_ptr<Car> detachFirstCar();
+    void addCar(std::unique_ptr<Car>&);      // Add existing Car
+    std::unique_ptr<Car> detachFirstCar();
     void print() const;
 };
 

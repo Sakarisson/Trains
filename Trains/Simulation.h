@@ -11,18 +11,19 @@
 
 class Simulation
 {
-    string _trainsFile = "Trains.txt";
-    string _trainStationsFile = "TrainStations.txt";
-    unique_ptr<DataReader> _trainData;
-    unique_ptr<DataReader> _trainStationData;
-    vector<unique_ptr<Station>> _stations;
-    vector<unique_ptr<Train>> _trainsInTransit;
-    vector<string> splitBySpace(string&);
+private:
+    std::string _trainsFile = "Trains.txt";
+    std::string _trainStationsFile = "TrainStations.txt";
+    std::unique_ptr<DataReader> _trainData;
+    std::unique_ptr<DataReader> _trainStationData;
+    std::vector<std::unique_ptr<Station>> _stations;
+    std::vector<std::unique_ptr<Train>> _trainsInTransit;
+    std::vector<std::string> splitBySpace(std::string&);
+    void processTrains();
+    void processStations();
 public:
     Simulation();
     ~Simulation();
-    void processTrains();
-    void processStations();
 };
 
 #endif // !SIMULATION_H

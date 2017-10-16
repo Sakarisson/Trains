@@ -5,20 +5,18 @@
 #include <fstream>
 #include <vector>
 
-using namespace std;
-
 class DataReader
 {
 private:
-    string _filename;
-    ifstream _infile;
-    vector<string> _lines;
+    std::string _filename;
+    std::ifstream _infile;
+    std::vector<std::string> _lines;
     void openFile();
     void read();
 public:
-    DataReader(string);
+    DataReader(std::string);
     ~DataReader();
-    vector<string> getLines() const;
+    std::vector<std::string> getLines() const;
 };
 
 #endif // !DATAREADER_H

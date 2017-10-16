@@ -17,13 +17,13 @@ public:
     // -------- GETTERS --------
     virtual int getNumberOfBeds() const{ return _numberOfBeds; }
     virtual CarType getType() const { return SLEEPINGCAR; }
-    virtual string getTypeString() const { return "Sleeping Car"; }
+    virtual std::string getTypeString() const { return "Sleeping Car"; }
 
-    virtual string getInfo() const {
-        string info = "";
+    virtual std::string getInfo() const {
+        std::string info = "";
         info += "[" + this->getTypeString() + "] ";
-        info += "id: " + to_string(_id) + ", ";
-        info += "beds: " + to_string(_numberOfBeds);
+        info += "id: " + std::to_string(_id) + ", ";
+        info += "beds: " + std::to_string(_numberOfBeds);
         return info;
     }
 

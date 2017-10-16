@@ -5,8 +5,6 @@
 
 #include "Constants.h"
 
-using namespace std;
-
 /*
 Base class for train cars
 Class is abstract, which means it can't be instanciated
@@ -26,7 +24,7 @@ public:
 
     // Capacity functions for Freight Cars
     virtual int getCapacity() const { return 0; }
-    virtual string getCapacityString() const { return "No cargo capacity"; }
+    virtual std::string getCapacityString() const { return "No cargo capacity"; }
 
     virtual void setCapacity(double) {}
 
@@ -50,15 +48,15 @@ public:
     // Virtual functions for Engine
     virtual int getMaxSpeed() const { return 0; }
     virtual int getConsumption() const { return 0; }
-    virtual string getConsumptionString() const { return "No energy consumption"; }
+    virtual std::string getConsumptionString() const { return "No energy consumption"; }
 
     virtual void setMaxSpeed(int) {}
     virtual void setConsumption(int) {}
     
     // Pure virtual functions for getting type
     virtual CarType getType() const = 0;
-    virtual string getTypeString() const = 0;
-    virtual string getInfo() const { return ""; }
+    virtual std::string getTypeString() const = 0;
+    virtual std::string getInfo() const { return ""; }
 };
 
 #endif // !CAR_H

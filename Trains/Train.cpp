@@ -12,7 +12,8 @@
 #include "ElectricalEngine.h"
 #include "DieselEngine.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 Train::Train() {
 
@@ -20,10 +21,10 @@ Train::Train() {
 
 Train::Train(
     int id,
-    string departureStation,
-    string destinationStation,
-    string departureTime,
-    string destinationTime,
+    std::string departureStation,
+    std::string destinationStation,
+    std::string departureTime,
+    std::string destinationTime,
     int maxSpeed
 ) {
     _id = id;
@@ -40,23 +41,23 @@ Train::~Train() {
 }
 
 // -------- GETTERS --------
-string Train::getTrainNumber() const {
+std::string Train::getTrainNumber() const {
     return _trainNumber;
 }
 
-string Train::getDepartureStation() const {
+std::string Train::getDepartureStation() const {
     return _departureStation;
 }
 
-string Train::getDepartureTime() const {
+std::string Train::getDepartureTime() const {
     return _departureTime;
 }
 
-string Train::getDestinationStation() const {
+std::string Train::getDestinationStation() const {
     return _destinationStation;
 }
 
-string Train::getDestinationTime() const {
+std::string Train::getDestinationTime() const {
     return _destinationTime;
 }
 
@@ -64,7 +65,7 @@ TrainState Train::getCurrentState() const {
     return _currentState;
 }
 
-string Train::getCurrentStateString() const {
+std::string Train::getCurrentStateString() const {
     switch (_currentState) {
     case NOT_ASSEMBLED:
         return "Not assembled";
@@ -86,23 +87,23 @@ string Train::getCurrentStateString() const {
 }
 
 // -------- SETTERS --------
-void Train::setTrainNumber(string trainNumber) {
+void Train::setTrainNumber(std::string trainNumber) {
     _trainNumber = trainNumber;
 }
 
-void Train::setDepartureStation(string departureStation) {
+void Train::setDepartureStation(std::string departureStation) {
     _departureStation = departureStation;
 }
 
-void Train::setDepartureTime(string departureTime) {
+void Train::setDepartureTime(std::string departureTime) {
     _departureTime = departureTime;
 }
 
-void Train::setDestinationStation(string destinationStation) {
+void Train::setDestinationStation(std::string destinationStation) {
     _destinationStation = destinationStation;
 }
 
-void Train::setDestinationTime(string destinationTime) {
+void Train::setDestinationTime(std::string destinationTime) {
     _destinationTime = destinationTime;
 }
 
@@ -117,7 +118,7 @@ Move ownership of Car object to Train
 Params:  unique_ptr<Car> passed by reference
 Returns: void
 */
-void Train::addCar(unique_ptr<Car> &car) {
+void Train::addCar(std::unique_ptr<Car> &car) {
     if (car != nullptr) {
         _cars.push_back(move(car));
     }
@@ -132,9 +133,9 @@ Remove ownership of Car from Train
 Params:  none
 Returns: Unowned pointer to Car OR nullptr
 */
-unique_ptr<Car> Train::detachFirstCar() {
+std::unique_ptr<Car> Train::detachFirstCar() {
     if (_cars.size() > 0) {
-        unique_ptr<Car> first = move(_cars[0]);
+        std::unique_ptr<Car> first = move(_cars[0]);
         _cars.erase(_cars.begin());
         return move(first);
     }
@@ -146,7 +147,7 @@ unique_ptr<Car> Train::detachFirstCar() {
 void Train::print() const {
     int i = 0;
     cout <<
-        "Train [" << to_string(_id) << "] " <<
+        "Train [" << std::to_string(_id) << "] " <<
         "from " << _departureStation << " " << _departureTime <<
         " to " << _destinationStation << " " << _destinationTime << endl <<
         "  Vehicles: (" << _cars.size() << ")" << endl;

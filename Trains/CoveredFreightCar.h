@@ -16,17 +16,17 @@ public:
     virtual ~CoveredFreightCar() {}
 
     // -------- GETTERS --------
-    virtual string getCapacityString() const {
-        string cap = to_string(_capacity);
+    virtual std::string getCapacityString() const {
+        std::string cap = std::to_string(_capacity);
         return cap + " m^3";
     }
 
     virtual CarType getType() const { return COVEREDFREIGHTCAR; }
-    virtual string getTypeString() const { return "Covered Freight Car"; }
-    virtual string getInfo() const {
-        string info = "";
+    virtual std::string getTypeString() const { return "Covered Freight Car"; }
+    virtual std::string getInfo() const {
+        std::string info = "";
         info += "[" + this->getTypeString() + "] ";
-        info += "id: " + to_string(_id) + ", ";
+        info += "id: " + std::to_string(_id) + ", ";
         info += "cargo volume: " + this->getCapacityString();
         return info;
     }

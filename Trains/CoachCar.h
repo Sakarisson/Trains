@@ -21,15 +21,15 @@ public:
     virtual bool hasInternet() const { return _hasInternet; }
 
     virtual CarType getType() const { return COACHCAR; }
-    virtual string getTypeString() const { return "Coach Car"; }
+    virtual std::string getTypeString() const { return "Coach Car"; }
 
-    virtual string getInfo() const {
-        string internet;
+    virtual std::string getInfo() const {
+        std::string internet;
         _hasInternet ? internet = "internet onboard" : internet = "no internet onboard";
-        string info = "";
+        std::string info = "";
         info += "[" + this->getTypeString() + "] ";
-        info += "id: " + to_string(_id) + ", ";
-        info += "seats: " + to_string(_numberOfSeats) + ", ";
+        info += "id: " + std::to_string(_id) + ", ";
+        info += "seats: " + std::to_string(_numberOfSeats) + ", ";
         info += internet;
         return info;
     }

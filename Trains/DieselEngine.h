@@ -15,13 +15,13 @@ public:
     virtual ~DieselEngine() {}
 
     // -------- GETTERS --------
-    virtual string getConsumptionString() const {
-        string con = to_string(_energyConsumption);
+    virtual std::string getConsumptionString() const {
+        std::string con = std::to_string(_energyConsumption);
         return con + " l/h";
     }
 
     virtual CarType getType() const { return DIESELENGINE; }
-    virtual string getTypeString() const { return "Diesel Engine"; }
+    virtual std::string getTypeString() const { return "Diesel Engine"; }
 };
 
 #endif // !DIESELENGINE_H

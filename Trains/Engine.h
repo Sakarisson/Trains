@@ -15,11 +15,11 @@ public:
     virtual int getMaxSpeed() const { return _maxSpeed; }
     virtual int getConsumption() const { return _energyConsumption; }
 
-    virtual string getInfo() const {
-        string info = "";
+    virtual std::string getInfo() const {
+        std::string info = "";
         info += "[" + this->getTypeString() + "] ";
-        info += "id: " + to_string(_id) + ", ";
-        info += "max speed: " + to_string(_maxSpeed) + " km/h, ";
+        info += "id: " + std::to_string(_id) + ", ";
+        info += "max speed: " + std::to_string(_maxSpeed) + " km/h, ";
         info += "power: " + this->getConsumptionString();
         return info;
     }

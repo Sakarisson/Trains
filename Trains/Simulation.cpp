@@ -5,10 +5,14 @@
 
 #include "Simulation.h"
 
+using std::cout;
+using std::endl;
 
 Simulation::Simulation() {
-    _trainData = make_unique<DataReader>(_trainsFile);
-    _trainStationData = make_unique<DataReader>(_trainStationsFile);
+    _trainData = std::make_unique<DataReader>(_trainsFile);
+    _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
+    processTrains();
+    processStations();
 }
 
 
@@ -17,9 +21,9 @@ Simulation::~Simulation() {
 }
 
 void Simulation::processTrains() {
-    for each (string line in _trainData->getLines()) {
-        vector<string> data = splitBySpace(line);
-        unique_ptr<Train> newTrain = make_unique<Train>(
+    for each (std::string line in _trainData->getLines()) {
+        std::vector<std::string> data = splitBySpace(line);
+        std::unique_ptr<Train> newTrain = std::make_unique<Train>(
             stoi(data[0]),
             data[1],
             data[2],
@@ -36,32 +40,31 @@ void Simulation::processTrains() {
                 break;
             }
         }
-        //_trainsInTransit.push_back(move(newTrain));
     }
 }
 
 void Simulation::processStations() {
-    for each (string line in _trainStationData->getLines()) {
-        string name = line.substr(0, line.find(" ")); // Name is anything before the first space
-        vector<string> rawCarData;
+    for each (std::string line in _trainStationData->getLines()) {
+        std::string name = line.substr(0, line.find(" ")); // Name is anything before the first space
+        std::vector<std::string> rawCarData;
         try {
-            regex re("\(([^\)]+)\)"); // Get all data that is between two parentheses
-            regex_iterator<string::iterator> rit(line.begin(), line.end(), re);
-            regex_iterator<string::iterator> rend;
+            std::regex re("\(([^\)]+)\)"); // Get all data that is between two parentheses
+            std::regex_iterator<std::string::iterator> rit(line.begin(), line.end(), re);
+            std::regex_iterator<std::string::iterator> rend;
 
             while (rit != rend) { // Iterate through all regex matches
-                string res = rit->str();
+                std::string res = rit->str();
                 res = res.substr(res.find("(") + 1); // Remove everything before and including starting parenthesis
                 rawCarData.push_back(res);
                 ++rit;
             }
         }
-        catch (regex_error &e) {
+        catch (std::regex_error &e) {
             cout << e.what() << endl;
         }
-        unique_ptr<Station> newStation = make_unique<Station>(name);
-        for each (string d in rawCarData) {
-            vector<string> values = splitBySpace(d);
+        std::unique_ptr<Station> newStation = std::make_unique<Station>(name);
+        for each (std::string d in rawCarData) {
+            std::vector<std::string> values = splitBySpace(d);
             while (values.size() < 4) {
                 values.push_back("0"); // Insert "0" values at end to avoid out of range errors
             }
@@ -76,12 +79,12 @@ void Simulation::processStations() {
     }
 }
 
-vector<string> Simulation::splitBySpace(string& input) {
-    vector<string> result;
+std::vector<std::string> Simulation::splitBySpace(std::string& input) {
+    std::vector<std::string> result;
     char delim = ' ';
-    stringstream ss;
+    std::stringstream ss;
     ss.str(input);
-    string item;
+    std::string item;
     while (getline(ss, item, delim)) {
         result.push_back(item);
     }

@@ -18,19 +18,19 @@
 class Station
 {
 private:
-    vector<unique_ptr<Train>> _trains;
-    vector<unique_ptr<Car>> _carPool;
-    string _name;
+    std::vector<std::unique_ptr<Train>> _trains;
+    std::vector<std::unique_ptr<Car>> _carPool;
+    std::string _name;
 public:
     Station();
-    Station(string);
+    Station(std::string);
     ~Station();
-    unique_ptr<Car> removeFirst();
-    unique_ptr<Car> removeAtIndex(int);
+    std::unique_ptr<Car> removeFirst();
+    std::unique_ptr<Car> removeAtIndex(int);
     void addToPool(int id, CarType type, int param0 = 0, int param1 = 0);
-    void addToPool(unique_ptr<Car>&);
-    void addTrain(unique_ptr<Train>&);
-    string getName() const;
+    void addToPool(std::unique_ptr<Car>&);
+    void addTrain(std::unique_ptr<Train>&);
+    std::string getName() const;
 };
 
 #endif // !STATION_H

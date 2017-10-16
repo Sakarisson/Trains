@@ -6,10 +6,8 @@
 
 int main() {
     Simulation tc;
-    tc.processStations();
-    tc.processTrains();
-    shared_ptr<Simulation> s = std::make_shared<Simulation>();
-    shared_ptr<Train> t = std::make_shared<Train>();
+    std::shared_ptr<Simulation> s = std::make_shared<Simulation>();
+    std::shared_ptr<Train> t = std::make_shared<Train>();
     std::unique_ptr<AssembleEvent> a = std::make_unique<AssembleEvent>(s, t, 10);
     a->processEvent();
     return 0;
