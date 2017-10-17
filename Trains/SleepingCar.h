@@ -14,7 +14,7 @@ public:
     }
     virtual ~SleepingCar() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual int getNumberOfBeds() const{ return _numberOfBeds; }
     virtual CarType getType() const { return SLEEPINGCAR; }
     virtual std::string getTypeString() const { return "Sleeping Car"; }

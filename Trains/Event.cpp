@@ -45,7 +45,7 @@ void ArriveEvent::processEvent() {
 void DisassembleEvent::processEvent() {
     while (!_station->getTrainById(_trainId)->isEmpty()) {
         auto car = move(_station->getTrainById(_trainId)->detachFirstCar());
-        _station->addToPool(car);
+        _station->addCarToPool(car);
     }
     _station->getTrainById(_trainId)->setCurrentState(FINISHED);
 }

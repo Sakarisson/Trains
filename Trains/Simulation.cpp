@@ -72,7 +72,7 @@ void Simulation::processStations() {
             while (values.size() < 4) {
                 values.push_back("0"); // Insert "0" values at end to avoid out of range errors
             }
-            newStation->addToPool(
+            newStation->addCarToPool(
                 stoi(values[0]), 
                 CarType(stoi(values[1])), 
                 stoi(values[2]), 

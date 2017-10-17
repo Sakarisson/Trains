@@ -49,7 +49,7 @@ public:
         int maxSpeed);
     ~Train();
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     std::string getTrainNumber() const;
     std::string getDepartureStation() const;
     int getDepartureTime() const;
@@ -63,10 +63,10 @@ public:
     std::vector<CarType> getMissingCars();
     bool isEmpty() const;
 
-    // -------- SETTERS --------
+    // ----------------- SETTERS -----------------
     void setCurrentState(TrainState currentState);
 
-    // --------- LOGIC ---------
+    // ------------------ LOGIC ------------------
     void requestCar(CarType);                // Add car to RequestedCars vector
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();

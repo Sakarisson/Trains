@@ -14,7 +14,7 @@ public:
     }
     virtual ~DieselEngine() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual std::string getConsumptionString() const {
         std::string con = std::to_string(_energyConsumption);
         return con + " l/h";

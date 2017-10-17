@@ -10,7 +10,7 @@ public:
     FreightCar() {}
     virtual ~FreightCar() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual int getCapacity() const { return _capacity; } // Identical implementation for covered and open
 };
 

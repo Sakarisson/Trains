@@ -11,7 +11,7 @@ public:
     Engine() {}
     virtual ~Engine() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual int getMaxSpeed() const { return _maxSpeed; }
     virtual int getConsumption() const { return _energyConsumption; }
 

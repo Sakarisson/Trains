@@ -15,7 +15,7 @@ public:
     }
     virtual ~CoveredFreightCar() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual std::string getCapacityString() const {
         std::string cap = std::to_string(_capacity);
         return cap + " m^3";

@@ -39,7 +39,7 @@ Train::~Train() {
 
 }
 
-// -------- GETTERS --------
+// ----------------- GETTERS -----------------
 std::string Train::getTrainNumber() const {
     return _trainNumber;
 }
@@ -105,12 +105,12 @@ bool Train::isEmpty() const {
     return _cars.size() == 0;
 }
 
-// -------- SETTERS --------
+// ----------------- SETTERS -----------------
 void Train::setCurrentState(TrainState currentState) {
     _currentState = currentState;
 }
 
-// --------- LOGIC ---------
+// ------------------ LOGIC ------------------
 
 /*
 Move ownership of Car object to Train

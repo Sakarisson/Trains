@@ -16,7 +16,7 @@ public:
     }
     virtual ~CoachCar() {}
 
-    // -------- GETTERS --------
+    // ----------------- GETTERS -----------------
     virtual int getNumberOfSeats() const { return _numberOfSeats; }
     virtual bool hasInternet() const { return _hasInternet; }
 

@@ -14,44 +14,7 @@ Station::~Station() {
 
 }
 
-std::unique_ptr<Car> Station::removeFirst() {
-    if (_carPool.size() > 0) {
-        std::unique_ptr<Car> first = move(_carPool[0]);
-        _carPool.erase(_carPool.begin());
-        return move(first);
-    }
-    else {
-        return nullptr;
-    }
-}
-
-std::unique_ptr<Car> Station::removeAtIndex(int i) {
-    if (_carPool.size() > i) {
-        std::unique_ptr<Car> c = move(_carPool[i]);
-        _carPool.erase(_carPool.begin() + i);
-        return move(c);
-    }
-    else {
-        return nullptr;
-    }
-}
-
-std::unique_ptr<Train>& Station::getTrainById(int id) {
-    return *std::find_if(_trains.begin(), _trains.end(), [id](std::unique_ptr<Train>& t) { return t->getId() == id; });
-}
-
-std::unique_ptr<Train> Station::removeTrainById(int id) {
-    std::unique_ptr<Train> train = nullptr;
-    for (size_t i = 0; i < _trains.size(); ++i) {
-        if (_trains[i]->getId() == id) {
-            train = move(_trains[i]);
-            _trains.erase(_trains.begin() + i);
-            break;
-        }
-    }
-    return train;
-}
-
+// ------------- INTERNAL LOGIC -------------
 bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
     auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](std::unique_ptr<Car> &c) { return c->getType() == type; });
     if (it == _carPool.end()) {
@@ -76,7 +39,29 @@ void Station::eraseEmptyCars() {
     }
 }
 
-void Station::addToPool(int id, CarType type, int param0, int param1) {
+// ----------------- GETTERS -----------------
+std::unique_ptr<Train>& Station::getTrainById(int id) {
+    return *std::find_if(_trains.begin(), _trains.end(), [id](std::unique_ptr<Train>& t) { return t->getId() == id; });
+}
+
+std::string Station::getName() const {
+    return _name;
+}
+
+// ------------------ LOGIC ------------------
+std::unique_ptr<Train> Station::removeTrainById(int id) {
+    std::unique_ptr<Train> train = nullptr;
+    for (size_t i = 0; i < _trains.size(); ++i) {
+        if (_trains[i]->getId() == id) {
+            train = move(_trains[i]);
+            _trains.erase(_trains.begin() + i);
+            break;
+        }
+    }
+    return train;
+}
+
+void Station::addCarToPool(int id, CarType type, int param0, int param1) {
     switch (type) {
     case COACHCAR:
         _carPool.push_back(std::make_unique<CoachCar>(id, param0, param1));
@@ -101,7 +86,7 @@ void Station::addToPool(int id, CarType type, int param0, int param1) {
     }
 }
 
-void Station::addToPool(std::unique_ptr<Car>& car) {
+void Station::addCarToPool(std::unique_ptr<Car>& car) {
     if (car != nullptr) {
         _carPool.push_back(move(car));
     }
@@ -137,8 +122,4 @@ bool Station::assembleTrain(int trainId) {
             return false;
         }
     }
-}
-
-std::string Station::getName() const {
-    return _name;
 }
