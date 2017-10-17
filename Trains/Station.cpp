@@ -16,6 +16,13 @@ Station::~Station() {
 
 // ------------- INTERNAL LOGIC -------------
 bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
+    // Sort vector of cars before selecting the first one
+    std::sort(_carPool.begin(), _carPool.end(),
+        [](const std::unique_ptr<Car>& a, const std::unique_ptr<Car>& b){ 
+        return a->getId() < b->getId(); 
+    });
+
+    // Find first car of wanted type
     auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](std::unique_ptr<Car> &c) { return c->getType() == type; });
     if (it == _carPool.end()) {
         return false;

@@ -21,8 +21,10 @@ private:
     std::shared_ptr<Time> _currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
+    std::string _trainMapFile = "TrainMap.txt";
     std::unique_ptr<DataReader> _trainData;
     std::unique_ptr<DataReader> _trainStationData;
+    std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
 
@@ -34,6 +36,7 @@ private:
     std::vector<std::string> splitBySpace(std::string&);
     void processTrains();
     void processStations();
+    void processTrainMaps();
     bool processNextEvent();
 public:
     Simulation();    // Constructor

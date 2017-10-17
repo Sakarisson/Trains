@@ -12,9 +12,11 @@ using std::endl;
 Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
+    _trainMapData = std::make_unique<DataReader>(_trainMapFile);
     _currentTime = std::make_shared<Time>();
     processStations();
     processTrains();
+    processTrainMaps();
 }
 
 
@@ -97,6 +99,15 @@ void Simulation::processStations() {
             );
         }
         _stations.push_back(newStation);
+    }
+}
+
+void Simulation::processTrainMaps() {
+    for each (std::string line in _trainMapData->getLines()) {
+        std::vector<std::string> rawData = splitBySpace(line);
+        std::shared_ptr<Station> a = getStation(rawData[0]);
+        std::shared_ptr<Station> b = getStation(rawData[1]);
+        int distance = stoi(rawData[2]);
     }
 }
 
