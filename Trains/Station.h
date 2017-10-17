@@ -37,7 +37,7 @@ public:
     // ----------------- GETTERS -----------------
     std::unique_ptr<Train>& getTrainById(int);
     std::string getName() const;
-    int getDistanceToStation(string) const;
+    int getDistanceToStation(std::string) const;
 
     // ------------------ LOGIC ------------------
     std::unique_ptr<Train> removeTrainById(int);

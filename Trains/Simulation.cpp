@@ -111,7 +111,6 @@ void Simulation::processTrainMaps() {
         a->addDistanceToStation(b, distance);
         b->addDistanceToStation(a, distance);
     }
-    _stations[0]
 }
 
 bool Simulation::processNextEvent() {

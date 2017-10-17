@@ -57,7 +57,7 @@ std::string Station::getName() const {
     return _name;
 }
 
-int Station::getDistanceToStation(string station) const {
+int Station::getDistanceToStation(std::string station) const {
     return _distances->getDistance(station);
 }
 
