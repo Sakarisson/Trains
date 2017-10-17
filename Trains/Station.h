@@ -44,7 +44,7 @@ public:
     void addCarToPool(int id, CarType type, int param0 = 0, int param1 = 0);
     void addCarToPool(std::unique_ptr<Car>&);
     void addTrain(std::unique_ptr<Train>&);
-    void addDistanceToStation(std::shared_ptr<Station>, int);
+    void addDistanceToStation(std::string, int);
     bool assembleTrain(int);
 };
 

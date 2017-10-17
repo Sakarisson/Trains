@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include "Memstat.h"
 
 #include <iostream>
 

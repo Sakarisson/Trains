@@ -111,7 +111,7 @@ void Station::addTrain(std::unique_ptr<Train>& train) {
     }
 }
 
-void Station::addDistanceToStation(std::shared_ptr<Station> station, int distance) {
+void Station::addDistanceToStation(std::string station, int distance) {
     _distances->addDistance(station, distance);
 }
 
