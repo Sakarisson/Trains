@@ -2,6 +2,6 @@
 
 int main() {
     Simulation sim;
-    while(sim.processNextEvent()) {}
+    sim.run();
     return 0;
 }

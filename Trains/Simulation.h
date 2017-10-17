@@ -17,6 +17,7 @@ class Event;
 class Simulation
 {
 private:
+    // ----------- INTERNAL VARIABLES -----------
     std::shared_ptr<Time> _currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
@@ -25,20 +26,27 @@ private:
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
 
+    // Priority queue of pointers to Event
+    // Sorted according to the next event, which will happen
     std::priority_queue<std::shared_ptr<Event>, std::vector<std::shared_ptr<Event>>, EventComparison> _eventQueue;
     
+    // ------------- INTERNAL LOGIC -------------
     std::vector<std::string> splitBySpace(std::string&);
     void processTrains();
     void processStations();
-    //bool processNextEvent();
+    bool processNextEvent();
 public:
-    Simulation();
-    ~Simulation();
-    void scheduleEvent(std::shared_ptr<Event>);
+    Simulation();    // Constructor
+    ~Simulation();   // Destructor
+    void run();
+
+    // ----------------- GETTERS -----------------
     int getTime() const;
     std::string getTimeString() const;
+
+    // ------------------ LOGIC ------------------
+    void scheduleEvent(std::shared_ptr<Event>);
     void addTrainToTransit(std::unique_ptr<Train>&);
-    bool processNextEvent();
     std::unique_ptr<Train> removeTrainById(int);
     std::shared_ptr<Station> getStation(std::string);
 };

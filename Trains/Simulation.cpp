@@ -22,6 +22,23 @@ Simulation::~Simulation() {
     
 }
 
+void Simulation::run() {
+    while(this->processNextEvent()) {}
+}
+
+// ------------- INTERNAL LOGIC -------------
+std::vector<std::string> Simulation::splitBySpace(std::string& input) {
+    std::vector<std::string> result;
+    char delim = ' ';
+    std::stringstream ss;
+    ss.str(input);
+    std::string item;
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
+    }
+    return result;
+}
+
 void Simulation::processTrains() {
     for each (std::string line in _trainData->getLines()) {
         std::vector<std::string> data = splitBySpace(line);
@@ -84,8 +101,7 @@ void Simulation::processStations() {
 }
 
 bool Simulation::processNextEvent() {
-    if (_currentTime->pastMidnight()// && _trainsInTransit.size() <= 0) {
-        ){
+    if (_currentTime->pastMidnight() && _trainsInTransit.size() <= 0) {
         return false;
     }
     std::shared_ptr<Event> nextEvent = _eventQueue.top();
@@ -98,22 +114,7 @@ bool Simulation::processNextEvent() {
     return true;
 }
 
-std::vector<std::string> Simulation::splitBySpace(std::string& input) {
-    std::vector<std::string> result;
-    char delim = ' ';
-    std::stringstream ss;
-    ss.str(input);
-    std::string item;
-    while (getline(ss, item, delim)) {
-        result.push_back(item);
-    }
-    return result;
-}
-
-void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
-    _eventQueue.push(e);
-}
-
+// ----------------- GETTERS -----------------
 int Simulation::getTime() const {
     return _currentTime->getMinutes();
 }
@@ -122,6 +123,11 @@ std::string Simulation::getTimeString() const {
     return _currentTime->getString();
 }
 
+void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
+    _eventQueue.push(e);
+}
+
+// ------------------ LOGIC ------------------
 void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
     _trainsInTransit.push_back(move(train));
 }
@@ -139,6 +145,6 @@ std::unique_ptr<Train> Simulation::removeTrainById(int id) {
 }
 
 std::shared_ptr<Station> Simulation::getStation(std::string name) {
-    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) {return s->getName() == name; });
+    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
     return *it;
 }
