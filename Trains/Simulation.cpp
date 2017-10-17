@@ -70,20 +70,15 @@ void Simulation::processStations() {
     for each (std::string line in _trainStationData->getLines()) {
         std::string name = line.substr(0, line.find(" ")); // Name is anything before the first space
         std::vector<std::string> rawCarData;
-        try {
-            std::regex re("\(([^\)]+)\)"); // Get all data that is between two parentheses
-            std::regex_iterator<std::string::iterator> rit(line.begin(), line.end(), re);
-            std::regex_iterator<std::string::iterator> rend;
+        std::regex re("\(([^\)]+)\)"); // Get all data that is between two parentheses
+        std::regex_iterator<std::string::iterator> rit(line.begin(), line.end(), re);
+        std::regex_iterator<std::string::iterator> rend;
 
-            while (rit != rend) { // Iterate through all regex matches
-                std::string res = rit->str();
-                res = res.substr(res.find("(") + 1); // Remove everything before and including starting parenthesis
-                rawCarData.push_back(res);
-                ++rit;
-            }
-        }
-        catch (std::regex_error &e) {
-            cout << e.what() << endl;
+        while (rit != rend) { // Iterate through all regex matches
+            std::string res = rit->str();
+            res = res.substr(res.find("(") + 1); // Remove everything before and including starting parenthesis
+            rawCarData.push_back(res);
+            ++rit;
         }
         std::shared_ptr<Station> newStation = std::make_shared<Station>(name);
         for each (std::string d in rawCarData) {
@@ -113,7 +108,7 @@ void Simulation::processTrainMaps() {
         std::shared_ptr<Station> b = getStation(rawData[1]);
         int distance = stoi(rawData[2]);
         a->addDistanceToStation(b, distance);
-        b->addDistanceToStation(a, distance);
+        b->addDistanceToStation(a, distance); 
         ++counter;
     }
 }
