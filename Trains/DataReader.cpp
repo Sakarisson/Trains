@@ -7,15 +7,8 @@ using std::endl;
 
 DataReader::DataReader(std::string filename) {
     _filename = filename;
-    try {
-        openFile();
-        read();
-    }
-    catch (std::exception e) {
-        cout <<
-            "An error occurred while attempting to open datafile:" << endl <<
-            e.what() << endl;
-    }
+    openFile();
+    read();
 }
 
 
