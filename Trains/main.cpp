@@ -1,7 +1,17 @@
 #include "Simulation.h"
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 int main() {
-    Simulation sim;
-    sim.run();
+    try {
+        Simulation sim;
+        sim.run();
+    }
+    catch (std::exception e) {
+        cout << e.what() << endl;
+    }
     return 0;
 }

@@ -103,13 +103,18 @@ void Simulation::processStations() {
 }
 
 void Simulation::processTrainMaps() {
+    int counter = 1;
     for each (std::string line in _trainMapData->getLines()) {
         std::vector<std::string> rawData = splitBySpace(line);
+        if (rawData.size() != 3) {
+            throw std::range_error("TrainMap.txt line " + std::to_string(counter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
+        }
         std::shared_ptr<Station> a = getStation(rawData[0]);
         std::shared_ptr<Station> b = getStation(rawData[1]);
         int distance = stoi(rawData[2]);
         a->addDistanceToStation(b, distance);
         b->addDistanceToStation(a, distance);
+        ++counter;
     }
 }
 
