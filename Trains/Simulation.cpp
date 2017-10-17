@@ -42,8 +42,15 @@ std::vector<std::string> Simulation::splitBySpace(std::string& input) {
 }
 
 void Simulation::processTrains() {
+    if (_trainData->getLines().size() == 0) {
+        throw std::range_error("TrainData.txt: File is empty!");
+    }
+    int lineCounter = 1;
     for each (std::string line in _trainData->getLines()) {
         std::vector<std::string> data = splitBySpace(line);
+        if (data.size() < 7) {
+            throw std::range_error("TrainData.txt line " + std::to_string(lineCounter) + ": Expected at least 7 pieces of data. Found " + std::to_string(data.size()));
+        }
         std::unique_ptr<Train> newTrain = std::make_unique<Train>(
             stoi(data[0]),
             data[1],
@@ -63,10 +70,15 @@ void Simulation::processTrains() {
                 break;
             }
         }
+        ++lineCounter;
     }
 }
 
 void Simulation::processStations() {
+    if (_trainStationData->getLines().size() == 0) {
+        throw std::range_error("TrainStations.txt: File is empty!");
+    }
+    int lineCounter = 1;
     for each (std::string line in _trainStationData->getLines()) {
         std::string name = line.substr(0, line.find(" ")); // Name is anything before the first space
         std::vector<std::string> rawCarData;
@@ -86,6 +98,9 @@ void Simulation::processStations() {
             while (values.size() < 4) {
                 values.push_back("0"); // Insert "0" values at end to avoid out of range errors
             }
+            if (values.size() < 4) { // Double check, throw error if false
+                throw std::range_error("TrainStations.txt line " + std::to_string(lineCounter) + ": Expected 4 pieces of data. Found " + std::to_string(values.size()));
+            }
             newStation->addCarToPool(
                 stoi(values[0]), 
                 CarType(stoi(values[1])), 
@@ -94,22 +109,29 @@ void Simulation::processStations() {
             );
         }
         _stations.push_back(newStation);
+        ++lineCounter;
     }
 }
 
 void Simulation::processTrainMaps() {
-    int counter = 1;
+    if (_trainMapData->getLines().size() == 0) {
+        throw std::range_error("TrainStations.txt: File is empty!");
+    }
+    int lineCounter = 1;
     for each (std::string line in _trainMapData->getLines()) {
         std::vector<std::string> rawData = splitBySpace(line);
         if (rawData.size() != 3) {
-            throw std::range_error("TrainMap.txt line " + std::to_string(counter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
+            throw std::range_error("TrainMap.txt line " + std::to_string(lineCounter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
         }
         std::shared_ptr<Station> a = getStation(rawData[0]);
         std::shared_ptr<Station> b = getStation(rawData[1]);
         int distance = stoi(rawData[2]);
+        if (a == nullptr || b == nullptr) {
+            throw std::runtime_error("TrainStations.txt line " + std::to_string(lineCounter) + ": Invalid data");
+        }
         a->addDistanceToStation(b->getName(), distance);
         b->addDistanceToStation(a->getName(), distance); 
-        ++counter;
+        ++lineCounter;
     }
 }
 
@@ -159,5 +181,10 @@ std::unique_ptr<Train> Simulation::removeTrainById(int id) {
 
 std::shared_ptr<Station> Simulation::getStation(std::string name) {
     auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
-    return *it;
+    if (it != _stations.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
+    }
 }
