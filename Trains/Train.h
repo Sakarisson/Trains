@@ -61,6 +61,7 @@ public:
     std::string getCurrentStateString() const;
     int getId() const;
     std::vector<CarType> getMissingCars();
+    bool isEmpty() const;
 
     // -------- SETTERS --------
     void setCurrentState(TrainState currentState);

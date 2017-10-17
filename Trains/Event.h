@@ -65,4 +65,27 @@ public:
     virtual void processEvent();
 };
 
+class ArriveEvent : public Event {
+protected:
+    Simulation* _sim;
+    int _trainId;
+public:
+    ArriveEvent(Simulation* sim, int trainId, Time time)
+        : Event(time), _sim(sim), _trainId(trainId) {}
+
+    virtual void processEvent();
+};
+
+class DisassembleEvent : public Event {
+protected:
+    Simulation* _sim;
+    std::shared_ptr<Station> _station;
+    int _trainId;
+public:
+    DisassembleEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+
+    virtual void processEvent();
+};
+
 #endif // !EVENT_H

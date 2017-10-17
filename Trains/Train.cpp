@@ -101,6 +101,10 @@ std::string Train::getCurrentStateString() const {
     }
 }
 
+bool Train::isEmpty() const {
+    return _cars.size() == 0;
+}
+
 // -------- SETTERS --------
 void Train::setCurrentState(TrainState currentState) {
     _currentState = currentState;

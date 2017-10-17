@@ -125,3 +125,20 @@ std::string Simulation::getTimeString() const {
 void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
     _trainsInTransit.push_back(move(train));
 }
+
+std::unique_ptr<Train> Simulation::removeTrainById(int id) {
+    std::unique_ptr<Train> train;
+    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
+        if (_trainsInTransit[i]->getId() == id) {
+            train = move(_trainsInTransit[i]);
+            _trainsInTransit.erase(_trainsInTransit.begin() + i);
+            break;
+        }
+    }
+    return move(train);
+}
+
+std::shared_ptr<Station> Simulation::getStation(std::string name) {
+    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) {return s->getName() == name; });
+    return *it;
+}

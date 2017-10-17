@@ -39,6 +39,8 @@ public:
     std::string getTimeString() const;
     void addTrainToTransit(std::unique_ptr<Train>&);
     bool processNextEvent();
+    std::unique_ptr<Train> removeTrainById(int);
+    std::shared_ptr<Station> getStation(std::string);
 };
 
 #endif // !SIMULATION_H
