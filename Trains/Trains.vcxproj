@@ -126,6 +126,7 @@
     <ClInclude Include="CoveredFreightCar.h" />
     <ClInclude Include="DataReader.h" />
     <ClInclude Include="DieselEngine.h" />
+    <ClInclude Include="Distance.h" />
     <ClInclude Include="ElectricalEngine.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Event.h" />

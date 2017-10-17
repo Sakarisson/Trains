@@ -15,6 +15,9 @@
 
 #include "Constants.h"
 
+//#include "Distance.h"
+class DistanceManager;
+
 class Station
 {
 private:
@@ -22,6 +25,7 @@ private:
     std::vector<std::unique_ptr<Train>> _trains;
     std::vector<std::unique_ptr<Car>> _carPool;
     std::string _name;
+    std::unique_ptr<DistanceManager> _distances;
 
     // ------------- INTERNAL LOGIC -------------
     bool addCarToTrain(CarType, std::unique_ptr<Train>&);
@@ -33,12 +37,14 @@ public:
     // ----------------- GETTERS -----------------
     std::unique_ptr<Train>& getTrainById(int);
     std::string getName() const;
+    int getDistanceToStation(string) const;
 
     // ------------------ LOGIC ------------------
     std::unique_ptr<Train> removeTrainById(int);
     void addCarToPool(int id, CarType type, int param0 = 0, int param1 = 0);
     void addCarToPool(std::unique_ptr<Car>&);
     void addTrain(std::unique_ptr<Train>&);
+    void addDistanceToStation(std::shared_ptr<Station>, int);
     bool assembleTrain(int);
 };
 

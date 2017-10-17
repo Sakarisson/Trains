@@ -108,7 +108,10 @@ void Simulation::processTrainMaps() {
         std::shared_ptr<Station> a = getStation(rawData[0]);
         std::shared_ptr<Station> b = getStation(rawData[1]);
         int distance = stoi(rawData[2]);
+        a->addDistanceToStation(b, distance);
+        b->addDistanceToStation(a, distance);
     }
+    _stations[0]
 }
 
 bool Simulation::processNextEvent() {

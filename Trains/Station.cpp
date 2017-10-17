@@ -1,4 +1,5 @@
 #include "Station.h"
+#include "Distance.h"
 #include <algorithm>    // std::find_if, remove_if
 
 Station::Station() {
@@ -7,6 +8,7 @@ Station::Station() {
 
 Station::Station(std::string name) {
     _name = name;
+    _distances = std::make_unique<DistanceManager>();
 }
 
 
@@ -53,6 +55,10 @@ std::unique_ptr<Train>& Station::getTrainById(int id) {
 
 std::string Station::getName() const {
     return _name;
+}
+
+int Station::getDistanceToStation(string station) const {
+    return _distances->getDistance(station);
 }
 
 // ------------------ LOGIC ------------------
@@ -103,6 +109,10 @@ void Station::addTrain(std::unique_ptr<Train>& train) {
     if (train != nullptr) {
         _trains.push_back(move(train));
     }
+}
+
+void Station::addDistanceToStation(std::shared_ptr<Station> station, int distance) {
+    _distances->addDistance(station, distance);
 }
 
 bool Station::assembleTrain(int trainId) {
