@@ -32,20 +32,21 @@ private:
     void eraseEmptyCars();
 public:
     Station();
-    Station(std::string);
+    Station(std::string&);
     ~Station();
+
     // ----------------- GETTERS -----------------
     std::unique_ptr<Train>& getTrainById(int);
     std::string getName() const;
-    int getDistanceToStation(std::string) const;
+    int getDistanceToStation(std::string&) const;
 
     // ------------------ LOGIC ------------------
-    std::unique_ptr<Train> removeTrainById(int);
-    void addCarToPool(int id, CarType type, int param0 = 0, int param1 = 0);
+    std::unique_ptr<Train> removeTrainById(int&);
+    void addCarToPool(int, CarType, int param0 = 0, int param1 = 0);
     void addCarToPool(std::unique_ptr<Car>&);
     void addTrain(std::unique_ptr<Train>&);
-    void addDistanceToStation(std::string, int);
-    bool assembleTrain(int);
+    void addDistanceToStation(std::string&, int&);
+    bool assembleTrain(int&);
 };
 
 #endif // !STATION_H

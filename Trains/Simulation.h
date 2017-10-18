@@ -13,6 +13,7 @@
 #include "Time.h"
 
 class Event;
+class UI;
 
 class Simulation
 {
@@ -27,6 +28,7 @@ private:
     std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
+    std::unique_ptr<UI> _ui;
 
     // Priority queue of pointers to Event
     // Sorted according to the next event, which will happen
@@ -50,8 +52,8 @@ public:
     // ------------------ LOGIC ------------------
     void scheduleEvent(std::shared_ptr<Event>);
     void addTrainToTransit(std::unique_ptr<Train>&);
-    std::unique_ptr<Train> removeTrainById(int);
-    std::shared_ptr<Station> getStation(std::string);
+    std::unique_ptr<Train> removeTrainById(int&);
+    std::shared_ptr<Station> getStation(std::string&);
 };
 
 #endif // !SIMULATION_H

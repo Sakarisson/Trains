@@ -6,7 +6,7 @@ Station::Station() {
 
 }
 
-Station::Station(std::string name) {
+Station::Station(std::string& name) {
     _name = name;
     _distances = std::make_unique<DistanceManager>();
 }
@@ -25,7 +25,7 @@ bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
     });
 
     // Find first car of wanted type
-    auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](std::unique_ptr<Car> &c) { return c->getType() == type; });
+    auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](const std::unique_ptr<Car> &c) { return c->getType() == type; });
     if (it == _carPool.end()) {
         return false;
     }
@@ -50,19 +50,19 @@ void Station::eraseEmptyCars() {
 
 // ----------------- GETTERS -----------------
 std::unique_ptr<Train>& Station::getTrainById(int id) {
-    return *std::find_if(_trains.begin(), _trains.end(), [id](std::unique_ptr<Train>& t) { return t->getId() == id; });
+    return *std::find_if(_trains.begin(), _trains.end(), [id](const std::unique_ptr<Train>& t) { return t->getId() == id; });
 }
 
 std::string Station::getName() const {
     return _name;
 }
 
-int Station::getDistanceToStation(std::string station) const {
+int Station::getDistanceToStation(std::string& station) const {
     return _distances->getDistance(station);
 }
 
 // ------------------ LOGIC ------------------
-std::unique_ptr<Train> Station::removeTrainById(int id) {
+std::unique_ptr<Train> Station::removeTrainById(int& id) {
     std::unique_ptr<Train> train = nullptr;
     for (size_t i = 0; i < _trains.size(); ++i) {
         if (_trains[i]->getId() == id) {
@@ -111,11 +111,11 @@ void Station::addTrain(std::unique_ptr<Train>& train) {
     }
 }
 
-void Station::addDistanceToStation(std::string station, int distance) {
+void Station::addDistanceToStation(std::string& station, int& distance) {
     _distances->addDistance(station, distance);
 }
 
-bool Station::assembleTrain(int trainId) {
+bool Station::assembleTrain(int& trainId) {
     auto it = std::find_if(_trains.begin(), _trains.end(), [trainId](auto &t) { return t->getId() == trainId; });
     if (it == _trains.end()) {
         return false;

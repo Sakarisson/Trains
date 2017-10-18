@@ -143,7 +143,7 @@ std::unique_ptr<Car> Train::detachFirstCar() {
     }
 }
 
-void Train::eraseMissingCar(int index) {
+void Train::eraseMissingCar(int& index) {
     if (_missingCars.size() > index) {
         _missingCars.erase(_missingCars.begin() + index);
     }

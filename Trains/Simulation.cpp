@@ -5,6 +5,7 @@
 
 #include "Simulation.h"
 #include "Event.h"
+#include "UI.h"
 
 using std::cout;
 using std::endl;
@@ -14,6 +15,7 @@ Simulation::Simulation() {
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
     _trainMapData = std::make_unique<DataReader>(_trainMapFile);
     _currentTime = std::make_shared<Time>();
+    _ui = std::make_unique<UI>();
     processStations();
     processTrains();
     processTrainMaps();
@@ -130,7 +132,7 @@ void Simulation::processTrainMaps() {
             throw std::runtime_error("TrainStations.txt line " + std::to_string(lineCounter) + ": Invalid data");
         }
         a->addDistanceToStation(b->getName(), distance);
-        b->addDistanceToStation(a->getName(), distance); 
+        b->addDistanceToStation(a->getName(), distance);
         ++lineCounter;
     }
 }
@@ -167,7 +169,7 @@ void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
     _trainsInTransit.push_back(move(train));
 }
 
-std::unique_ptr<Train> Simulation::removeTrainById(int id) {
+std::unique_ptr<Train> Simulation::removeTrainById(int& id) {
     std::unique_ptr<Train> train;
     for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
         if (_trainsInTransit[i]->getId() == id) {
@@ -179,7 +181,7 @@ std::unique_ptr<Train> Simulation::removeTrainById(int id) {
     return move(train);
 }
 
-std::shared_ptr<Station> Simulation::getStation(std::string name) {
+std::shared_ptr<Station> Simulation::getStation(std::string& name) {
     auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
     if (it != _stations.end()) {
         return *it;

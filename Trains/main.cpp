@@ -12,7 +12,9 @@ int main() {
         sim.run();
     }
     catch (std::exception e) {
-        cout << e.what() << endl;
+        cout <<
+            "An error occurred during runtime and the program was stopped:" << endl <<
+            e.what() << endl;
     }
     return 0;
 }

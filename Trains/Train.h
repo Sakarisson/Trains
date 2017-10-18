@@ -70,7 +70,7 @@ public:
     void requestCar(CarType);                // Add car to RequestedCars vector
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();
-    void eraseMissingCar(int);
+    void eraseMissingCar(int&);
     void print() const;
 };
 
