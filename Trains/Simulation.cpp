@@ -4,8 +4,9 @@
 #include <iterator>
 
 #include "Simulation.h"
-#include "Event.h"
+#include "Train.h"
 #include "UI.h"
+#include "Time.h"
 
 using std::cout;
 using std::endl;
@@ -14,7 +15,7 @@ Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
     _trainMapData = std::make_unique<DataReader>(_trainMapFile);
-    _currentTime = std::make_shared<Time>();
+    _currentTime = std::make_unique<Time>();
     _ui = std::make_unique<UI>();
     processStations();
     processTrains();
@@ -66,7 +67,7 @@ void Simulation::processTrains() {
         }
         for each (auto &s in _stations) {
             if (s->getName() == newTrain->getDepartureStation()) {
-                std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(this, newTrain->getId(), s, newTrain->getDepartureTime() - 30);
+                std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(this, newTrain->getId(), s, newTrain->getScheduledDepartureTime()->getMinutes() - 30);
                 s->addTrain(move(newTrain));
                 scheduleEvent(assembleEvent);
                 break;
@@ -146,7 +147,7 @@ bool Simulation::processNextEvent() {
         return false;
     }
     _eventQueue.pop();
-    _currentTime = nextEvent->getTime();
+    _currentTime.reset(new Time(nextEvent->getTime()->getMinutes()));
     nextEvent->processEvent();
     return true;
 }

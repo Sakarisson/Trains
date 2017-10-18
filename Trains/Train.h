@@ -33,9 +33,11 @@ private:
     int _id;
     std::string _trainNumber;
     std::string _departureStation;
-    Time _departureTime;
+    std::unique_ptr<Time> _scheduledDepartureTime;
+    std::unique_ptr<Time> _expectedDepartureTime;
     std::string _destinationStation;
-    Time _destinationTime;
+    std::unique_ptr<Time> _scheduledDestinationTime;
+    std::unique_ptr<Time> _expectedDestinationTime;
     int _averageSpeed;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
@@ -50,13 +52,15 @@ public:
     ~Train();
 
     // ----------------- GETTERS -----------------
+    // Times
+    std::unique_ptr<Time>& getScheduledDepartureTime();
+    std::unique_ptr<Time>& getScheduledDestinationTime();
+    std::unique_ptr<Time>& getExpectedDepartureTime();
+    std::unique_ptr<Time>& getExpectedDestinationTime();
+
+    std::string getDestinationStation() const;
     std::string getTrainNumber() const;
     std::string getDepartureStation() const;
-    int getDepartureTime() const;
-    std::string getDepartureTimeString() const;
-    std::string getDestinationStation() const;
-    int getDestinationTime() const;
-    std::string getDestinationTimeString() const;
     TrainState getCurrentState() const;
     std::string getCurrentStateString() const;
     int getId() const;
@@ -67,6 +71,7 @@ public:
     void setCurrentState(TrainState currentState);
 
     // ------------------ LOGIC ------------------
+    void delay(int&);
     void requestCar(CarType);                // Add car to RequestedCars vector
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();

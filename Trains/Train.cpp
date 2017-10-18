@@ -30,8 +30,10 @@ Train::Train(
 ) : _id(id), 
     _departureStation(departureStation),
     _destinationStation(destinationStation),
-    _departureTime(departureTime),
-    _destinationTime(destinationTime),
+    _scheduledDepartureTime(std::make_unique<Time>(departureTime)),
+    _expectedDepartureTime(std::make_unique<Time>(departureTime)),
+    _scheduledDestinationTime(std::make_unique<Time>(destinationTime)),
+    _expectedDestinationTime(std::make_unique<Time>(destinationTime)),
     _averageSpeed(maxSpeed) {}
 
 
@@ -40,32 +42,34 @@ Train::~Train() {
 }
 
 // ----------------- GETTERS -----------------
-std::string Train::getTrainNumber() const {
-    return _trainNumber;
+// Times
+
+std::unique_ptr<Time>& Train::getScheduledDepartureTime() {
+    return _scheduledDepartureTime;
 }
 
-std::string Train::getDepartureStation() const {
-    return _departureStation;
+std::unique_ptr<Time>& Train::getScheduledDestinationTime() {
+    return _scheduledDestinationTime;
 }
 
-int Train::getDepartureTime() const {
-    return _departureTime.getMinutes();
+std::unique_ptr<Time>& Train::getExpectedDepartureTime() {
+    return _expectedDepartureTime;
 }
 
-std::string Train::getDepartureTimeString() const {
-    return _departureTime.getString();
+std::unique_ptr<Time>& Train::getExpectedDestinationTime() {
+    return _expectedDestinationTime;
 }
 
 std::string Train::getDestinationStation() const {
     return _destinationStation;
 }
 
-int Train::getDestinationTime() const {
-    return _destinationTime.getMinutes();
+std::string Train::getTrainNumber() const {
+    return _trainNumber;
 }
 
-std::string Train::getDestinationTimeString() const {
-    return _destinationTime.getString();
+std::string Train::getDepartureStation() const {
+    return _departureStation;
 }
 
 TrainState Train::getCurrentState() const {
@@ -112,6 +116,11 @@ void Train::setCurrentState(TrainState currentState) {
 
 // ------------------ LOGIC ------------------
 
+void Train::delay(int& delayTime) {
+    *_expectedDepartureTime += delayTime;
+    *_expectedDestinationTime += delayTime;
+}
+
 /*
 Move ownership of Car object to Train
 Params:  unique_ptr<Car> passed by reference
@@ -153,8 +162,8 @@ void Train::print() const {
     int i = 0;
     cout <<
         "Train [" << std::to_string(_id) << "] " <<
-        "from " << _departureStation << " " << _departureTime.getString() <<
-        " to " << _destinationStation << " " << _destinationTime .getString() << endl <<
+        "from " << _departureStation << " " << _scheduledDepartureTime->getString() <<
+        " to " << _destinationStation << " " << _scheduledDestinationTime->getString() << endl <<
         "  Vehicles: (" << _cars.size() << ")" << endl;
     for each(auto &car in _cars) {
         cout << "    " << ++i << ": " << car->getInfo() << endl;

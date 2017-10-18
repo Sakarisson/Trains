@@ -16,6 +16,7 @@ public:
     bool pastMidnight() const;
     std::string getString() const;
     Time& operator+=(Time&);
+    Time& operator+=(int&);
 };
 
 #endif // !TIME_H

@@ -34,3 +34,8 @@ Time& Time::operator+=(Time& addedTime) {
     this->_minutesSinceMidnight += addedTime.getMinutes();
     return *this;
 }
+
+Time& Time::operator+=(int& addedTime) {
+    this->_minutesSinceMidnight += addedTime;
+    return *this;
+}

@@ -13,11 +13,7 @@ void Menu::printItems() {
 }
 
 UI::UI() {
-    _mainMenu = std::make_unique<Menu>();
-    _mainMenu->addItem("Kristian's cool");
-    _mainMenu->addItem("Something else (don't show)", false);
-    _mainMenu->addItem("Third thing", true);
-    _mainMenu->printItems();
+
 }
 
 UI::~UI() {

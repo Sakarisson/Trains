@@ -10,7 +10,10 @@ void AssembleEvent::processEvent() {
     }
     else {
         // Try again in 10 minutes
-        std::shared_ptr<Event> nextTry = std::make_shared<AssembleEvent>(_sim, _trainId, _station, _time->getMinutes() + 10);
+        int delayTime = 10;
+        _station->getTrainById(_trainId)->delay(delayTime);
+        std::unique_ptr<Time> expectedDepartureTime = std::make_unique<Time>(_station->getTrainById(_trainId)->getExpectedDepartureTime()->getMinutes());
+        std::shared_ptr<Event> nextTry = std::make_shared<AssembleEvent>(_sim, _trainId, _station, *expectedDepartureTime);
         _sim->scheduleEvent(nextTry);
     }
 }
@@ -27,7 +30,7 @@ void LeaveStationEvent::processEvent() {
     // leave station logic
     auto t = _station->removeTrainById(_trainId);
     t->setCurrentState(RUNNING);
-    Time arrivalTime = t->getDestinationTime();
+    Time arrivalTime = t->getScheduledDestinationTime()->getMinutes();
     _sim->addTrainToTransit(t);
     std::shared_ptr<Event> arrive = std::make_shared<ArriveEvent>(_sim, _trainId, arrivalTime);
     _sim->scheduleEvent(arrive);

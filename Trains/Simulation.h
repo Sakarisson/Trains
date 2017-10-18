@@ -8,18 +8,17 @@
 
 #include "DataReader.h"
 #include "Station.h"
-#include "Train.h"
 #include "Event.h"
-#include "Time.h"
 
-class Event;
+class Train;
 class UI;
+class Time;
 
 class Simulation
 {
 private:
     // ----------- INTERNAL VARIABLES -----------
-    std::shared_ptr<Time> _currentTime;
+    std::unique_ptr<Time> _currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
     std::string _trainMapFile = "TrainMap.txt";
