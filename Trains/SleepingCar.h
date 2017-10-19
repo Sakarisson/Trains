@@ -4,28 +4,18 @@
 #include "PassengerCar.h"
 
 class SleepingCar : public PassengerCar {
-private:
-    int _numberOfBeds = 0;
 public:
-    SleepingCar() {}
-    SleepingCar(int id, int numberOfBeds) {
-        _id = id;
-        _numberOfBeds = numberOfBeds;
-    }
+    SleepingCar(int, int);
     virtual ~SleepingCar() {}
 
     // ----------------- GETTERS -----------------
-    virtual int getNumberOfBeds() const{ return _numberOfBeds; }
-    virtual CarType getType() const { return SLEEPINGCAR; }
-    virtual std::string getTypeString() const { return "Sleeping Car"; }
+    int getNumberOfBeds() const override;
+    CarType getType() const override;
+    std::string getTypeString() const override;
 
-    virtual std::string getInfo() const {
-        std::string info = "";
-        info += "[" + this->getTypeString() + "] ";
-        info += "id: " + std::to_string(_id) + ", ";
-        info += "beds: " + std::to_string(_numberOfBeds);
-        return info;
-    }
+    std::string getInfo() const override;
+private:
+    int _numberOfBeds;
 };
 
 #endif // !SLEEPINGCAR_H

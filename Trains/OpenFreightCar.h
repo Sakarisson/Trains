@@ -6,35 +6,20 @@
 #include <string>
 
 class OpenFreightCar : public FreightCar {
-protected:
-    int _area = 0;
 public:
-    OpenFreightCar() {}
-    OpenFreightCar(int id, int capacity, int area) {
-        _id = id;
-        _capacity = capacity; 
-        _area = area;
-    }
+    OpenFreightCar(int, int, int);
     virtual ~OpenFreightCar() {}
 
     // ----------------- GETTERS -----------------
-    virtual std::string getCapacityString() const { 
-        std::string cap = std::to_string(_capacity);
-        return cap + " ton"; 
-    }
-    virtual int getArea() const { return _area; }
+    std::string getCapacityString() const override;
+    int getArea() const override;
 
-    virtual CarType getType() const { return OPENFREIGHTCAR; }
-    virtual std::string getTypeString() const { return "Open Freight Car"; }
+    CarType getType() const override;
+    std::string getTypeString() const override;
 
-    virtual std::string getInfo() const {
-        std::string info = "";
-        info += "[" + this->getTypeString() + "] ";
-        info += "id: " + std::to_string(_id) + ", ";
-        info += "cargo capacity: " + this->getCapacityString() + ", ";
-        info += "cargo area: " + std::to_string(_area) + " m^2";
-        return info;
-    }
+    std::string getInfo() const override;
+protected:
+    int _area;
 };
 
 #endif // !OPENFREIGHTCAR_H

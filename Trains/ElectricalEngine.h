@@ -4,24 +4,15 @@
 #include "Engine.h"
 
 class ElectricalEngine : public Engine {
-protected:
 public:
-    ElectricalEngine() {}
-    ElectricalEngine(int id, int maxSpeed, int energyConsumption) {
-        _id = id;
-        _maxSpeed = maxSpeed;
-        _energyConsumption = energyConsumption;
-    }
+    ElectricalEngine(int, int, int);
     virtual ~ElectricalEngine() {}
 
     // ----------------- GETTERS -----------------
-    virtual std::string getConsumptionString() const {
-        std::string con = std::to_string(_energyConsumption);
-        return con + " kw";
-    }
+    std::string getConsumptionString() const override;
 
-    virtual CarType getType() const { return ELECTRICALENGINE; }
-    virtual std::string getTypeString() const { return "Electrical Engine"; }
+    CarType getType() const override;
+    std::string getTypeString() const override;
 };
 
 #endif // !ELECTRICALENGINE_H

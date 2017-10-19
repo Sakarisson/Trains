@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Train">
       <UniqueIdentifier>{d18fb292-a12b-49e2-b584-952eb77256d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Cars">
+      <UniqueIdentifier>{41137e39-acd4-43cf-997d-5e29491e94f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cars\Engines">
+      <UniqueIdentifier>{1ef84659-1f8b-4208-bd17-01fa25439072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cars\FreightCars">
+      <UniqueIdentifier>{0b203025-037b-4638-852e-85a2ac098654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cars\PassengerCars">
+      <UniqueIdentifier>{55546c97-4729-4a4c-895d-923682758833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,6 +68,30 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DieselEngine.cpp">
+      <Filter>Source Files\Cars\Engines</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricalEngine.cpp">
+      <Filter>Source Files\Cars\Engines</Filter>
+    </ClCompile>
+    <ClCompile Include="CoveredFreightCar.cpp">
+      <Filter>Source Files\Cars\FreightCars</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenFreightCar.cpp">
+      <Filter>Source Files\Cars\FreightCars</Filter>
+    </ClCompile>
+    <ClCompile Include="CoachCar.cpp">
+      <Filter>Source Files\Cars\PassengerCars</Filter>
+    </ClCompile>
+    <ClCompile Include="SleepingCar.cpp">
+      <Filter>Source Files\Cars\PassengerCars</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Cars</Filter>
+    </ClCompile>
+    <ClCompile Include="FreightCar.cpp">
+      <Filter>Source Files\Cars</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +137,6 @@
     <ClInclude Include="DataReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

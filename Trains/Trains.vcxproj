@@ -111,9 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoveredFreightCar.cpp" />
     <ClCompile Include="DataReader.cpp" />
+    <ClCompile Include="DieselEngine.cpp" />
+    <ClCompile Include="ElectricalEngine.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="FreightCar.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenFreightCar.cpp" />
+    <ClCompile Include="CoachCar.cpp" />
+    <ClCompile Include="SleepingCar.cpp" />
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Train.cpp" />

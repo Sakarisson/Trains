@@ -6,7 +6,6 @@
 class PassengerCar : public Car {
 protected:
 public:
-    PassengerCar() {}
     virtual ~PassengerCar() {}
 };
 
