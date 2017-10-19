@@ -5,8 +5,6 @@
 
 class Time
 {
-private:
-    unsigned int _minutesSinceMidnight;
 public:
     Time() : _minutesSinceMidnight(0) {}
     Time(int mins) : _minutesSinceMidnight(mins) {}
@@ -17,6 +15,8 @@ public:
     std::string getString() const;
     Time& operator+=(Time&);
     Time& operator+=(int&);
+private:
+    unsigned int _minutesSinceMidnight;
 };
 
 #endif // !TIME_H

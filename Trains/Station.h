@@ -15,21 +15,10 @@
 
 #include "Constants.h"
 
-//#include "Distance.h"
 class DistanceManager;
 
 class Station
 {
-private:
-    // ----------- INTERNAL VARIABLES -----------
-    std::vector<std::unique_ptr<Train>> _trains;
-    std::vector<std::unique_ptr<Car>> _carPool;
-    std::string _name;
-    std::unique_ptr<DistanceManager> _distances;
-
-    // ------------- INTERNAL LOGIC -------------
-    bool addCarToTrain(CarType, std::unique_ptr<Train>&);
-    void eraseEmptyCars();
 public:
     Station();
     Station(std::string&);
@@ -47,6 +36,16 @@ public:
     void addTrain(std::unique_ptr<Train>&);
     void addDistanceToStation(std::string&, int&);
     bool assembleTrain(int&);
+private:
+    // ------------- INTERNAL LOGIC -------------
+    bool addCarToTrain(CarType, std::unique_ptr<Train>&);
+    void eraseEmptyCars();
+private:
+    // ----------- INTERNAL VARIABLES -----------
+    std::vector<std::unique_ptr<Train>> _trains;
+    std::vector<std::unique_ptr<Car>> _carPool;
+    std::string _name;
+    std::unique_ptr<DistanceManager> _distances;
 };
 
 #endif // !STATION_H

@@ -16,7 +16,7 @@ protected:
 public:
     Event(Time time) : _time(std::make_shared<Time>(time)) {}
     virtual ~Event() {}
-    std::shared_ptr<Time> getTime() const { return _time; }
+    std::shared_ptr<Time> getTime() const;
     virtual void processEvent() = 0; // Pure virtual
 };
 
@@ -24,9 +24,7 @@ public:
 // From the example project, McSmack burgerbar
 class EventComparison {
 public:
-    bool operator() (std::shared_ptr<Event>& left, std::shared_ptr<Event>& right) {
-        return left->getTime()->getMinutes() > right->getTime()->getMinutes();
-    }
+    bool operator() (std::shared_ptr<Event>&, std::shared_ptr<Event>&);
 };
 
 class AssembleEvent : public Event {

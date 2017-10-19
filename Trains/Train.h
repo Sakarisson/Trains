@@ -27,19 +27,6 @@ enum TrainState {
 
 class Train
 {
-private:
-    std::vector<CarType> _missingCars;
-    std::vector<std::unique_ptr<Car>> _cars;
-    int _id;
-    std::string _trainNumber;
-    std::string _departureStation;
-    std::unique_ptr<Time> _scheduledDepartureTime;
-    std::unique_ptr<Time> _expectedDepartureTime;
-    std::string _destinationStation;
-    std::unique_ptr<Time> _scheduledDestinationTime;
-    std::unique_ptr<Time> _expectedDestinationTime;
-    int _averageSpeed;
-    TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 public:
     Train();
     Train(
@@ -77,6 +64,19 @@ public:
     std::unique_ptr<Car> detachFirstCar();
     void eraseMissingCar(int&);
     void print() const;
+private:
+    std::vector<CarType> _missingCars;
+    std::vector<std::unique_ptr<Car>> _cars;
+    int _id;
+    std::string _trainNumber;
+    std::string _departureStation;
+    std::unique_ptr<Time> _scheduledDepartureTime;
+    std::unique_ptr<Time> _expectedDepartureTime;
+    std::string _destinationStation;
+    std::unique_ptr<Time> _scheduledDestinationTime;
+    std::unique_ptr<Time> _expectedDestinationTime;
+    int _averageSpeed;
+    TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 };
 
 #endif // !TRAIN_H

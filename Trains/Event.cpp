@@ -2,6 +2,14 @@
 #include "Simulation.h"
 #include "Train.h"
 
+std::shared_ptr<Time> Event::getTime() const {
+    return _time;
+}
+
+bool EventComparison::operator() (std::shared_ptr<Event>& left, std::shared_ptr<Event>& right) {
+    return left->getTime()->getMinutes() > right->getTime()->getMinutes();
+}
+
 void AssembleEvent::processEvent() {
     if (_station->assembleTrain(_trainId)) { // If train was fully assembled...
         // Leave station in 30 minutes

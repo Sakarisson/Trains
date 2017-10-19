@@ -14,31 +14,16 @@ class Train;
 class UI;
 class Time;
 
+// Priority queue of pointers to Event
+// Sorted according to the next event, which will happen
+typedef std::priority_queue<
+    std::shared_ptr<Event>, 
+    std::vector<std::shared_ptr<Event>>, 
+    EventComparison
+> EventQueue;
+
 class Simulation
 {
-private:
-    // ----------- INTERNAL VARIABLES -----------
-    std::unique_ptr<Time> _currentTime;
-    std::string _trainsFile = "Trains.txt";
-    std::string _trainStationsFile = "TrainStations.txt";
-    std::string _trainMapFile = "TrainMap.txt";
-    std::unique_ptr<DataReader> _trainData;
-    std::unique_ptr<DataReader> _trainStationData;
-    std::unique_ptr<DataReader> _trainMapData;
-    std::vector<std::shared_ptr<Station>> _stations;
-    std::vector<std::unique_ptr<Train>> _trainsInTransit;
-    std::unique_ptr<UI> _ui;
-
-    // Priority queue of pointers to Event
-    // Sorted according to the next event, which will happen
-    std::priority_queue<std::shared_ptr<Event>, std::vector<std::shared_ptr<Event>>, EventComparison> _eventQueue;
-    
-    // ------------- INTERNAL LOGIC -------------
-    std::vector<std::string> splitBySpace(std::string&);
-    void processTrains();
-    void processStations();
-    void processTrainMaps();
-    bool processNextEvent();
 public:
     Simulation();    // Constructor
     ~Simulation();   // Destructor
@@ -53,6 +38,26 @@ public:
     void addTrainToTransit(std::unique_ptr<Train>&);
     std::unique_ptr<Train> removeTrainById(int&);
     std::shared_ptr<Station> getStation(std::string&);
+private:
+    // ------------- INTERNAL LOGIC -------------
+    std::vector<std::string> splitBySpace(std::string&);
+    void processTrains();
+    void processStations();
+    void processTrainMaps();
+    bool processNextEvent();
+private:
+    // ----------- INTERNAL VARIABLES -----------
+    std::unique_ptr<Time> _currentTime;
+    std::string _trainsFile = "Trains.txt";
+    std::string _trainStationsFile = "TrainStations.txt";
+    std::string _trainMapFile = "TrainMap.txt";
+    std::unique_ptr<DataReader> _trainData;
+    std::unique_ptr<DataReader> _trainStationData;
+    std::unique_ptr<DataReader> _trainMapData;
+    std::vector<std::shared_ptr<Station>> _stations;
+    std::vector<std::unique_ptr<Train>> _trainsInTransit;
+    std::unique_ptr<UI> _ui;
+    EventQueue _eventQueue;
 };
 
 #endif // !SIMULATION_H

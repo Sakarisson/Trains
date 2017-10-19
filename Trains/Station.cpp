@@ -16,38 +16,6 @@ Station::~Station() {
 
 }
 
-// ------------- INTERNAL LOGIC -------------
-bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
-    // Sort vector of cars before selecting the first one
-    std::sort(_carPool.begin(), _carPool.end(),
-        [](const std::unique_ptr<Car>& a, const std::unique_ptr<Car>& b){ 
-        return a->getId() < b->getId(); 
-    });
-
-    // Find first car of wanted type
-    auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](const std::unique_ptr<Car> &c) { return c->getType() == type; });
-    if (it == _carPool.end()) {
-        return false;
-    }
-    else {
-        train->addCar(move(*it));
-        eraseEmptyCars();
-        return true;
-    }
-}
-
-void Station::eraseEmptyCars() {
-    while (true) {
-        for (size_t i = 0; i < _carPool.size(); ++i) {
-            if (_carPool[i] == nullptr) {
-                _carPool.erase(_carPool.begin() + i);
-                break;
-            }
-        }
-        return;
-    }
-}
-
 // ----------------- GETTERS -----------------
 std::unique_ptr<Train>& Station::getTrainById(int id) {
     return *std::find_if(_trains.begin(), _trains.end(), [id](const std::unique_ptr<Train>& t) { return t->getId() == id; });
@@ -138,5 +106,37 @@ bool Station::assembleTrain(int& trainId) {
         else {
             return false;
         }
+    }
+}
+
+// ------------- INTERNAL LOGIC -------------
+bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
+    // Sort vector of cars before selecting the first one
+    std::sort(_carPool.begin(), _carPool.end(),
+        [](const std::unique_ptr<Car>& a, const std::unique_ptr<Car>& b){ 
+        return a->getId() < b->getId(); 
+    });
+
+    // Find first car of wanted type
+    auto it = std::find_if(_carPool.begin(), _carPool.end(), [type](const std::unique_ptr<Car> &c) { return c->getType() == type; });
+    if (it == _carPool.end()) {
+        return false;
+    }
+    else {
+        train->addCar(move(*it));
+        eraseEmptyCars();
+        return true;
+    }
+}
+
+void Station::eraseEmptyCars() {
+    while (true) {
+        for (size_t i = 0; i < _carPool.size(); ++i) {
+            if (_carPool[i] == nullptr) {
+                _carPool.erase(_carPool.begin() + i);
+                break;
+            }
+        }
+        return;
     }
 }

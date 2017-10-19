@@ -11,8 +11,6 @@ Class is abstract, which means it can't be instanciated
 Contains functions for interfacing with various derived classes
 */
 class Car {
-protected:
-    int _id;
 public:
     Car() {}
     virtual ~Car() {}
@@ -42,7 +40,9 @@ public:
     // Pure virtual functions for getting type
     virtual CarType getType() const = 0;
     virtual std::string getTypeString() const = 0;
-    virtual std::string getInfo() const { return ""; }
+    virtual std::string getInfo() const = 0;
+protected:
+    int _id;
 };
 
 #endif // !CAR_H

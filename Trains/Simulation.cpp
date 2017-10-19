@@ -31,6 +31,46 @@ void Simulation::run() {
     while(this->processNextEvent()) {}
 }
 
+// ----------------- GETTERS -----------------
+int Simulation::getTime() const {
+    return _currentTime->getMinutes();
+}
+
+std::string Simulation::getTimeString() const {
+    return _currentTime->getString();
+}
+
+void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
+    _eventQueue.push(e);
+}
+
+// ------------------ LOGIC ------------------
+void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
+    _trainsInTransit.push_back(move(train));
+}
+
+std::unique_ptr<Train> Simulation::removeTrainById(int& id) {
+    std::unique_ptr<Train> train;
+    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
+        if (_trainsInTransit[i]->getId() == id) {
+            train = move(_trainsInTransit[i]);
+            _trainsInTransit.erase(_trainsInTransit.begin() + i);
+            break;
+        }
+    }
+    return move(train);
+}
+
+std::shared_ptr<Station> Simulation::getStation(std::string& name) {
+    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
+    if (it != _stations.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
+    }
+}
+
 // ------------- INTERNAL LOGIC -------------
 std::vector<std::string> Simulation::splitBySpace(std::string& input) {
     std::vector<std::string> result;
@@ -150,44 +190,4 @@ bool Simulation::processNextEvent() {
     _currentTime.reset(new Time(nextEvent->getTime()->getMinutes()));
     nextEvent->processEvent();
     return true;
-}
-
-// ----------------- GETTERS -----------------
-int Simulation::getTime() const {
-    return _currentTime->getMinutes();
-}
-
-std::string Simulation::getTimeString() const {
-    return _currentTime->getString();
-}
-
-void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
-    _eventQueue.push(e);
-}
-
-// ------------------ LOGIC ------------------
-void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
-    _trainsInTransit.push_back(move(train));
-}
-
-std::unique_ptr<Train> Simulation::removeTrainById(int& id) {
-    std::unique_ptr<Train> train;
-    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
-        if (_trainsInTransit[i]->getId() == id) {
-            train = move(_trainsInTransit[i]);
-            _trainsInTransit.erase(_trainsInTransit.begin() + i);
-            break;
-        }
-    }
-    return move(train);
-}
-
-std::shared_ptr<Station> Simulation::getStation(std::string& name) {
-    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
-    if (it != _stations.end()) {
-        return *it;
-    }
-    else {
-        return nullptr;
-    }
 }

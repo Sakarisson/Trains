@@ -1,10 +1,5 @@
 #include "DataReader.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
 DataReader::DataReader(std::string filename) {
     _filename = filename;
     openFile();
