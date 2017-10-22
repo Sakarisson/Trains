@@ -18,8 +18,9 @@ public:
     
     std::string getHeader() const;
     bool isActive() const;
-    void setItemNumber(int&);
+    void setItemNumber(int);
     virtual std::string getTitle() const = 0;
+    int getItemNumber() const;
     virtual void run() = 0;
 protected:
     bool _isActive;

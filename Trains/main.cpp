@@ -22,7 +22,10 @@ int main() {
     Menu ui;
     std::unique_ptr<MenuItem> element = std::make_unique<ChangeStartTime>(true);
     ui.addItem(element);
+    element = std::make_unique<ChangeStartTime>(false);
+    ui.addItem(element);
+    element = std::make_unique<ChangeStartTime>(true);
+    ui.addItem(element);
     ui.printItems();
-    getchar();
     return 0;
 }

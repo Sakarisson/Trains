@@ -18,8 +18,16 @@ bool MenuItem::isActive() const {
     return _isActive;
 }
 
+void MenuItem::setItemNumber(int itemNumber) {
+    _itemNumber = itemNumber;
+}
+
 std::string ChangeStartTime::getTitle() const {
     return "Change start time[00:00]";
+}
+
+int MenuItem::getItemNumber() const {
+    return _itemNumber;
 }
 
 void ChangeStartTime::run() {
@@ -35,7 +43,7 @@ void Menu::addItem(std::unique_ptr<MenuItem>& item) {
 void Menu::printItems() {
     for each (auto& item in _menuItems) {
         if (item->isActive()) {
-            cout << item->getTitle() << endl;
+            cout << item->getItemNumber() << ". " << item->getTitle() << endl;
         }
     }
 }
