@@ -1,6 +1,6 @@
 #include "Simulation.h"
 #include "Memstat.h"
-#include "UIElement.h"
+#include "UI.h"
 
 #include <iostream>
 #include <memory>
@@ -19,9 +19,10 @@ int main() {
     //        e.what() << endl;
     //}
 
-    std::unique_ptr<MenuItem> element = std::make_unique<ChangeStartTime>("Hello");
-    cout << element->getHeader();
-    element->run();
+    Menu ui;
+    std::unique_ptr<MenuItem> element = std::make_unique<ChangeStartTime>(true);
+    ui.addItem(element);
+    ui.printItems();
     getchar();
     return 0;
 }
