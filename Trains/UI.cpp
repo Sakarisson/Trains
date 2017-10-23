@@ -5,6 +5,10 @@
 using std::cout;
 using std::endl;
 
+// ----------------------------------------------------------
+// ------------------- MENUITEM ----------------------------
+// ----------------------------------------------------------
+
 std::string MenuItem::getHeader() const {
     std::stringstream header;
     header <<
@@ -22,18 +26,42 @@ void MenuItem::setItemNumber(int itemNumber) {
     _itemNumber = itemNumber;
 }
 
-std::string ChangeStartTime::getTitle() const {
-    return "Change start time[00:00]";
-}
-
 int MenuItem::getItemNumber() const {
     return _itemNumber;
+}
+
+// ----------------------------------------------------------
+// ------------- INHERITED ITEMS ----------------------------
+// ----------------------------------------------------------
+
+std::string ChangeStartTime::getTitle() const {
+    return "Change start time[00:00]";
 }
 
 void ChangeStartTime::run() {
     cout <<
         "At what time would you like the simulation to start? [00:00]";
 }
+
+std::string ChangeEndTime::getTitle() const {
+    return "Change end time[23:59]";
+}
+
+void ChangeEndTime::run() {
+
+}
+
+std::string StartSimulation::getTitle() const {
+    return "Start simulation";
+}
+
+void StartSimulation::run() {
+
+}
+
+// ----------------------------------------------------------
+// ------------------ MENU ----------------------------------
+// ----------------------------------------------------------
 
 void Menu::addItem(std::unique_ptr<MenuItem>& item) {
     item->setItemNumber(_menuItems.size() + 1);

@@ -37,6 +37,24 @@ public:
     void run() override;
 };
 
+class ChangeEndTime : public MenuItem {
+public:
+    ChangeEndTime(bool isActive) : MenuItem(isActive) {}
+    virtual ~ChangeEndTime() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class StartSimulation : public MenuItem {
+public:
+    StartSimulation(bool isActive) : MenuItem(isActive) {}
+    virtual ~StartSimulation() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
 class Menu {
 public:
     Menu() {}
