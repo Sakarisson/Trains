@@ -119,17 +119,29 @@ void ShowAllTrains::run() {
 // ----------------------------------------------------------
 
 void ShowStationNames::run() {
-    for each(std::shared_ptr<Station> s in _sim->getAllStations()) {
+    for each(auto s in _sim->getAllStations()) {
         cout << s->getName() << endl;
     }
 }
 
 void ShowStationByName::run() {
-    
+    std::string name;
+    cout <<
+        "Type in station name: ";
+    std::cin >> name;
+    auto s = _sim->getStation(name);
+    if (s == nullptr) {
+        cout <<
+            "Invalid station name" << endl;
+    }
+    else {
+        cout <<
+            "Name: " << s->getName() << endl;
+    }
 }
 
 void ShowAllStations::run() {
-    
+
 }
 
 // ----------------------------------------------------------
