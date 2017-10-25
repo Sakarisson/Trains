@@ -14,6 +14,8 @@ Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
     _trainMapData = std::make_unique<DataReader>(_trainMapFile);
+    _ui = std::make_unique<UI>();
+    _ui->setSim(this);
     processStations();
     processTrains();
     processTrainMaps();

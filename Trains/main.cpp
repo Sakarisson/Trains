@@ -10,8 +10,8 @@ using std::endl;
 
 int main() {
     //try {
-    //    Simulation sim;
-    //    sim.run();
+        Simulation* sim = new Simulation();
+        sim->run();
     //}
     //catch (std::exception e) {
     //    cout <<
@@ -19,13 +19,29 @@ int main() {
     //        e.what() << endl;
     //}
 
-    Menu ui;
-    std::unique_ptr<MenuItem> element = std::make_unique<ChangeStartTime>(true);
-    ui.addItem(element);
-    element = std::make_unique<ChangeStartTime>(false);
-    ui.addItem(element);
-    element = std::make_unique<ChangeStartTime>(true);
-    ui.addItem(element);
-    ui.printItems();
+    UI ui;
+    std::unique_ptr<Menu> mainMenu = std::make_unique<Menu>();
+    mainMenu->addItem(std::make_unique<ChangeStartTime>());
+    mainMenu->addItem(std::make_unique<ChangeEndTime>());
+    mainMenu->addItem(std::make_unique<StartSimulation>());
+    mainMenu->addItem(std::make_unique<Exit>());
+    ui.setMainMenu(mainMenu);
+
+    std::unique_ptr<Menu> simulationMenu = std::make_unique<Menu>();
+    simulationMenu->addItem(std::make_unique<ChangeInterval>());
+    simulationMenu->addItem(std::make_unique<RunNextInterval>());
+    simulationMenu->addItem(std::make_unique<NextEvent>());
+    simulationMenu->addItem(std::make_unique<Finish>());
+    simulationMenu->addItem(std::make_unique<ChangeLogLevel>());
+    simulationMenu->addItem(std::make_unique<TrainMenu>());
+    simulationMenu->addItem(std::make_unique<StationMenu>());
+    simulationMenu->addItem(std::make_unique<VehicleMenu>());
+    simulationMenu->addItem(std::make_unique<Return>());
+    ui.setSimulationMenu(simulationMenu);
+
+    ui.accessSimulationMenu();
+    
+    delete sim;
+    
     return 0;
 }

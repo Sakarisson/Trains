@@ -56,7 +56,7 @@ private:
     std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
-    UI _ui;
+    std::unique_ptr<UI> _ui;
     EventQueue _eventQueue;
 };
 

@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include "Simulation.h"
+
 using std::cout;
 using std::endl;
 
@@ -34,44 +36,109 @@ int MenuItem::getItemNumber() const {
 // ------------- INHERITED ITEMS ----------------------------
 // ----------------------------------------------------------
 
-// Change Start Time
-
-std::string ChangeStartTime::getTitle() const {
-    return "Change start time[00:00]";
-}
-
 void ChangeStartTime::run() {
     cout <<
         "At what time would you like the simulation to start? [00:00]";
-}
-
-// Change End Time
-
-std::string ChangeEndTime::getTitle() const {
-    return "Change end time[23:59]";
 }
 
 void ChangeEndTime::run() {
 
 }
 
-// Start Simulation
-
-std::string StartSimulation::getTitle() const {
-    return "Start simulation";
-}
-
 void StartSimulation::run() {
 
 }
 
-// Exit
+void Exit::run() {
 
-std::string Exit::getTitle() const {
-    return "Exit";
 }
 
-void Exit::run() {
+
+// ----------------------------------------------------------
+// ------------- SIMULATION MENU ITEMS ----------------------
+// ----------------------------------------------------------
+
+void ChangeInterval::run() {
+
+}
+
+void RunNextInterval::run() {
+
+}
+
+void NextEvent::run() {
+
+}
+
+void Finish::run() {
+
+}
+
+void ChangeLogLevel::run() {
+
+}
+
+void TrainMenu::run() {
+
+}
+
+void StationMenu::run() {
+
+}
+
+void VehicleMenu::run() {
+
+}
+
+void Return::run() {
+
+}
+
+void PrintStatistics::run() {
+
+}
+
+// ----------------------------------------------------------
+// ---------------- TRAIN MENU ITEMS ------------------------
+// ----------------------------------------------------------
+
+void SearchTrainByNumber::run() {
+
+}
+
+void SearchTrainByVehicleId::run() {
+
+}
+
+void ShowAllTrains::run() {
+
+}
+
+// ----------------------------------------------------------
+// ---------------- STATION MENU ITEMS ----------------------
+// ----------------------------------------------------------
+
+void ShowStationNames::run() {
+
+}
+
+void ShowStationByName::run() {
+
+}
+
+void ShowAllStations::run() {
+
+}
+
+// ----------------------------------------------------------
+// ---------------- VEHICLE MENU ITEMS ----------------------
+// ----------------------------------------------------------
+
+void ShowVehicleById::run() {
+
+}
+
+void ShowAllVehicles::run() {
 
 }
 
@@ -79,7 +146,7 @@ void Exit::run() {
 // ------------------ MENU ----------------------------------
 // ----------------------------------------------------------
 
-void Menu::addItem(std::unique_ptr<MenuItem>& item) {
+void Menu::addItem(std::unique_ptr<MenuItem> item) {
     item->setItemNumber(_menuItems.size() + 1);
     _menuItems.push_back(move(item));
 }
@@ -90,4 +157,28 @@ void Menu::printItems() {
             cout << item->getItemNumber() << ". " << item->getTitle() << endl;
         }
     }
+}
+
+// ----------------------------------------------------------
+// -------------------- UI ----------------------------------
+// ----------------------------------------------------------
+
+void UI::setSim(Simulation* sim) {
+    _sim = sim;
+}
+
+void UI::setMainMenu(std::unique_ptr<Menu>& menu) {
+    _mainMenu = move(menu);
+}
+
+void UI::accessMainMenu() {
+    _mainMenu->printItems();
+}
+
+void UI::setSimulationMenu(std::unique_ptr<Menu>& menu) {
+    _simulationMenu = move(menu);
+}
+
+void UI::accessSimulationMenu() {
+    _simulationMenu->printItems();
 }
