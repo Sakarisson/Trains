@@ -6,7 +6,7 @@ using std::cout;
 using std::endl;
 
 // ----------------------------------------------------------
-// ------------------- MENUITEM ----------------------------
+// ------------------- MENUITEM -----------------------------
 // ----------------------------------------------------------
 
 std::string MenuItem::getHeader() const {
@@ -34,6 +34,8 @@ int MenuItem::getItemNumber() const {
 // ------------- INHERITED ITEMS ----------------------------
 // ----------------------------------------------------------
 
+// Change Start Time
+
 std::string ChangeStartTime::getTitle() const {
     return "Change start time[00:00]";
 }
@@ -43,6 +45,8 @@ void ChangeStartTime::run() {
         "At what time would you like the simulation to start? [00:00]";
 }
 
+// Change End Time
+
 std::string ChangeEndTime::getTitle() const {
     return "Change end time[23:59]";
 }
@@ -51,11 +55,23 @@ void ChangeEndTime::run() {
 
 }
 
+// Start Simulation
+
 std::string StartSimulation::getTitle() const {
     return "Start simulation";
 }
 
 void StartSimulation::run() {
+
+}
+
+// Exit
+
+std::string Exit::getTitle() const {
+    return "Exit";
+}
+
+void Exit::run() {
 
 }
 

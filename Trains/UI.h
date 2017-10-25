@@ -28,6 +28,10 @@ protected:
     int _menuWidth = 50;
 };
 
+// ----------------------------------------------------------
+// --------------- START MENU ITEMS -------------------------
+// ----------------------------------------------------------
+
 class ChangeStartTime : public MenuItem {
 public:
     ChangeStartTime(bool isActive) : MenuItem(isActive) {}
@@ -50,6 +54,100 @@ class StartSimulation : public MenuItem {
 public:
     StartSimulation(bool isActive) : MenuItem(isActive) {}
     virtual ~StartSimulation() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class Exit : public MenuItem {
+public:
+    Exit(bool isActive) : MenuItem(isActive) {}
+    virtual ~Exit() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+// ----------------------------------------------------------
+// ------------- SIMULATION MENU ITEMS ----------------------
+// ----------------------------------------------------------
+
+class ChangeInterval : public MenuItem {
+public:
+    ChangeInterval(bool isActive) : MenuItem(isActive) {}
+    virtual ~ChangeInterval() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class RunNextInterval : public MenuItem {
+public:
+    RunNextInterval(bool isActive) : MenuItem(isActive) {}
+    virtual ~RunNextInterval() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class NextEvent : public MenuItem {
+public:
+    NextEvent(bool isActive) : MenuItem(isActive) {}
+    virtual ~NextEvent() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class Finish : public MenuItem {
+public:
+    Finish(bool isActive) : MenuItem(isActive) {}
+    virtual ~Finish() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class ChangeLogLevel : public MenuItem {
+public:
+    ChangeLogLevel(bool isActive) : MenuItem(isActive) {}
+    virtual ~ChangeLogLevel() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class TrainMenu : public MenuItem {
+public:
+    TrainMenu(bool isActive) : MenuItem(isActive) {}
+    virtual ~TrainMenu() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class StationMenu : public MenuItem {
+public:
+    StationMenu(bool isActive) : MenuItem(isActive) {}
+    virtual ~StationMenu() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class VehicleMenu : public MenuItem {
+public:
+    VehicleMenu(bool isActive) : MenuItem(isActive) {}
+    virtual ~VehicleMenu() {}
+
+    std::string getTitle() const override;
+    void run() override;
+};
+
+class Return : public MenuItem {
+public:
+    Return(bool isActive) : MenuItem(isActive) {}
+    virtual ~Return() {}
 
     std::string getTitle() const override;
     void run() override;
