@@ -1,6 +1,7 @@
 #include "Time.h"
 #include <iomanip>
 #include <sstream>
+#include <memory>
 
 
 Time::Time(std::string stringFormattedTime) {
@@ -30,8 +31,8 @@ std::string Time::getString() const {
     return ss.str();
 }
 
-Time& Time::operator+=(Time& addedTime) {
-    this->_minutesSinceMidnight += addedTime.getMinutes();
+Time& Time::operator+=(std::shared_ptr<Time> addedTime) {
+    this->_minutesSinceMidnight += addedTime->getMinutes();
     return *this;
 }
 

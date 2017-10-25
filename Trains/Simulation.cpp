@@ -5,7 +5,6 @@
 
 #include "Simulation.h"
 #include "Train.h"
-#include "UI.h"
 #include "Time.h"
 
 using std::cout;
@@ -15,8 +14,6 @@ Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
     _trainMapData = std::make_unique<DataReader>(_trainMapFile);
-    _currentTime = std::make_unique<Time>();
-    _ui = std::make_unique<UI>();
     processStations();
     processTrains();
     processTrainMaps();
@@ -33,11 +30,11 @@ void Simulation::run() {
 
 // ----------------- GETTERS -----------------
 int Simulation::getTime() const {
-    return _currentTime->getMinutes();
+    return _currentTime.getMinutes();
 }
 
 std::string Simulation::getTimeString() const {
-    return _currentTime->getString();
+    return _currentTime.getString();
 }
 
 void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
@@ -179,7 +176,7 @@ void Simulation::processTrainMaps() {
 }
 
 bool Simulation::processNextEvent() {
-    if (_currentTime->pastMidnight() && _trainsInTransit.size() <= 0) {
+    if (_currentTime.pastMidnight() && _trainsInTransit.size() <= 0) {
         return false;
     }
     std::shared_ptr<Event> nextEvent = _eventQueue.top();
@@ -187,7 +184,7 @@ bool Simulation::processNextEvent() {
         return false;
     }
     _eventQueue.pop();
-    _currentTime.reset(new Time(nextEvent->getTime()->getMinutes()));
+    _currentTime += nextEvent->getTime();
     nextEvent->processEvent();
     return true;
 }

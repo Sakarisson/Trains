@@ -9,9 +9,9 @@
 #include "DataReader.h"
 #include "Station.h"
 #include "Event.h"
+#include "UI.h"
 
 class Train;
-class UI;
 class Time;
 
 // Priority queue of pointers to Event
@@ -47,7 +47,7 @@ private:
     bool processNextEvent();
 private:
     // ----------- INTERNAL VARIABLES -----------
-    std::unique_ptr<Time> _currentTime;
+    Time _currentTime;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
     std::string _trainMapFile = "TrainMap.txt";
@@ -56,7 +56,7 @@ private:
     std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
-    std::unique_ptr<UI> _ui;
+    UI _ui;
     EventQueue _eventQueue;
 };
 

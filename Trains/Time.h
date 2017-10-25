@@ -2,6 +2,7 @@
 #define TIME_H
 
 #include <string>
+#include <memory>
 
 class Time
 {
@@ -13,7 +14,7 @@ public:
     int getMinutes() const;
     bool pastMidnight() const;
     std::string getString() const;
-    Time& operator+=(Time&);
+    Time& operator+=(std::shared_ptr<Time>);
     Time& operator+=(int&);
 private:
     unsigned int _minutesSinceMidnight;

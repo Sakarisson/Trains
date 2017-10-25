@@ -18,16 +18,16 @@ public:
 
 class DistanceManager {
 private:
-    std::vector<std::unique_ptr<Distance>> _distances;
+    std::vector<Distance> _distances;
 public:
     DistanceManager() {}
     void addDistance(std::string to, int distance) {
-        _distances.push_back(std::make_unique<Distance>(to, distance));
+        _distances.push_back(Distance(to, distance));
     }
     int getDistance(std::string station) {
-        auto it = std::find_if(_distances.begin(), _distances.end(), [station](std::unique_ptr<Distance>& d) { return d->getStationName() == station; });
+        auto it = std::find_if(_distances.begin(), _distances.end(), [station](Distance& d) { return d.getStationName() == station; });
         if (it != _distances.end()) {
-            return (*it)->getDistance();
+            return (*it).getDistance();
         }
         else {
             return 0;
