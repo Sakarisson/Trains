@@ -20,10 +20,6 @@ std::string MenuItem::getHeader() const {
     return header.str();
 }
 
-bool MenuItem::isActive() const {
-    return _isActive;
-}
-
 void MenuItem::setItemNumber(int itemNumber) {
     _itemNumber = itemNumber;
 }
@@ -57,6 +53,10 @@ void Exit::run() {
 // ----------------------------------------------------------
 // ------------- SIMULATION MENU ITEMS ----------------------
 // ----------------------------------------------------------
+
+std::string ChangeInterval::getTitle() const{
+    return "Change interval [" + _sim->getIntervalString() + "]";
+}
 
 void ChangeInterval::run() {
 
@@ -119,15 +119,17 @@ void ShowAllTrains::run() {
 // ----------------------------------------------------------
 
 void ShowStationNames::run() {
-
+    for each(std::shared_ptr<Station> s in _sim->getAllStations()) {
+        cout << s->getName() << endl;
+    }
 }
 
 void ShowStationByName::run() {
-
+    
 }
 
 void ShowAllStations::run() {
-
+    
 }
 
 // ----------------------------------------------------------
@@ -153,9 +155,30 @@ void Menu::addItem(std::unique_ptr<MenuItem> item) {
 
 void Menu::printItems() {
     for each (auto& item in _menuItems) {
-        if (item->isActive()) {
-            cout << item->getItemNumber() << ". " << item->getTitle() << endl;
-        }
+        cout << item->getItemNumber() << ". " << item->getTitle() << endl;
+    }
+}
+
+void Menu::userInteract() {
+    if (!processChoice(getChoice())) {
+        cout << "Invalid choice" << endl;
+    }
+}
+
+int Menu::getChoice() const {
+    int choice;
+    std::cin >> choice;
+    return choice;
+}
+
+bool Menu::processChoice(int choice) {
+    auto it = std::find_if(_menuItems.begin(), _menuItems.end(), [choice](std::unique_ptr<MenuItem>& item) { return item->getItemNumber() == choice; });
+    if (it != _menuItems.end()) {
+        (*it)->run();
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
@@ -163,22 +186,51 @@ void Menu::printItems() {
 // -------------------- UI ----------------------------------
 // ----------------------------------------------------------
 
-void UI::setSim(Simulation* sim) {
-    _sim = sim;
+void UI::setMenu(std::unique_ptr<Menu>& menu, MenuType type) {
+    switch (type) {
+    case MAIN:
+        _mainMenu = move(menu);
+        break;
+    case SIMULATION:
+        _simulationMenu = move(menu);
+        break;
+    case TRAIN:
+        _trainMenu = move(menu);
+        break;
+    case STATION:
+        _stationMenu = move(menu);
+        break;
+    case VEHICLE:
+        _vehicleMenu = move(menu);
+        break;
+    default:
+        break;
+    }
 }
 
-void UI::setMainMenu(std::unique_ptr<Menu>& menu) {
-    _mainMenu = move(menu);
-}
-
-void UI::accessMainMenu() {
-    _mainMenu->printItems();
-}
-
-void UI::setSimulationMenu(std::unique_ptr<Menu>& menu) {
-    _simulationMenu = move(menu);
-}
-
-void UI::accessSimulationMenu() {
-    _simulationMenu->printItems();
+void UI::accessMenu(MenuType type) {
+    switch (type) {
+    case MAIN:
+        _mainMenu->printItems();
+        _mainMenu->userInteract();
+        break;
+    case SIMULATION:
+        _simulationMenu->printItems();
+        _simulationMenu->userInteract();
+        break;
+    case TRAIN:
+        _trainMenu->printItems();
+        _trainMenu->userInteract();
+        break;
+    case STATION:
+        _stationMenu->printItems();
+        _stationMenu->userInteract();
+        break;
+    case VEHICLE:
+        _vehicleMenu->printItems();
+        _vehicleMenu->userInteract();
+        break;
+    default:
+        break;
+    }
 }

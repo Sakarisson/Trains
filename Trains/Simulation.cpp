@@ -14,11 +14,11 @@ Simulation::Simulation() {
     _trainData = std::make_unique<DataReader>(_trainsFile);
     _trainStationData = std::make_unique<DataReader>(_trainStationsFile);
     _trainMapData = std::make_unique<DataReader>(_trainMapFile);
-    _ui = std::make_unique<UI>();
-    _ui->setSim(this);
+    _interval = 10;
     processStations();
     processTrains();
     processTrainMaps();
+    setupMenu();
 }
 
 
@@ -39,11 +39,29 @@ std::string Simulation::getTimeString() const {
     return _currentTime.getString();
 }
 
+std::string Simulation::getIntervalString() const {
+    return _interval.getString();
+}
+
+std::shared_ptr<Station> Simulation::getStation(std::string& name) {
+    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
+    if (it != _stations.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
+    }
+}
+
+std::vector<std::shared_ptr<Station>> Simulation::getAllStations() {
+    return _stations;
+}
+
+// ------------------ LOGIC ------------------
 void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
     _eventQueue.push(e);
 }
 
-// ------------------ LOGIC ------------------
 void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
     _trainsInTransit.push_back(move(train));
 }
@@ -58,16 +76,6 @@ std::unique_ptr<Train> Simulation::removeTrainById(int& id) {
         }
     }
     return move(train);
-}
-
-std::shared_ptr<Station> Simulation::getStation(std::string& name) {
-    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
-    if (it != _stations.end()) {
-        return *it;
-    }
-    else {
-        return nullptr;
-    }
 }
 
 // ------------- INTERNAL LOGIC -------------
@@ -186,7 +194,52 @@ bool Simulation::processNextEvent() {
         return false;
     }
     _eventQueue.pop();
-    _currentTime += nextEvent->getTime();
+    _currentTime = *nextEvent->getTime();
     nextEvent->processEvent();
     return true;
+}
+
+void Simulation::setupMenu() {
+    std::unique_ptr<Menu> mainMenu = std::make_unique<Menu>();
+    mainMenu->addItem(std::make_unique<ChangeStartTime>(this));
+    mainMenu->addItem(std::make_unique<ChangeEndTime>(this));
+    mainMenu->addItem(std::make_unique<StartSimulation>(this));
+    mainMenu->addItem(std::make_unique<Exit>(this));
+
+    std::unique_ptr<Menu> simulationMenu = std::make_unique<Menu>();
+    simulationMenu->addItem(std::make_unique<ChangeInterval>(this));
+    simulationMenu->addItem(std::make_unique<RunNextInterval>(this));
+    simulationMenu->addItem(std::make_unique<NextEvent>(this));
+    simulationMenu->addItem(std::make_unique<Finish>(this));
+    simulationMenu->addItem(std::make_unique<ChangeLogLevel>(this));
+    simulationMenu->addItem(std::make_unique<TrainMenu>(this));
+    simulationMenu->addItem(std::make_unique<StationMenu>(this));
+    simulationMenu->addItem(std::make_unique<VehicleMenu>(this));
+    simulationMenu->addItem(std::make_unique<Return>(this));
+
+    std::unique_ptr<Menu> trainMenu = std::make_unique<Menu>();
+    trainMenu->addItem(std::make_unique<SearchTrainByNumber>(this));
+    trainMenu->addItem(std::make_unique<SearchTrainByVehicleId>(this));
+    trainMenu->addItem(std::make_unique<ShowAllTrains>(this));
+    trainMenu->addItem(std::make_unique<ChangeLogLevel>(this));
+    trainMenu->addItem(std::make_unique<Return>(this));
+
+    std::unique_ptr<Menu> stationMenu = std::make_unique<Menu>();
+    stationMenu->addItem(std::make_unique<ShowStationNames>(this));
+    stationMenu->addItem(std::make_unique<ShowStationByName>(this));
+    stationMenu->addItem(std::make_unique<ShowAllStations>(this));
+    stationMenu->addItem(std::make_unique<ChangeLogLevel>(this));
+    stationMenu->addItem(std::make_unique<Return>(this));
+
+    std::unique_ptr<Menu> vehicleMenu = std::make_unique<Menu>();
+    vehicleMenu->addItem(std::make_unique<ShowVehicleById>(this));
+    vehicleMenu->addItem(std::make_unique<ShowAllVehicles>(this));
+    vehicleMenu->addItem(std::make_unique<ChangeLogLevel>(this));
+    vehicleMenu->addItem(std::make_unique<Return>(this));
+
+    _ui.setMenu(mainMenu, MAIN);
+    _ui.setMenu(simulationMenu, SIMULATION);
+    _ui.setMenu(trainMenu, TRAIN);
+    _ui.setMenu(stationMenu, STATION);
+    _ui.setMenu(vehicleMenu, VEHICLE);
 }

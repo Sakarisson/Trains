@@ -32,12 +32,14 @@ public:
     // ----------------- GETTERS -----------------
     int getTime() const;
     std::string getTimeString() const;
+    std::string getIntervalString() const;
+    std::shared_ptr<Station> getStation(std::string&);
+    std::vector<std::shared_ptr<Station>> getAllStations();
 
     // ------------------ LOGIC ------------------
     void scheduleEvent(std::shared_ptr<Event>);
     void addTrainToTransit(std::unique_ptr<Train>&);
     std::unique_ptr<Train> removeTrainById(int&);
-    std::shared_ptr<Station> getStation(std::string&);
 private:
     // ------------- INTERNAL LOGIC -------------
     std::vector<std::string> splitBySpace(std::string&);
@@ -45,9 +47,11 @@ private:
     void processStations();
     void processTrainMaps();
     bool processNextEvent();
+    void setupMenu();
 private:
     // ----------- INTERNAL VARIABLES -----------
     Time _currentTime;
+    Time _interval;
     std::string _trainsFile = "Trains.txt";
     std::string _trainStationsFile = "TrainStations.txt";
     std::string _trainMapFile = "TrainMap.txt";
@@ -56,7 +60,7 @@ private:
     std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
-    std::unique_ptr<UI> _ui;
+    UI _ui;
     EventQueue _eventQueue;
 };
 
