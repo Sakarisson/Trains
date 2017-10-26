@@ -4,6 +4,7 @@
 #include "Station.h"
 #include "Train.h"
 #include "Time.h"
+#include "Distance.h"
 
 #include <sstream>
 #include <regex>
@@ -38,7 +39,7 @@ void World::initialize(std::shared_ptr<Simulation> sim) {
     // ---------- PROCESS STATIONS --------------------
     processStations(_trainStationData->getLines());
     processTrains(sim, _trainData->getLines());
-    //processTrainMaps(_trainMapData->getLines());
+    processTrainMaps(_trainMapData->getLines());
 }
 
 void World::processStations(std::vector<std::string>& trainStationData) {
@@ -114,24 +115,21 @@ void World::processTrains(std::shared_ptr<Simulation> simulation, std::vector<st
     }
 }
 
-//void World::processTrainMaps(std::vector<std::string>& trainMapData) {
-//    if (trainMapData.size() == 0) {
-//        throw std::range_error("TrainStations.txt: File is empty!");
-//    }
-//    int lineCounter = 1;
-//    for each (std::string line in trainMapData) {
-//        std::vector<std::string> rawData = splitBySpace(line);
-//        if (rawData.size() != 3) {
-//            throw std::range_error("TrainMap.txt line " + std::to_string(lineCounter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
-//        }
-//        std::shared_ptr<Station> a = getStation(rawData[0]);
-//        std::shared_ptr<Station> b = getStation(rawData[1]);
-//        int distance = stoi(rawData[2]);
-//        if (a == nullptr || b == nullptr) {
-//            throw std::runtime_error("TrainStations.txt line " + std::to_string(lineCounter) + ": Invalid data");
-//        }
-//        a->addDistanceToStation(b->getName(), distance);
-//        b->addDistanceToStation(a->getName(), distance);
-//        ++lineCounter;
-//    }
-//}
+void World::processTrainMaps(std::vector<std::string>& trainMapData) {
+    _distanceManager = std::make_shared<DistanceManager>();
+    if (trainMapData.size() == 0) {
+        throw std::range_error("TrainStations.txt: File is empty!");
+    }
+    int lineCounter = 1;
+    for each (std::string line in trainMapData) {
+        std::vector<std::string> rawData = splitBySpace(line);
+        if (rawData.size() != 3) {
+            throw std::range_error("TrainMap.txt line " + std::to_string(lineCounter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
+        }
+        std::string a = rawData[0];
+        std::string b = rawData[1];
+        int distance = stoi(rawData[2]);
+        _distanceManager->addDistance(a, b, distance);
+        ++lineCounter;
+    }
+}

@@ -1,42 +1,43 @@
 #ifndef DISTANCE_H
 #define DISTANCE_H
 
+#include <string>
+#include <vector>
+#include <memory>
+
+class Distance {
+public:
+    Distance(std::string destination, int distance)
+        : _destination(destination), _distance(distance) {}
+    ~Distance() {}
+    int getDistance() const;
+    std::string getDestinationName() const;
+private:
+    std::string _destination;
+    int _distance;
+};
+
 class StationMap {
 public:
     StationMap(std::string name) : _name(name) {}
+    ~StationMap() {}
+    std::string getName() const;
+    int getDistance(std::string&) const;
     void addDistance(std::string&, int&);
 private:
     std::string _name;
     std::vector<Distance> _distances;
 };
 
-class Distance {
+class DistanceManager {
 public:
-    Distance(std::string to, int distance)
-        : _to(to), _distance(distance) {}
-    int getDistance() const;
-    std::string getStationName() const { return _to; }
-private:
-    std::string _to;
-    int _distance;
-};
+    DistanceManager() {}
+    ~DistanceManager() {}
 
-//class DistanceManager {
-//public:
-//
-//private:
-//    std::vector<Distance> _distances;public:
-//    DistanceManager() {}
-//    void addDistance(std::string&, std::string&, int distance);
-//    int getDistance(std::string& a, std::string& b) {
-//        auto it = std::find_if(_distances.begin(), _distances.end(), [station](Distance& d) { return d.getStationName() == station; });
-//        if (it != _distances.end()) {
-//            return (*it).getDistance();
-//        }
-//        else {
-//            return 0;
-//        }
-//    }
-//};
+    void addDistance(std::string&, std::string&, int&);
+    int getDistance(std::string&, std::string&) const;
+private:
+    std::vector<std::shared_ptr<StationMap>> _stations;
+};
 
 #endif // !DISTANCE_H

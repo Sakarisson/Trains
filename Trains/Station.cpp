@@ -25,10 +25,6 @@ std::string Station::getName() const {
     return _name;
 }
 
-int Station::getDistanceToStation(std::string& station) const {
-    return _distances->getDistance(station);
-}
-
 // ------------------ LOGIC ------------------
 std::shared_ptr<Train> Station::removeTrainById(int& id) {
     std::shared_ptr<Train> train = nullptr;
@@ -77,10 +73,6 @@ void Station::addTrain(std::shared_ptr<Train>& train) {
     if (train != nullptr) {
         _trains.push_back(train);
     }
-}
-
-void Station::addDistanceToStation(std::string& station, int& distance) {
-    _distances->addDistance(station, distance);
 }
 
 bool Station::assembleTrain(int& trainId) {
