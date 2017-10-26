@@ -93,6 +93,12 @@
     <ClCompile Include="FreightCar.cpp">
       <Filter>Source Files\Cars</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Distance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h">
@@ -146,16 +152,13 @@
     <ClInclude Include="Distance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mempool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Memstat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

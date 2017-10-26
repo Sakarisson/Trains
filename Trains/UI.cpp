@@ -3,6 +3,9 @@
 #include <iomanip>
 
 #include "Simulation.h"
+#include "World.h"
+#include "Station.h"
+#include "Train.h"
 
 using std::cout;
 using std::endl;
@@ -197,6 +200,55 @@ bool Menu::processChoice(int choice) {
 // ----------------------------------------------------------
 // -------------------- UI ----------------------------------
 // ----------------------------------------------------------
+
+UI::UI() {
+    _world = std::make_shared<World>();
+    _simulation = std::make_shared<Simulation>();
+    _world->initialize(_simulation);
+
+    std::unique_ptr<Menu> mainMenu = std::make_unique<Menu>();                  // Main Menu
+    mainMenu->addItem(std::make_unique<ChangeStartTime>(_simulation));          //  - Change start time
+    mainMenu->addItem(std::make_unique<ChangeEndTime>(_simulation));            //  - Change end time
+    mainMenu->addItem(std::make_unique<StartSimulation>(_simulation));          //  - Start simulation
+    mainMenu->addItem(std::make_unique<Exit>(_simulation));                     //  - Exit
+
+    std::unique_ptr<Menu> simulationMenu = std::make_unique<Menu>();            // Simulation menu
+    simulationMenu->addItem(std::make_unique<ChangeInterval>(_simulation));     //  - Change interval
+    simulationMenu->addItem(std::make_unique<RunNextInterval>(_simulation));    //  - Run next interval
+    simulationMenu->addItem(std::make_unique<NextEvent>(_simulation));          //  - Next event
+    simulationMenu->addItem(std::make_unique<Finish>(_simulation));             //  - Finish simulation
+    simulationMenu->addItem(std::make_unique<ChangeLogLevel>(_simulation));     //  - Change log level
+    simulationMenu->addItem(std::make_unique<TrainMenu>(_simulation));          //  - Open train menu
+    simulationMenu->addItem(std::make_unique<StationMenu>(_simulation));        //  - Open station menu
+    simulationMenu->addItem(std::make_unique<VehicleMenu>(_simulation));        //  - Open vehicle menu
+    simulationMenu->addItem(std::make_unique<Return>(_simulation));             //  - Return
+
+    std::unique_ptr<Menu> trainMenu = std::make_unique<Menu>();                 // Train menu
+    trainMenu->addItem(std::make_unique<SearchTrainByNumber>(_simulation));     //  - Search train by number
+    trainMenu->addItem(std::make_unique<SearchTrainByVehicleId>(_simulation));  //  - Search train by vehicle id
+    trainMenu->addItem(std::make_unique<ShowAllTrains>(_simulation));           //  - Show all trains
+    trainMenu->addItem(std::make_unique<ChangeLogLevel>(_simulation));          //  - Change log level
+    trainMenu->addItem(std::make_unique<Return>(_simulation));                  //  - Return
+
+    std::unique_ptr<Menu> stationMenu = std::make_unique<Menu>();               // Station menu
+    stationMenu->addItem(std::make_unique<ShowStationNames>(_simulation));      //  - Show station names
+    stationMenu->addItem(std::make_unique<ShowStationByName>(_simulation));     //  - Show station by name
+    stationMenu->addItem(std::make_unique<ShowAllStations>(_simulation));       //  - Show all stations
+    stationMenu->addItem(std::make_unique<ChangeLogLevel>(_simulation));        //  - Change log level
+    stationMenu->addItem(std::make_unique<Return>(_simulation));                //  - Return
+
+    std::unique_ptr<Menu> vehicleMenu = std::make_unique<Menu>();               // Vehicle menu
+    vehicleMenu->addItem(std::make_unique<ShowVehicleById>(_simulation));       //  - Show vehicle by id
+    vehicleMenu->addItem(std::make_unique<ShowAllVehicles>(_simulation));       //  - Show all vehicles
+    vehicleMenu->addItem(std::make_unique<ChangeLogLevel>(_simulation));        //  - Change log level
+    vehicleMenu->addItem(std::make_unique<Return>(_simulation));                //  - Return
+
+    this->setMenu(mainMenu, MAIN);
+    this->setMenu(simulationMenu, SIMULATION);
+    this->setMenu(trainMenu, TRAIN);
+    this->setMenu(stationMenu, STATION);
+    this->setMenu(vehicleMenu, VEHICLE);
+}
 
 void UI::setMenu(std::unique_ptr<Menu>& menu, MenuType type) {
     switch (type) {

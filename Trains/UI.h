@@ -18,10 +18,11 @@ using std::cout;
 using std::endl;
 
 class Simulation;
+class World;
 
 class MenuItem {
 public:
-    MenuItem(Simulation* sim) : _sim(sim) {}
+    MenuItem(std::shared_ptr<Simulation> sim) : _sim(sim) {}
     virtual ~MenuItem() {}
     
     std::string getHeader() const;
@@ -30,7 +31,7 @@ public:
     int getItemNumber() const;
     virtual void run() = 0;
 protected:
-    Simulation* _sim;
+    std::shared_ptr<Simulation> _sim;
     int _itemNumber;
     int _menuWidth = 50;
 };
@@ -41,7 +42,7 @@ protected:
 
 class ChangeStartTime : public MenuItem {
 public:
-    ChangeStartTime(Simulation* sim) : MenuItem(sim) {}
+    ChangeStartTime(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ChangeStartTime() {}
 
     std::string getTitle() const override { return "Change start time[00:00]"; }
@@ -50,7 +51,7 @@ public:
 
 class ChangeEndTime : public MenuItem {
 public:
-    ChangeEndTime(Simulation* sim) : MenuItem(sim) {}
+    ChangeEndTime(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ChangeEndTime() {}
 
     std::string getTitle() const override { return "Change end time[23:59]"; }
@@ -59,7 +60,7 @@ public:
 
 class StartSimulation : public MenuItem {
 public:
-    StartSimulation(Simulation* sim) : MenuItem(sim) {}
+    StartSimulation(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~StartSimulation() {}
 
     std::string getTitle() const override { return "Start simulation"; }
@@ -68,7 +69,7 @@ public:
 
 class Exit : public MenuItem {
 public:
-    Exit(Simulation* sim) : MenuItem(sim) {}
+    Exit(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~Exit() {}
 
     std::string getTitle() const override { return "Exit"; }
@@ -81,7 +82,7 @@ public:
 
 class ChangeInterval : public MenuItem {
 public:
-    ChangeInterval(Simulation* sim) : MenuItem(sim) {}
+    ChangeInterval(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ChangeInterval() {}
 
     std::string getTitle() const override;
@@ -90,7 +91,7 @@ public:
 
 class RunNextInterval : public MenuItem {
 public:
-    RunNextInterval(Simulation* sim) : MenuItem(sim) {}
+    RunNextInterval(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~RunNextInterval() {}
 
     std::string getTitle() const override { return "Run next interval"; }
@@ -99,7 +100,7 @@ public:
 
 class NextEvent : public MenuItem {
 public:
-    NextEvent(Simulation* sim) : MenuItem(sim) {}
+    NextEvent(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~NextEvent() {}
 
     std::string getTitle() const override { return "Next event"; }
@@ -108,7 +109,7 @@ public:
 
 class Finish : public MenuItem {
 public:
-    Finish(Simulation* sim) : MenuItem(sim) {}
+    Finish(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~Finish() {}
 
     std::string getTitle() const override { return "Finish (complete simulation)"; }
@@ -117,7 +118,7 @@ public:
 
 class ChangeLogLevel : public MenuItem {
 public:
-    ChangeLogLevel(Simulation* sim) : MenuItem(sim) {}
+    ChangeLogLevel(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ChangeLogLevel() {}
 
     std::string getTitle() const override { return "Change log level"; }
@@ -126,7 +127,7 @@ public:
 
 class TrainMenu : public MenuItem {
 public:
-    TrainMenu(Simulation* sim) : MenuItem(sim) {}
+    TrainMenu(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~TrainMenu() {}
 
     std::string getTitle() const override { return "Train menu"; }
@@ -135,7 +136,7 @@ public:
 
 class StationMenu : public MenuItem {
 public:
-    StationMenu(Simulation* sim) : MenuItem(sim) {}
+    StationMenu(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~StationMenu() {}
 
     std::string getTitle() const override { return "Station menu"; }
@@ -144,7 +145,7 @@ public:
 
 class VehicleMenu : public MenuItem {
 public:
-    VehicleMenu(Simulation* sim) : MenuItem(sim) {}
+    VehicleMenu(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~VehicleMenu() {}
 
     std::string getTitle() const override { return "Vehicle menu"; }
@@ -153,7 +154,7 @@ public:
 
 class Return : public MenuItem {
 public:
-    Return(Simulation* sim) : MenuItem(sim) {}
+    Return(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~Return() {}
 
     std::string getTitle() const override { return "Return"; }
@@ -162,7 +163,7 @@ public:
 
 class PrintStatistics : public MenuItem {
 public:
-    PrintStatistics(Simulation* sim) : MenuItem(sim) {}
+    PrintStatistics(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~PrintStatistics() {}
 
     std::string getTitle() const override { return "Print statistics"; }
@@ -175,7 +176,7 @@ public:
 
 class SearchTrainByNumber : public MenuItem {
 public:
-    SearchTrainByNumber(Simulation* sim) : MenuItem(sim) {}
+    SearchTrainByNumber(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~SearchTrainByNumber() {}
 
     std::string getTitle() const override { return "Search train by number"; }
@@ -184,7 +185,7 @@ public:
 
 class SearchTrainByVehicleId : public MenuItem {
 public:
-    SearchTrainByVehicleId(Simulation* sim) : MenuItem(sim) {}
+    SearchTrainByVehicleId(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~SearchTrainByVehicleId() {}
 
     std::string getTitle() const override { return "Search train by vehicle ID"; }
@@ -193,7 +194,7 @@ public:
 
 class ShowAllTrains : public MenuItem {
 public:
-    ShowAllTrains(Simulation* sim) : MenuItem(sim) {}
+    ShowAllTrains(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowAllTrains() {}
 
     std::string getTitle() const override { return "Show all trains"; }
@@ -206,7 +207,7 @@ public:
 
 class ShowStationNames : public MenuItem {
 public:
-    ShowStationNames(Simulation* sim) : MenuItem(sim) {}
+    ShowStationNames(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowStationNames() {}
 
     std::string getTitle() const override { return "Show station names"; }
@@ -215,7 +216,7 @@ public:
 
 class ShowStationByName : public MenuItem {
 public:
-    ShowStationByName(Simulation* sim) : MenuItem(sim) {}
+    ShowStationByName(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowStationByName() {}
 
     std::string getTitle() const override { return "Show station by name"; }
@@ -224,7 +225,7 @@ public:
 
 class ShowAllStations : public MenuItem {
 public:
-    ShowAllStations(Simulation* sim) : MenuItem(sim) {}
+    ShowAllStations(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowAllStations() {}
 
     std::string getTitle() const override { return "Show all stations"; }
@@ -237,7 +238,7 @@ public:
 
 class ShowVehicleById : public MenuItem {
 public:
-    ShowVehicleById(Simulation* sim) : MenuItem(sim) {}
+    ShowVehicleById(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowVehicleById() {}
 
     std::string getTitle() const override { return "Show vehicle by ID"; }
@@ -246,7 +247,7 @@ public:
 
 class ShowAllVehicles : public MenuItem {
 public:
-    ShowAllVehicles(Simulation* sim) : MenuItem(sim) {}
+    ShowAllVehicles(std::shared_ptr<Simulation> sim) : MenuItem(sim) {}
     virtual ~ShowAllVehicles() {}
 
     std::string getTitle() const override { return "Show all vehicles"; }
@@ -271,7 +272,7 @@ private:
 
 class UI {
 public:
-    UI() {}
+    UI();
     ~UI() {}
 
     void setMenu(std::unique_ptr<Menu>&, MenuType);
@@ -282,6 +283,8 @@ private:
     std::unique_ptr<Menu> _trainMenu;
     std::unique_ptr<Menu> _stationMenu;
     std::unique_ptr<Menu> _vehicleMenu;
+    std::shared_ptr<Simulation> _simulation;
+    std::shared_ptr<World> _world;
 };
 
 #endif // !UI_H

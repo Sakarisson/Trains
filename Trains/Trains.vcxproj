@@ -114,6 +114,7 @@
     <ClCompile Include="CoveredFreightCar.cpp" />
     <ClCompile Include="DataReader.cpp" />
     <ClCompile Include="DieselEngine.cpp" />
+    <ClCompile Include="Distance.cpp" />
     <ClCompile Include="ElectricalEngine.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Train.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
@@ -140,8 +142,6 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="FreightCar.h" />
-    <ClInclude Include="Mempool.h" />
-    <ClInclude Include="Memstat.h" />
     <ClInclude Include="OpenFreightCar.h" />
     <ClInclude Include="PassengerCar.h" />
     <ClInclude Include="SleepingCar.h" />
@@ -150,6 +150,7 @@
     <ClInclude Include="Train.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

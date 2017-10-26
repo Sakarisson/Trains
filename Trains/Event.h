@@ -7,16 +7,17 @@
 // Forward declarations
 class Simulation;
 class Station;
+class Train;
 
 // Abstract Event base class
 class Event
 {
 protected:
-    std::shared_ptr<Time> _time;
+    Time _time;
 public:
-    Event(Time time) : _time(std::make_shared<Time>(time)) {}
+    Event(Time time) : _time(time) {}
     virtual ~Event() {}
-    std::shared_ptr<Time> getTime() const;
+    Time getTime() const;
     virtual void processEvent() = 0; // Pure virtual
 };
 
@@ -29,59 +30,59 @@ public:
 
 class AssembleEvent : public Event {
 protected:
-    Simulation* _sim;
+    std::weak_ptr<Simulation> _sim;
     std::shared_ptr<Station> _station;
-    int _trainId;
+    std::shared_ptr<Train> _train;
 public:
-    AssembleEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
-        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+    AssembleEvent(std::weak_ptr<Simulation> sim, std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _train(train), _station(station) {}
 
     virtual void processEvent();
 };
 
 class GetReadyEvent : public Event {
 protected:
-    Simulation* _sim;
+    std::weak_ptr<Simulation> _sim;
     std::shared_ptr<Station> _station;
-    int _trainId;
+    std::shared_ptr<Train> _train;
 public:
-    GetReadyEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
-        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+    GetReadyEvent(std::weak_ptr<Simulation> sim, std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _train(train), _station(station) {}
 
     virtual void processEvent();
 };
 
 class LeaveStationEvent : public Event {
 protected:
-    Simulation* _sim;
+    std::weak_ptr<Simulation> _sim;
     std::shared_ptr<Station> _station;
-    int _trainId;
+    std::shared_ptr<Train> _train;
 public:
-    LeaveStationEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
-        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+    LeaveStationEvent(std::weak_ptr<Simulation> sim, std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _train(train), _station(station) {}
 
     virtual void processEvent();
 };
 
 class ArriveEvent : public Event {
 protected:
-    Simulation* _sim;
-    int _trainId;
+    std::weak_ptr<Simulation> _sim;
+    std::shared_ptr<Train> _train;
 public:
-    ArriveEvent(Simulation* sim, int trainId, Time time)
-        : Event(time), _sim(sim), _trainId(trainId) {}
+    ArriveEvent(std::weak_ptr<Simulation> sim, std::shared_ptr<Train> train, Time time)
+        : Event(time), _sim(sim), _train(train) {}
 
     virtual void processEvent();
 };
 
 class DisassembleEvent : public Event {
 protected:
-    Simulation* _sim;
+    std::weak_ptr<Simulation> _sim;
     std::shared_ptr<Station> _station;
-    int _trainId;
+    std::shared_ptr<Train> _train;
 public:
-    DisassembleEvent(Simulation* sim, int trainId, std::shared_ptr<Station> station, Time time)
-        : Event(time), _sim(sim), _trainId(trainId), _station(station) {}
+    DisassembleEvent(std::weak_ptr<Simulation> sim, std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time)
+        : Event(time), _sim(sim), _train(train), _station(station) {}
 
     virtual void processEvent();
 };

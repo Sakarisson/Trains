@@ -25,24 +25,25 @@ public:
     ~Station();
 
     // ----------------- GETTERS -----------------
-    std::unique_ptr<Train>& getTrainById(int);
+    std::shared_ptr<Train> getTrainById(int);
     std::string getName() const;
     int getDistanceToStation(std::string&) const;
 
     // ------------------ LOGIC ------------------
-    std::unique_ptr<Train> removeTrainById(int&);
+    std::shared_ptr<Train> removeTrainById(int&);
     void addCarToPool(int, CarType, int param0 = 0, int param1 = 0);
     void addCarToPool(std::unique_ptr<Car>&);
-    void addTrain(std::unique_ptr<Train>&);
+    void addTrain(std::shared_ptr<Train>&);
     void addDistanceToStation(std::string&, int&);
     bool assembleTrain(int&);
+    bool assembleTrain(std::shared_ptr<Train>);
 private:
     // ------------- INTERNAL LOGIC -------------
-    bool addCarToTrain(CarType, std::unique_ptr<Train>&);
+    bool addCarToTrain(CarType, std::shared_ptr<Train>);
     void eraseEmptyCars();
 private:
     // ----------- INTERNAL VARIABLES -----------
-    std::vector<std::unique_ptr<Train>> _trains;
+    std::vector<std::shared_ptr<Train>> _trains;
     std::vector<std::unique_ptr<Car>> _carPool;
     std::string _name;
     std::unique_ptr<DistanceManager> _distances;

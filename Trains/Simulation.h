@@ -7,10 +7,9 @@
 #include <queue>
 
 #include "DataReader.h"
-#include "Station.h"
 #include "Event.h"
-#include "UI.h"
 
+class Station;
 class Train;
 class Time;
 
@@ -22,7 +21,7 @@ typedef std::priority_queue<
     EventComparison
 > EventQueue;
 
-class Simulation
+class Simulation : public std::enable_shared_from_this<Simulation>
 {
 public:
     Simulation();    // Constructor
@@ -37,17 +36,14 @@ public:
     std::vector<std::shared_ptr<Station>> getAllStations();
 
     // ------------------ LOGIC ------------------
+    void scheduleAssembleEvent(std::shared_ptr<Train>, std::shared_ptr<Station>, Time);
     void scheduleEvent(std::shared_ptr<Event>);
     void addTrainToTransit(std::unique_ptr<Train>&);
-    std::unique_ptr<Train> removeTrainById(int&);
+    std::shared_ptr<Train> removeTrainById(int&);
+    std::shared_ptr<Simulation> pointerToThis();
 private:
     // ------------- INTERNAL LOGIC -------------
-    std::vector<std::string> splitBySpace(std::string&);
-    void processTrains();
-    void processStations();
-    void processTrainMaps();
     bool processNextEvent();
-    void setupMenu();
 private:
     // ----------- INTERNAL VARIABLES -----------
     Time _currentTime;
@@ -60,7 +56,6 @@ private:
     std::unique_ptr<DataReader> _trainMapData;
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::unique_ptr<Train>> _trainsInTransit;
-    UI _ui;
     EventQueue _eventQueue;
 };
 

@@ -17,8 +17,8 @@ Station::~Station() {
 }
 
 // ----------------- GETTERS -----------------
-std::unique_ptr<Train>& Station::getTrainById(int id) {
-    return *std::find_if(_trains.begin(), _trains.end(), [id](const std::unique_ptr<Train>& t) { return t->getId() == id; });
+std::shared_ptr<Train> Station::getTrainById(int id) {
+    return *std::find_if(_trains.begin(), _trains.end(), [id](const std::shared_ptr<Train> t) { return t->getId() == id; });
 }
 
 std::string Station::getName() const {
@@ -30,11 +30,11 @@ int Station::getDistanceToStation(std::string& station) const {
 }
 
 // ------------------ LOGIC ------------------
-std::unique_ptr<Train> Station::removeTrainById(int& id) {
-    std::unique_ptr<Train> train = nullptr;
+std::shared_ptr<Train> Station::removeTrainById(int& id) {
+    std::shared_ptr<Train> train = nullptr;
     for (size_t i = 0; i < _trains.size(); ++i) {
         if (_trains[i]->getId() == id) {
-            train = move(_trains[i]);
+            train = _trains[i];
             _trains.erase(_trains.begin() + i);
             break;
         }
@@ -73,9 +73,9 @@ void Station::addCarToPool(std::unique_ptr<Car>& car) {
     }
 }
 
-void Station::addTrain(std::unique_ptr<Train>& train) {
+void Station::addTrain(std::shared_ptr<Train>& train) {
     if (train != nullptr) {
-        _trains.push_back(move(train));
+        _trains.push_back(train);
     }
 }
 
@@ -109,8 +109,34 @@ bool Station::assembleTrain(int& trainId) {
     }
 }
 
+bool Station::assembleTrain(std::shared_ptr<Train> train) {
+    auto it = std::find_if(_trains.begin(), _trains.end(), [train](auto t) { return train == t; });
+    if (it == _trains.end()) {
+        return false;
+    }
+    else {
+        int i = 0;
+        train->setCurrentState(INCOMPLETE);
+        for each (CarType request in (*it)->getMissingCars()) {
+            if (addCarToTrain(request, train)) {
+                train->eraseMissingCar(i);
+            }
+            else {
+                ++i;
+            }
+        }
+        if (train->getMissingCars().size() == 0) {
+            train->setCurrentState(ASSEMBLED);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 // ------------- INTERNAL LOGIC -------------
-bool Station::addCarToTrain(CarType type, std::unique_ptr<Train>& train) {
+bool Station::addCarToTrain(CarType type, std::shared_ptr<Train> train) {
     // Sort vector of cars before selecting the first one
     std::sort(_carPool.begin(), _carPool.end(),
         [](const std::unique_ptr<Car>& a, const std::unique_ptr<Car>& b){ 
