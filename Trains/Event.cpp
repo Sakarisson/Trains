@@ -57,7 +57,7 @@ void ArriveEvent::processEvent() {
     //std::unique_ptr<Train> train = move(_sim->removeTrainById(_trainId));
     std::shared_ptr<Station> station;
     if (auto sim = _sim.lock()) {
-        station = sim->getStation(_train->getDestinationStation());
+    //    station = sim->getStation(_train->getDestinationStation());
     }
     _train->setCurrentState(ARRIVED);
     station->addTrain(_train);

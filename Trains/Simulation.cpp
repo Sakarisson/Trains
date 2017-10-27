@@ -37,44 +37,44 @@ std::string Simulation::getIntervalString() const {
     return _interval.getString();
 }
 
-std::shared_ptr<Station> Simulation::getStation(std::string& name) {
-    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
-    if (it != _stations.end()) {
-        return *it;
-    }
-    else {
-        return nullptr;
-    }
-}
+//std::shared_ptr<Station> Simulation::getStation(std::string& name) {
+//    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
+//    if (it != _stations.end()) {
+//        return *it;
+//    }
+//    else {
+//        return nullptr;
+//    }
+//}
 
-std::vector<std::shared_ptr<Station>> Simulation::getAllStations() {
-    return _stations;
-}
+//std::vector<std::shared_ptr<Station>> Simulation::getAllStations() {
+//    return _stations;
+//}
 
 // ------------------ LOGIC ------------------
 void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
     _eventQueue.push(e);
 }
 
-void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
-    _trainsInTransit.push_back(move(train));
-}
+//void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
+//    _trainsInTransit.push_back(move(train));
+//}
 
-std::shared_ptr<Train> Simulation::removeTrainById(int& id) {
-    std::unique_ptr<Train> train;
-    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
-        if (_trainsInTransit[i]->getId() == id) {
-            train = move(_trainsInTransit[i]);
-            _trainsInTransit.erase(_trainsInTransit.begin() + i);
-            break;
-        }
-    }
-    return move(train);
-}
-
-std::shared_ptr<Simulation> Simulation::pointerToThis() {
-    return shared_from_this();
-}
+//std::shared_ptr<Train> Simulation::removeTrainById(int& id) {
+//    std::unique_ptr<Train> train;
+//    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
+//        if (_trainsInTransit[i]->getId() == id) {
+//            train = move(_trainsInTransit[i]);
+//            _trainsInTransit.erase(_trainsInTransit.begin() + i);
+//            break;
+//        }
+//    }
+//    return move(train);
+//}
+//
+//std::shared_ptr<Simulation> Simulation::pointerToThis() {
+//    return shared_from_this();
+//}
 
 // ------------- INTERNAL LOGIC -------------
 void Simulation::scheduleAssembleEvent(std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time) {

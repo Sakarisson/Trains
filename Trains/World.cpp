@@ -42,6 +42,10 @@ void World::initialize(std::shared_ptr<Simulation> sim) {
     processTrainMaps(_trainMapData->getLines());
 }
 
+std::vector<std::shared_ptr<Station>> World::getAllStations() {
+    return _stations;
+}
+
 void World::processStations(std::vector<std::string>& trainStationData) {
     if (trainStationData.size() == 0) {
         throw std::range_error("TrainStations.txt: File is empty!");
