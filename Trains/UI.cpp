@@ -39,7 +39,7 @@ std::string ChangeStartTime::getTitle() const {
     return "Change start time[" + _data.simulation->getStartTimeString() + "]";
 }
 
-void ChangeStartTime::run() {
+MenuType ChangeStartTime::run() {
     cout <<
         "At what time would you like the simulation to start? [" << _data.simulation->getStartTimeString() << "] ";
     std::string startTime;
@@ -52,13 +52,14 @@ void ChangeStartTime::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
+    return MAIN;
 }
 
 std::string ChangeEndTime::getTitle() const {
     return "Change end time[" + _data.simulation->getEndTimeString() + "]";
 }
 
-void ChangeEndTime::run() {
+MenuType ChangeEndTime::run() {
     cout <<
         "At what time would you like the simulation to end? [" << _data.simulation->getEndTimeString() << "] ";
     std::string endTime;
@@ -71,14 +72,15 @@ void ChangeEndTime::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
+    return MAIN;
 }
 
-void StartSimulation::run() {
-
+MenuType StartSimulation::run() {
+    return SIMULATION;
 }
 
-void Exit::run() {
-
+MenuType Exit::run() {
+    return BACK;
 }
 
 
@@ -90,7 +92,7 @@ std::string ChangeInterval::getTitle() const{
     return "Change interval [" + _data.simulation->getIntervalString() + "]";
 }
 
-void ChangeInterval::run() {
+MenuType ChangeInterval::run() {
     cout <<
         "What interval time would you like? [" << _data.simulation->getIntervalString() << "] ";
     std::string intervalTime;
@@ -103,100 +105,114 @@ void ChangeInterval::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
+    return SIMULATION;
 }
 
-void RunNextInterval::run() {
-
+MenuType RunNextInterval::run() {
+    _data.simulation->goToNextInterval();
+    return SIMULATION;
 }
 
-void NextEvent::run() {
-
+MenuType NextEvent::run() {
+    if (_data.simulation->processNextEvent()) {
+        cout <<
+            "Event has been processed" << endl <<
+            _data.simulation->getNumberOfEventsInQueue() << " events in queue" << endl;
+    }
+    else {
+        cout << "There is no event to process" << endl;
+    }
+    return SIMULATION;
 }
 
-void Finish::run() {
-
+MenuType Finish::run() {
+    while (_data.simulation->processNextEvent()) {}
+    cout << "Simulation complete" << endl;
+    return SIMULATION;
 }
 
-void ChangeLogLevel::run() {
-
+MenuType ChangeLogLevel::run() {
+    return SIMULATION;
 }
 
-void TrainMenu::run() {
-
+MenuType TrainMenu::run() {
+    return TRAIN;
 }
 
-void StationMenu::run() {
-
+MenuType StationMenu::run() {
+    return STATION;
 }
 
-void VehicleMenu::run() {
-
+MenuType VehicleMenu::run() {
+    return VEHICLE;
 }
 
-void Return::run() {
-
+MenuType Return::run() {
+    return BACK;
 }
 
-void PrintStatistics::run() {
-
+MenuType PrintStatistics::run() {
+    return VEHICLE;
 }
 
 // ----------------------------------------------------------
 // ---------------- TRAIN MENU ITEMS ------------------------
 // ----------------------------------------------------------
 
-void SearchTrainByNumber::run() {
-
+MenuType SearchTrainByNumber::run() {
+    return TRAIN;
 }
 
-void SearchTrainByVehicleId::run() {
-
+MenuType SearchTrainByVehicleId::run() {
+    return TRAIN;
 }
 
-void ShowAllTrains::run() {
-
+MenuType ShowAllTrains::run() {
+    return TRAIN;
 }
 
 // ----------------------------------------------------------
 // ---------------- STATION MENU ITEMS ----------------------
 // ----------------------------------------------------------
 
-void ShowStationNames::run() {
+MenuType ShowStationNames::run() {
     for each(auto s in _data.world->getAllStations()) {
         cout << s->getName() << endl;
     }
+    return STATION;
 }
 
-void ShowStationByName::run() {
+MenuType ShowStationByName::run() {
     std::string name;
     cout <<
         "Type in station name: ";
     std::cin >> name;
-    //auto s = _sim->getStation(name);
-    //if (s == nullptr) {
-    //    cout <<
-    //        "Invalid station name" << endl;
-    //}
-    //else {
-    //    cout <<
-    //        "Name: " << s->getName() << endl;
-    //}
+    auto s = _data.world->getStation(name);
+    if (s == nullptr) {
+        cout <<
+            "Invalid station name" << endl;
+    }
+    else {
+        cout <<
+            "Name: " << s->getName() << endl;
+    }
+    return STATION;
 }
 
-void ShowAllStations::run() {
-
+MenuType ShowAllStations::run() {
+    return STATION;
 }
 
 // ----------------------------------------------------------
 // ---------------- VEHICLE MENU ITEMS ----------------------
 // ----------------------------------------------------------
 
-void ShowVehicleById::run() {
-
+MenuType ShowVehicleById::run() {
+    return VEHICLE;
 }
 
-void ShowAllVehicles::run() {
-
+MenuType ShowAllVehicles::run() {
+    return VEHICLE;
 }
 
 // ----------------------------------------------------------
@@ -242,7 +258,6 @@ bool Menu::processChoice(int choice) {
 // ----------------------------------------------------------
 
 UI::UI() {
-    int i;
     _data.world = std::make_shared<World>();
     _data.simulation = std::make_shared<Simulation>();
     _data.world->initialize(_data.simulation);
@@ -290,8 +305,8 @@ UI::UI() {
     this->setMenu(stationMenu, STATION);
     this->setMenu(vehicleMenu, VEHICLE);
 
-    while (true) {
-        this->accessMenu(SIMULATION);
+    while (_running) {
+        this->accessMenu();
     }
 }
 
@@ -317,11 +332,11 @@ void UI::setMenu(std::unique_ptr<Menu>& menu, MenuType type) {
     }
 }
 
-void UI::accessMenu(MenuType type) {
-    switch (type) {
+void UI::accessMenu() {
+    switch (_currentMenu) {
     case MAIN:
         _mainMenu->printItems();
-        _mainMenu->userInteract();
+        _currentMenu = _mainMenu->userInteract();
         break;
     case SIMULATION:
         _simulationMenu->printItems();

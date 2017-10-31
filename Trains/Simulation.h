@@ -9,7 +9,6 @@
 #include "DataReader.h"
 #include "Event.h"
 
-class Station;
 class Train;
 class Time;
 
@@ -34,6 +33,7 @@ public:
     std::string getIntervalString() const;
     std::string getStartTimeString() const;
     std::string getEndTimeString() const;
+    int getNumberOfEventsInQueue() const;
 
     // ------------------ LOGIC ------------------
     void scheduleAssembleEvent(std::shared_ptr<Train>, std::shared_ptr<Station>, Time);
@@ -42,8 +42,6 @@ public:
     void changeStartTime(Time&);
     void changeEndTime(Time&);
     void goToNextInterval();
-private:
-    // ------------- INTERNAL LOGIC -------------
     bool processNextEvent();
 private:
     // ----------- INTERNAL VARIABLES -----------
@@ -51,8 +49,8 @@ private:
     Time _endTime;
     Time _currentTime;
     Time _interval;
-    std::vector<std::shared_ptr<Station>> _stations;
-    std::vector<std::unique_ptr<Train>> _trainsInTransit;
+    Time _lastInterval;
+    std::vector<std::shared_ptr<Train>> _trainsInTransit;
     EventQueue _eventQueue;
 };
 

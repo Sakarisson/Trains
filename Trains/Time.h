@@ -16,6 +16,8 @@ public:
     std::string getString() const;
     Time& operator+=(std::shared_ptr<Time>);
     Time& operator+=(int&);
+    const bool operator<=(Time&);
+    Time operator+(Time&);
 private:
     int validateInput(std::string&);
 private:

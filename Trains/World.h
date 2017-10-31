@@ -18,6 +18,7 @@ public:
     ~World();
     void initialize(std::shared_ptr<Simulation>);
     std::vector<std::shared_ptr<Station>> getAllStations();
+    std::shared_ptr<Station> getStation(std::string);
 private:
     std::vector<std::string> splitBySpace(std::string&);
     void processStations(std::vector<std::string>&);

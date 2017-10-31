@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "Train.h"
+#include "Station.h"
 #include "Constants.h"
 
 #include "CoachCar.h"
@@ -23,7 +24,7 @@ Train::Train() {
 Train::Train(
     int id,
     std::string departureStation,
-    std::string destinationStation,
+    std::shared_ptr<Station> destinationStation,
     Time departureTime,
     Time destinationTime,
     int maxSpeed
@@ -34,11 +35,11 @@ Train::Train(
     _expectedDepartureTime(std::make_unique<Time>(departureTime)),
     _scheduledDestinationTime(std::make_unique<Time>(destinationTime)),
     _expectedDestinationTime(std::make_unique<Time>(destinationTime)),
-    _averageSpeed(maxSpeed) {}
+    _maxSpeed(maxSpeed) {}
 
 
 Train::~Train() {
-
+    _destinationStation.reset();
 }
 
 // ----------------- GETTERS -----------------
@@ -61,6 +62,10 @@ std::unique_ptr<Time>& Train::getExpectedDestinationTime() {
 }
 
 std::string Train::getDestinationStation() const {
+    return _destinationStation->getName();
+}
+
+std::shared_ptr<Station> Train::getDestinationStationPointer() {
     return _destinationStation;
 }
 

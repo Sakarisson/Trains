@@ -98,7 +98,7 @@ void World::processTrains(std::shared_ptr<Simulation> simulation, std::vector<st
         std::shared_ptr<Train> newTrain = std::make_shared<Train>(
             stoi(data[0]),
             data[1],
-            data[2],
+            getStation(data[2]),
             data[3],
             data[4],
             stoi(data[5])
@@ -135,5 +135,15 @@ void World::processTrainMaps(std::vector<std::string>& trainMapData) {
         int distance = stoi(rawData[2]);
         _distanceManager->addDistance(a, b, distance);
         ++lineCounter;
+    }
+}
+
+std::shared_ptr<Station> World::getStation(std::string station) {
+    auto it = std::find_if(_stations.begin(), _stations.end(), [station](std::shared_ptr<Station>& s) { return s->getName() == station; });
+    if (it != _stations.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
     }
 }

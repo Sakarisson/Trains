@@ -25,6 +25,8 @@ enum TrainState {
     FINISHED       // Train has been disassembled
 };
 
+class Station;
+
 class Train
 {
 public:
@@ -32,7 +34,7 @@ public:
     Train(
         int id,
         std::string departureStation,
-        std::string destinationStation,
+        std::shared_ptr<Station> destinationStation,
         Time departureTime,
         Time destinationTime,
         int maxSpeed);
@@ -46,6 +48,7 @@ public:
     std::unique_ptr<Time>& getExpectedDestinationTime();
 
     std::string getDestinationStation() const;
+    std::shared_ptr<Station> getDestinationStationPointer();
     std::string getTrainNumber() const;
     std::string getDepartureStation() const;
     TrainState getCurrentState() const;
@@ -72,10 +75,10 @@ private:
     std::string _departureStation;
     std::unique_ptr<Time> _scheduledDepartureTime;
     std::unique_ptr<Time> _expectedDepartureTime;
-    std::string _destinationStation;
+    std::shared_ptr<Station> _destinationStation;
     std::unique_ptr<Time> _scheduledDestinationTime;
     std::unique_ptr<Time> _expectedDestinationTime;
-    int _averageSpeed;
+    int _maxSpeed;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 };
 

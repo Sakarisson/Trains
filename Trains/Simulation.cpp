@@ -16,6 +16,7 @@ Simulation::Simulation() {
     _endTime = std::string("23:59");
     _interval = 10;
     _currentTime = _startTime;
+    _lastInterval = _currentTime;
 }
 
 
@@ -48,6 +49,10 @@ std::string Simulation::getEndTimeString() const {
     return _endTime.getString();
 }
 
+int Simulation::getNumberOfEventsInQueue() const {
+    return _eventQueue.size();
+}
+
 // ------------------ LOGIC ------------------
 void Simulation::scheduleAssembleEvent(std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time) {
     std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(shared_from_this(), train, station, *train->getScheduledDepartureTime());
@@ -71,10 +76,24 @@ void Simulation::changeEndTime(Time& endTime) {
 }
 
 void Simulation::goToNextInterval() {
-    
+    while (_currentTime <= _lastInterval + _interval) {
+        bool test1 = _currentTime <= _lastInterval + _interval;
+        bool test2 = _eventQueue.top()->getTime() <= _lastInterval + _interval;
+        Time nextEventTime = _eventQueue.top()->getTime();
+        Time stop = _lastInterval + _interval;
+        if (_eventQueue.top()->getTime() <= _lastInterval + _interval) {
+            if (!processNextEvent()) {
+                return;
+            }
+        }
+        else {
+            _currentTime = _lastInterval + _interval;
+            _lastInterval = _currentTime;
+            break;
+        }
+    }
 }
 
-// ------------- INTERNAL LOGIC -------------
 bool Simulation::processNextEvent() {
     if (_currentTime.pastMidnight() && _trainsInTransit.size() <= 0) {
         return false;

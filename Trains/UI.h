@@ -11,7 +11,8 @@ enum MenuType {
     SIMULATION,
     TRAIN,
     STATION,
-    VEHICLE
+    VEHICLE,
+    BACK
 };
 
 using std::cout;
@@ -34,7 +35,7 @@ public:
     void setItemNumber(int);
     virtual std::string getTitle() const = 0;
     int getItemNumber() const;
-    virtual void run() = 0;
+    virtual MenuType run() = 0;
 protected:
     Data _data;
     int _itemNumber;
@@ -51,7 +52,7 @@ public:
     virtual ~ChangeStartTime() {}
 
     std::string getTitle() const override;
-    void run() override;
+    MenuType run() override;
 };
 
 class ChangeEndTime : public MenuItem {
@@ -60,7 +61,7 @@ public:
     virtual ~ChangeEndTime() {}
 
     std::string getTitle() const override;
-    void run() override;
+    MenuType run() override;
 };
 
 class StartSimulation : public MenuItem {
@@ -69,7 +70,7 @@ public:
     virtual ~StartSimulation() {}
 
     std::string getTitle() const override { return "Start simulation"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class Exit : public MenuItem {
@@ -78,7 +79,7 @@ public:
     virtual ~Exit() {}
 
     std::string getTitle() const override { return "Exit"; }
-    void run() override;
+    MenuType run() override;
 };
 
 // ----------------------------------------------------------
@@ -91,7 +92,7 @@ public:
     virtual ~ChangeInterval() {}
 
     std::string getTitle() const override;
-    void run() override;
+    MenuType run() override;
 };
 
 class RunNextInterval : public MenuItem {
@@ -100,7 +101,7 @@ public:
     virtual ~RunNextInterval() {}
 
     std::string getTitle() const override { return "Run next interval"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class NextEvent : public MenuItem {
@@ -109,7 +110,7 @@ public:
     virtual ~NextEvent() {}
 
     std::string getTitle() const override { return "Next event"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class Finish : public MenuItem {
@@ -118,7 +119,7 @@ public:
     virtual ~Finish() {}
 
     std::string getTitle() const override { return "Finish (complete simulation)"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class ChangeLogLevel : public MenuItem {
@@ -127,7 +128,7 @@ public:
     virtual ~ChangeLogLevel() {}
 
     std::string getTitle() const override { return "Change log level"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class TrainMenu : public MenuItem {
@@ -136,7 +137,7 @@ public:
     virtual ~TrainMenu() {}
 
     std::string getTitle() const override { return "Train menu"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class StationMenu : public MenuItem {
@@ -145,7 +146,7 @@ public:
     virtual ~StationMenu() {}
 
     std::string getTitle() const override { return "Station menu"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class VehicleMenu : public MenuItem {
@@ -154,7 +155,7 @@ public:
     virtual ~VehicleMenu() {}
 
     std::string getTitle() const override { return "Vehicle menu"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class Return : public MenuItem {
@@ -163,7 +164,7 @@ public:
     virtual ~Return() {}
 
     std::string getTitle() const override { return "Return"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class PrintStatistics : public MenuItem {
@@ -172,7 +173,7 @@ public:
     virtual ~PrintStatistics() {}
 
     std::string getTitle() const override { return "Print statistics"; }
-    void run() override;
+    MenuType run() override;
 };
 
 // ----------------------------------------------------------
@@ -185,7 +186,7 @@ public:
     virtual ~SearchTrainByNumber() {}
 
     std::string getTitle() const override { return "Search train by number"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class SearchTrainByVehicleId : public MenuItem {
@@ -194,7 +195,7 @@ public:
     virtual ~SearchTrainByVehicleId() {}
 
     std::string getTitle() const override { return "Search train by vehicle ID"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class ShowAllTrains : public MenuItem {
@@ -203,7 +204,7 @@ public:
     virtual ~ShowAllTrains() {}
 
     std::string getTitle() const override { return "Show all trains"; }
-    void run() override;
+    MenuType run() override;
 };
 
 // ----------------------------------------------------------
@@ -216,7 +217,7 @@ public:
     virtual ~ShowStationNames() {}
 
     std::string getTitle() const override { return "Show station names"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class ShowStationByName : public MenuItem {
@@ -225,7 +226,7 @@ public:
     virtual ~ShowStationByName() {}
 
     std::string getTitle() const override { return "Show station by name"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class ShowAllStations : public MenuItem {
@@ -234,7 +235,7 @@ public:
     virtual ~ShowAllStations() {}
 
     std::string getTitle() const override { return "Show all stations"; }
-    void run() override;
+    MenuType run() override;
 };
 
 // ----------------------------------------------------------
@@ -247,7 +248,7 @@ public:
     virtual ~ShowVehicleById() {}
 
     std::string getTitle() const override { return "Show vehicle by ID"; }
-    void run() override;
+    MenuType run() override;
 };
 
 class ShowAllVehicles : public MenuItem {
@@ -256,7 +257,7 @@ public:
     virtual ~ShowAllVehicles() {}
 
     std::string getTitle() const override { return "Show all vehicles"; }
-    void run() override;
+    MenuType run() override;
 };
 
 // ----------------------------------------------------------
@@ -281,13 +282,14 @@ public:
     ~UI() {}
 
     void setMenu(std::unique_ptr<Menu>&, MenuType);
-    void accessMenu(MenuType);
+    void accessMenu();
 private:
     std::unique_ptr<Menu> _mainMenu;
     std::unique_ptr<Menu> _simulationMenu;
     std::unique_ptr<Menu> _trainMenu;
     std::unique_ptr<Menu> _stationMenu;
     std::unique_ptr<Menu> _vehicleMenu;
+    MenuType _currentMenu = MAIN;
     bool _running = true;
     Data _data;
 };
