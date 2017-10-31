@@ -12,7 +12,10 @@ using std::cout;
 using std::endl;
 
 Simulation::Simulation() {
+    _startTime = 0;
+    _endTime = std::string("23:59");
     _interval = 10;
+    _currentTime = _startTime;
 }
 
 
@@ -37,50 +40,41 @@ std::string Simulation::getIntervalString() const {
     return _interval.getString();
 }
 
-//std::shared_ptr<Station> Simulation::getStation(std::string& name) {
-//    auto it = find_if(_stations.begin(), _stations.end(), [name](std::shared_ptr<Station> &s) { return s->getName() == name; });
-//    if (it != _stations.end()) {
-//        return *it;
-//    }
-//    else {
-//        return nullptr;
-//    }
-//}
-
-//std::vector<std::shared_ptr<Station>> Simulation::getAllStations() {
-//    return _stations;
-//}
-
-// ------------------ LOGIC ------------------
-void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
-    _eventQueue.push(e);
+std::string Simulation::getStartTimeString() const {
+    return _startTime.getString();
 }
 
-//void Simulation::addTrainToTransit(std::unique_ptr<Train>& train) {
-//    _trainsInTransit.push_back(move(train));
-//}
+std::string Simulation::getEndTimeString() const {
+    return _endTime.getString();
+}
 
-//std::shared_ptr<Train> Simulation::removeTrainById(int& id) {
-//    std::unique_ptr<Train> train;
-//    for (size_t i = 0; i < _trainsInTransit.size(); ++i) {
-//        if (_trainsInTransit[i]->getId() == id) {
-//            train = move(_trainsInTransit[i]);
-//            _trainsInTransit.erase(_trainsInTransit.begin() + i);
-//            break;
-//        }
-//    }
-//    return move(train);
-//}
-//
-//std::shared_ptr<Simulation> Simulation::pointerToThis() {
-//    return shared_from_this();
-//}
-
-// ------------- INTERNAL LOGIC -------------
+// ------------------ LOGIC ------------------
 void Simulation::scheduleAssembleEvent(std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time) {
     std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(shared_from_this(), train, station, *train->getScheduledDepartureTime());
     scheduleEvent(assembleEvent);
 }
+
+void Simulation::scheduleEvent(std::shared_ptr<Event> e) {
+    _eventQueue.push(e);
+}
+
+void Simulation::changeIntervalTime(Time& interval) {
+    _interval = interval;
+}
+
+void Simulation::changeStartTime(Time& startTime) {
+    _startTime = startTime;
+}
+
+void Simulation::changeEndTime(Time& endTime) {
+    _endTime = endTime;
+}
+
+void Simulation::goToNextInterval() {
+    
+}
+
+// ------------- INTERNAL LOGIC -------------
 bool Simulation::processNextEvent() {
     if (_currentTime.pastMidnight() && _trainsInTransit.size() <= 0) {
         return false;

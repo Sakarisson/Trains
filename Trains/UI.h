@@ -20,9 +20,14 @@ using std::endl;
 class Simulation;
 class World;
 
+struct Data {
+    std::shared_ptr<World> world;
+    std::shared_ptr<Simulation> simulation;
+};
+
 class MenuItem {
 public:
-    MenuItem(std::shared_ptr<World> world) : _world(world) {}
+    MenuItem(Data data) : _data(data) {}
     virtual ~MenuItem() {}
     
     std::string getHeader() const;
@@ -31,7 +36,7 @@ public:
     int getItemNumber() const;
     virtual void run() = 0;
 protected:
-    std::shared_ptr<World> _world;
+    Data _data;
     int _itemNumber;
     int _menuWidth = 50;
 };
@@ -42,25 +47,25 @@ protected:
 
 class ChangeStartTime : public MenuItem {
 public:
-    ChangeStartTime(std::shared_ptr<World> world) : MenuItem(world) {}
+    ChangeStartTime(Data data) : MenuItem(data) {}
     virtual ~ChangeStartTime() {}
 
-    std::string getTitle() const override { return "Change start time[00:00]"; }
+    std::string getTitle() const override;
     void run() override;
 };
 
 class ChangeEndTime : public MenuItem {
 public:
-    ChangeEndTime(std::shared_ptr<World> world) : MenuItem(world) {}
+    ChangeEndTime(Data data) : MenuItem(data) {}
     virtual ~ChangeEndTime() {}
 
-    std::string getTitle() const override { return "Change end time[23:59]"; }
+    std::string getTitle() const override;
     void run() override;
 };
 
 class StartSimulation : public MenuItem {
 public:
-    StartSimulation(std::shared_ptr<World> world) : MenuItem(world) {}
+    StartSimulation(Data data) : MenuItem(data) {}
     virtual ~StartSimulation() {}
 
     std::string getTitle() const override { return "Start simulation"; }
@@ -69,7 +74,7 @@ public:
 
 class Exit : public MenuItem {
 public:
-    Exit(std::shared_ptr<World> world) : MenuItem(world) {}
+    Exit(Data data) : MenuItem(data) {}
     virtual ~Exit() {}
 
     std::string getTitle() const override { return "Exit"; }
@@ -82,7 +87,7 @@ public:
 
 class ChangeInterval : public MenuItem {
 public:
-    ChangeInterval(std::shared_ptr<World> world) : MenuItem(world) {}
+    ChangeInterval(Data data) : MenuItem(data) {}
     virtual ~ChangeInterval() {}
 
     std::string getTitle() const override;
@@ -91,7 +96,7 @@ public:
 
 class RunNextInterval : public MenuItem {
 public:
-    RunNextInterval(std::shared_ptr<World> world) : MenuItem(world) {}
+    RunNextInterval(Data data) : MenuItem(data) {}
     virtual ~RunNextInterval() {}
 
     std::string getTitle() const override { return "Run next interval"; }
@@ -100,7 +105,7 @@ public:
 
 class NextEvent : public MenuItem {
 public:
-    NextEvent(std::shared_ptr<World> world) : MenuItem(world) {}
+    NextEvent(Data data) : MenuItem(data) {}
     virtual ~NextEvent() {}
 
     std::string getTitle() const override { return "Next event"; }
@@ -109,7 +114,7 @@ public:
 
 class Finish : public MenuItem {
 public:
-    Finish(std::shared_ptr<World> world) : MenuItem(world) {}
+    Finish(Data data) : MenuItem(data) {}
     virtual ~Finish() {}
 
     std::string getTitle() const override { return "Finish (complete simulation)"; }
@@ -118,7 +123,7 @@ public:
 
 class ChangeLogLevel : public MenuItem {
 public:
-    ChangeLogLevel(std::shared_ptr<World> world) : MenuItem(world) {}
+    ChangeLogLevel(Data data) : MenuItem(data) {}
     virtual ~ChangeLogLevel() {}
 
     std::string getTitle() const override { return "Change log level"; }
@@ -127,7 +132,7 @@ public:
 
 class TrainMenu : public MenuItem {
 public:
-    TrainMenu(std::shared_ptr<World> world) : MenuItem(world) {}
+    TrainMenu(Data data) : MenuItem(data) {}
     virtual ~TrainMenu() {}
 
     std::string getTitle() const override { return "Train menu"; }
@@ -136,7 +141,7 @@ public:
 
 class StationMenu : public MenuItem {
 public:
-    StationMenu(std::shared_ptr<World> world) : MenuItem(world) {}
+    StationMenu(Data data) : MenuItem(data) {}
     virtual ~StationMenu() {}
 
     std::string getTitle() const override { return "Station menu"; }
@@ -145,7 +150,7 @@ public:
 
 class VehicleMenu : public MenuItem {
 public:
-    VehicleMenu(std::shared_ptr<World> world) : MenuItem(world) {}
+    VehicleMenu(Data data) : MenuItem(data) {}
     virtual ~VehicleMenu() {}
 
     std::string getTitle() const override { return "Vehicle menu"; }
@@ -154,7 +159,7 @@ public:
 
 class Return : public MenuItem {
 public:
-    Return(std::shared_ptr<World> world) : MenuItem(world) {}
+    Return(Data data) : MenuItem(data) {}
     virtual ~Return() {}
 
     std::string getTitle() const override { return "Return"; }
@@ -163,7 +168,7 @@ public:
 
 class PrintStatistics : public MenuItem {
 public:
-    PrintStatistics(std::shared_ptr<World> world) : MenuItem(world) {}
+    PrintStatistics(Data data) : MenuItem(data) {}
     virtual ~PrintStatistics() {}
 
     std::string getTitle() const override { return "Print statistics"; }
@@ -176,7 +181,7 @@ public:
 
 class SearchTrainByNumber : public MenuItem {
 public:
-    SearchTrainByNumber(std::shared_ptr<World> world) : MenuItem(world) {}
+    SearchTrainByNumber(Data data) : MenuItem(data) {}
     virtual ~SearchTrainByNumber() {}
 
     std::string getTitle() const override { return "Search train by number"; }
@@ -185,7 +190,7 @@ public:
 
 class SearchTrainByVehicleId : public MenuItem {
 public:
-    SearchTrainByVehicleId(std::shared_ptr<World> world) : MenuItem(world) {}
+    SearchTrainByVehicleId(Data data) : MenuItem(data) {}
     virtual ~SearchTrainByVehicleId() {}
 
     std::string getTitle() const override { return "Search train by vehicle ID"; }
@@ -194,7 +199,7 @@ public:
 
 class ShowAllTrains : public MenuItem {
 public:
-    ShowAllTrains(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowAllTrains(Data data) : MenuItem(data) {}
     virtual ~ShowAllTrains() {}
 
     std::string getTitle() const override { return "Show all trains"; }
@@ -207,7 +212,7 @@ public:
 
 class ShowStationNames : public MenuItem {
 public:
-    ShowStationNames(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowStationNames(Data data) : MenuItem(data) {}
     virtual ~ShowStationNames() {}
 
     std::string getTitle() const override { return "Show station names"; }
@@ -216,7 +221,7 @@ public:
 
 class ShowStationByName : public MenuItem {
 public:
-    ShowStationByName(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowStationByName(Data data) : MenuItem(data) {}
     virtual ~ShowStationByName() {}
 
     std::string getTitle() const override { return "Show station by name"; }
@@ -225,7 +230,7 @@ public:
 
 class ShowAllStations : public MenuItem {
 public:
-    ShowAllStations(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowAllStations(Data data) : MenuItem(data) {}
     virtual ~ShowAllStations() {}
 
     std::string getTitle() const override { return "Show all stations"; }
@@ -238,7 +243,7 @@ public:
 
 class ShowVehicleById : public MenuItem {
 public:
-    ShowVehicleById(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowVehicleById(Data data) : MenuItem(data) {}
     virtual ~ShowVehicleById() {}
 
     std::string getTitle() const override { return "Show vehicle by ID"; }
@@ -247,7 +252,7 @@ public:
 
 class ShowAllVehicles : public MenuItem {
 public:
-    ShowAllVehicles(std::shared_ptr<World> world) : MenuItem(world) {}
+    ShowAllVehicles(Data data) : MenuItem(data) {}
     virtual ~ShowAllVehicles() {}
 
     std::string getTitle() const override { return "Show all vehicles"; }
@@ -283,8 +288,8 @@ private:
     std::unique_ptr<Menu> _trainMenu;
     std::unique_ptr<Menu> _stationMenu;
     std::unique_ptr<Menu> _vehicleMenu;
-    std::shared_ptr<Simulation> _simulation;
-    std::shared_ptr<World> _world;
+    bool _running = true;
+    Data _data;
 };
 
 #endif // !UI_H

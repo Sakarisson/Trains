@@ -17,6 +17,8 @@ public:
     Time& operator+=(std::shared_ptr<Time>);
     Time& operator+=(int&);
 private:
+    int validateInput(std::string&);
+private:
     unsigned int _minutesSinceMidnight;
 };
 

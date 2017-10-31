@@ -4,10 +4,9 @@
 #include <memory>
 
 
+
 Time::Time(std::string stringFormattedTime) {
-    int hours = stoi(stringFormattedTime.substr(0, stringFormattedTime.find(":")));
-    int minutes = stoi(stringFormattedTime.substr(stringFormattedTime.find(":") + 1));
-    _minutesSinceMidnight = hours * 60 + minutes;
+    _minutesSinceMidnight = validateInput(stringFormattedTime);
 }
 
 
@@ -39,4 +38,19 @@ Time& Time::operator+=(std::shared_ptr<Time> addedTime) {
 Time& Time::operator+=(int& addedTime) {
     this->_minutesSinceMidnight += addedTime;
     return *this;
+}
+
+int Time::validateInput(std::string& input) {
+    if (input.length() != 5) {
+        throw std::runtime_error("Invalid input");
+    }
+    int hours = stoi(input.substr(0, input.find(":")));
+    int minutes = stoi(input.substr(input.find(":") + 1));
+    if (hours < 0 || hours >= 24) {
+        throw std::runtime_error("Invalid hour");
+    }
+    if (minutes < 0 || minutes >= 60) {
+        throw std::runtime_error("Invalid minutes");
+    }
+    return hours * 60 + minutes;
 }
