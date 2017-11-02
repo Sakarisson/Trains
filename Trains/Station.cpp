@@ -29,6 +29,10 @@ std::vector<std::unique_ptr<Car>>& Station::getAllCars() {
     return _carPool;
 }
 
+std::vector<std::shared_ptr<Train>> Station::getAllTrains() {
+    return _trains;
+}
+
 // ------------------ LOGIC ------------------
 void Station::removeTrain(std::shared_ptr<Train> train) {
     for (size_t i = 0; i < _trains.size(); ++i) {

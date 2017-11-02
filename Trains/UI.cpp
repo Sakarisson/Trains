@@ -200,6 +200,18 @@ MenuType PrintStatistics::run() {
 // ----------------------------------------------------------
 
 MenuType SearchTrainByNumber::run() {
+    cout <<
+        "Train number: ";
+    int trainNumber;
+    std::cin >> trainNumber;
+    auto trains = _data.world->getAllTrains();
+    auto it = std::find_if(trains.begin(), trains.end(), [trainNumber](auto train) { return train->getId() == trainNumber; });
+    if (it != trains.end()) {
+        (*it)->print();
+    }
+    else {
+        cout << "Could not find train" << endl;
+    }
     return SAME;
 }
 
@@ -222,20 +234,31 @@ MenuType ShowStationNames::run() {
     return SAME;
 }
 
+std::string analyzeStation(std::string& name, LogLevel logLevel, std::shared_ptr<World> world) {
+    std::stringstream output;
+    auto s = world->getStation(name);
+    if (s == nullptr) {
+        output <<
+            "Invalid station name";
+    }
+    else {
+        output <<
+            "Name: " << s->getName() << endl <<
+            "Trains at station: " << s->getAllTrains().size();
+    }
+    return output.str();
+}
+
 MenuType ShowStationByName::run() {
+    LogLevel logLevel;
+    if (auto owner = _ownerMenu.lock()) {
+        logLevel = owner->getLogLevel();
+    }
     std::string name;
     cout <<
         "Type in station name: ";
     std::cin >> name;
-    auto s = _data.world->getStation(name);
-    if (s == nullptr) {
-        cout <<
-            "Invalid station name" << endl;
-    }
-    else {
-        cout <<
-            "Name: " << s->getName() << endl;
-    }
+    cout << analyzeStation(name, logLevel, _data.world) << endl;
     return SAME;
 }
 

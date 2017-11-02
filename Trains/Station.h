@@ -26,6 +26,7 @@ public:
 
     // ----------------- GETTERS -----------------
     std::shared_ptr<Train> getTrainById(int);
+    std::vector<std::shared_ptr<Train>> getAllTrains();
     std::string getName() const;
     std::vector<std::unique_ptr<Car>>& getAllCars();
 
