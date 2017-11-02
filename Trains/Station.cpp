@@ -25,17 +25,18 @@ std::string Station::getName() const {
     return _name;
 }
 
+std::vector<std::unique_ptr<Car>>& Station::getAllCars() {
+    return _carPool;
+}
+
 // ------------------ LOGIC ------------------
-std::shared_ptr<Train> Station::removeTrainById(int& id) {
-    std::shared_ptr<Train> train = nullptr;
+void Station::removeTrain(std::shared_ptr<Train> train) {
     for (size_t i = 0; i < _trains.size(); ++i) {
-        if (_trains[i]->getId() == id) {
-            train = _trains[i];
+        if (_trains[i] == train) {
             _trains.erase(_trains.begin() + i);
             break;
         }
     }
-    return train;
 }
 
 void Station::addCarToPool(int id, CarType type, int param0, int param1) {
@@ -69,7 +70,7 @@ void Station::addCarToPool(std::unique_ptr<Car>& car) {
     }
 }
 
-void Station::addTrain(std::shared_ptr<Train>& train) {
+void Station::addTrain(std::shared_ptr<Train> train) {
     if (train != nullptr) {
         _trains.push_back(train);
     }

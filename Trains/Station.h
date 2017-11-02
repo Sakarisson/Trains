@@ -27,14 +27,13 @@ public:
     // ----------------- GETTERS -----------------
     std::shared_ptr<Train> getTrainById(int);
     std::string getName() const;
-    int getDistanceToStation(std::string&) const;
+    std::vector<std::unique_ptr<Car>>& getAllCars();
 
     // ------------------ LOGIC ------------------
-    std::shared_ptr<Train> removeTrainById(int&);
+    void removeTrain(std::shared_ptr<Train>);
     void addCarToPool(int, CarType, int param0 = 0, int param1 = 0);
     void addCarToPool(std::unique_ptr<Car>&);
-    void addTrain(std::shared_ptr<Train>&);
-    void addDistanceToStation(std::string&, int&);
+    void addTrain(std::shared_ptr<Train>);
     bool assembleTrain(int&);
     bool assembleTrain(std::shared_ptr<Train>);
 private:

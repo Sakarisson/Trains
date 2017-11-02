@@ -55,6 +55,7 @@ public:
     std::string getCurrentStateString() const;
     int getId() const;
     std::vector<CarType> getMissingCars();
+    std::vector<std::unique_ptr<Car>>& getAllCars();
     bool isEmpty() const;
 
     // ----------------- SETTERS -----------------
@@ -75,7 +76,7 @@ private:
     std::string _departureStation;
     std::unique_ptr<Time> _scheduledDepartureTime;
     std::unique_ptr<Time> _expectedDepartureTime;
-    std::shared_ptr<Station> _destinationStation;
+    std::weak_ptr<Station> _destinationStation;
     std::unique_ptr<Time> _scheduledDestinationTime;
     std::unique_ptr<Time> _expectedDestinationTime;
     int _maxSpeed;

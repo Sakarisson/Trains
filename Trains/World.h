@@ -20,6 +20,8 @@ public:
     std::vector<std::shared_ptr<Station>> getAllStations();
     std::shared_ptr<Station> getStation(std::string);
     std::vector<std::shared_ptr<Train>> getAllTrains();
+    int numberOfCarsInStation() const;
+    int numberOfCarsInTrain() const;
 private:
     std::vector<std::string> splitBySpace(std::string&);
     void processStations(std::vector<std::string>&);

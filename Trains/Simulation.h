@@ -20,8 +20,7 @@ typedef std::priority_queue<
     EventComparison
 > EventQueue;
 
-class Simulation : public std::enable_shared_from_this<Simulation>
-{
+class Simulation : public std::enable_shared_from_this<Simulation> {
 public:
     Simulation();    // Constructor
     ~Simulation();   // Destructor
@@ -41,6 +40,7 @@ public:
     void changeIntervalTime(Time&);
     void changeStartTime(Time&);
     void changeEndTime(Time&);
+    void goToStart();
     void goToNextInterval();
     bool processNextEvent();
 private:

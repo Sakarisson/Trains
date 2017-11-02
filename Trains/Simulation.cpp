@@ -21,7 +21,9 @@ Simulation::Simulation() {
 
 
 Simulation::~Simulation() {
-
+    while (!_eventQueue.empty()) {
+        _eventQueue.pop();
+    }
 }
 
 void Simulation::run() {
@@ -55,7 +57,7 @@ int Simulation::getNumberOfEventsInQueue() const {
 
 // ------------------ LOGIC ------------------
 void Simulation::scheduleAssembleEvent(std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time) {
-    std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(shared_from_this(), train, station, *train->getScheduledDepartureTime());
+    std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(shared_from_this(), train, station, train->getScheduledDepartureTime()->getMinutes() - 30);
     scheduleEvent(assembleEvent);
 }
 
@@ -75,12 +77,23 @@ void Simulation::changeEndTime(Time& endTime) {
     _endTime = endTime;
 }
 
+void Simulation::goToStart() {
+    while (_currentTime < _startTime) {
+        if (_eventQueue.top()->getTime() <= _startTime) {
+            processNextEvent();
+        }
+        else {
+            _currentTime = _startTime;
+        }
+    }
+}
+
 void Simulation::goToNextInterval() {
-    while (_currentTime <= _lastInterval + _interval) {
-        bool test1 = _currentTime <= _lastInterval + _interval;
-        bool test2 = _eventQueue.top()->getTime() <= _lastInterval + _interval;
-        Time nextEventTime = _eventQueue.top()->getTime();
-        Time stop = _lastInterval + _interval;
+    while (_currentTime < _lastInterval + _interval) {
+        //bool test1 = _currentTime <= _lastInterval + _interval;
+        //bool test2 = _eventQueue.top()->getTime() <= _lastInterval + _interval;
+        //Time nextEventTime = _eventQueue.top()->getTime();
+        //Time stop = _lastInterval + _interval;
         if (_eventQueue.top()->getTime() <= _lastInterval + _interval) {
             if (!processNextEvent()) {
                 return;

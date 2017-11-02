@@ -40,6 +40,10 @@ Time& Time::operator+=(int& addedTime) {
     return *this;
 }
 
+const bool Time::operator<(Time& other) {
+    return this->_minutesSinceMidnight < other.getMinutes();
+}
+
 const bool Time::operator<=(Time& other) {
     return this->_minutesSinceMidnight <= other.getMinutes();
 }

@@ -62,11 +62,15 @@ std::unique_ptr<Time>& Train::getExpectedDestinationTime() {
 }
 
 std::string Train::getDestinationStation() const {
-    return _destinationStation->getName();
+    if (auto dest = _destinationStation.lock()) {
+        return dest->getName();
+    }
 }
 
 std::shared_ptr<Station> Train::getDestinationStationPointer() {
-    return _destinationStation;
+    if (auto dest = _destinationStation.lock()) {
+        return dest;
+    }
 }
 
 std::string Train::getTrainNumber() const {
@@ -108,6 +112,10 @@ std::string Train::getCurrentStateString() const {
     default:
         return "Unknown";
     }
+}
+
+std::vector<std::unique_ptr<Car>>& Train::getAllCars() {
+    return _cars;
 }
 
 bool Train::isEmpty() const {
@@ -165,11 +173,13 @@ void Train::eraseMissingCar(int& index) {
 
 void Train::print() const {
     int i = 0;
-    cout <<
-        "Train [" << std::to_string(_id) << "] " <<
-        "from " << _departureStation << " " << _scheduledDepartureTime->getString() <<
-        " to " << _destinationStation << " " << _scheduledDestinationTime->getString() << endl <<
-        "  Vehicles: (" << _cars.size() << ")" << endl;
+    if (auto dest = _destinationStation.lock()) {
+        cout <<
+            "Train [" << std::to_string(_id) << "] (" << getCurrentStateString() << "), " <<
+            "from " << _departureStation << " " << _scheduledDepartureTime->getString() <<
+            " to " << dest->getName() << " " << _scheduledDestinationTime->getString() << endl <<
+            "  Vehicles: (" << _cars.size() << ")" << endl;
+    }
     for each(auto &car in _cars) {
         cout << "    " << ++i << ": " << car->getInfo() << endl;
     }

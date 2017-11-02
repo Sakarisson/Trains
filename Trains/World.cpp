@@ -15,7 +15,12 @@ World::World() {
 
 
 World::~World() {
-
+    while (!_stations.empty()) {
+        _stations.pop_back();
+    }
+    while (!_trains.empty()) {
+        _trains.pop_back();
+    }
 }
 
 // ------------- INTERNAL LOGIC -------------
@@ -44,6 +49,36 @@ void World::initialize(std::shared_ptr<Simulation> sim) {
 
 std::vector<std::shared_ptr<Station>> World::getAllStations() {
     return _stations;
+}
+
+std::shared_ptr<Station> World::getStation(std::string station) {
+    auto it = std::find_if(_stations.begin(), _stations.end(), [station](std::shared_ptr<Station>& s) { return s->getName() == station; });
+    if (it != _stations.end()) {
+        return *it;
+    }
+    else {
+        return nullptr;
+    }
+}
+
+std::vector<std::shared_ptr<Train>> World::getAllTrains() {
+    return _trains;
+}
+
+int World::numberOfCarsInStation() const {
+    int result = 0;
+    for each (auto station in _stations) {
+        result += station->getAllCars().size();
+    }
+    return result;
+}
+
+int World::numberOfCarsInTrain() const {
+    int result = 0;
+    for each (auto train in _trains) {
+        result += train->getAllCars().size();
+    }
+    return result;
 }
 
 void World::processStations(std::vector<std::string>& trainStationData) {
@@ -136,18 +171,4 @@ void World::processTrainMaps(std::vector<std::string>& trainMapData) {
         _distanceManager->addDistance(a, b, distance);
         ++lineCounter;
     }
-}
-
-std::shared_ptr<Station> World::getStation(std::string station) {
-    auto it = std::find_if(_stations.begin(), _stations.end(), [station](std::shared_ptr<Station>& s) { return s->getName() == station; });
-    if (it != _stations.end()) {
-        return *it;
-    }
-    else {
-        return nullptr;
-    }
-}
-
-std::vector<std::shared_ptr<Train>> World::getAllTrains() {
-    return _trains;
 }

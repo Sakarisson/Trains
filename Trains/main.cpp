@@ -1,9 +1,6 @@
-#include "UI.h"
+#include "Memstat.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
+#include "UI.h" 
 
 int main() {
     UI ui;

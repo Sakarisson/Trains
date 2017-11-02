@@ -23,12 +23,24 @@ std::string MenuItem::getHeader() const {
     return header.str();
 }
 
+void MenuItem::setOwner(std::shared_ptr<Menu> owner) {
+    _ownerMenu = owner;
+}
+
 void MenuItem::setItemNumber(int itemNumber) {
     _itemNumber = itemNumber;
 }
 
 int MenuItem::getItemNumber() const {
     return _itemNumber;
+}
+
+void MenuItem::setActive(bool active) {
+    _active = active;
+}
+
+bool MenuItem::isActive() const {
+    return _active;
 }
 
 // ----------------------------------------------------------
@@ -52,7 +64,7 @@ MenuType ChangeStartTime::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
-    return MAIN;
+    return SAME;
 }
 
 std::string ChangeEndTime::getTitle() const {
@@ -72,10 +84,14 @@ MenuType ChangeEndTime::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
-    return MAIN;
+    return SAME;
 }
 
 MenuType StartSimulation::run() {
+    _data.simulation->goToStart();
+    if (auto owner = _ownerMenu.lock()) {
+        owner->disableItem(0);
+    }
     return SIMULATION;
 }
 
@@ -105,12 +121,12 @@ MenuType ChangeInterval::run() {
     catch (std::exception &e) {
         cout << e.what() << endl;
     }
-    return SIMULATION;
+    return SAME;
 }
 
 MenuType RunNextInterval::run() {
     _data.simulation->goToNextInterval();
-    return SIMULATION;
+    return SAME;
 }
 
 MenuType NextEvent::run() {
@@ -122,17 +138,38 @@ MenuType NextEvent::run() {
     else {
         cout << "There is no event to process" << endl;
     }
-    return SIMULATION;
+    return SAME;
 }
 
 MenuType Finish::run() {
     while (_data.simulation->processNextEvent()) {}
     cout << "Simulation complete" << endl;
-    return SIMULATION;
+    return SAME;
+}
+
+std::string ChangeLogLevel::getTitle() const {
+    std::string logLevel;
+    if (auto owner = _ownerMenu.lock()) {
+        logLevel = owner->getLogLevelString();
+    }
+    return "Change log level (" + logLevel + ")";
 }
 
 MenuType ChangeLogLevel::run() {
-    return SIMULATION;
+    cout <<
+        "What log level would you like? Options: LOW(1), MEDIUM(2), HIGH(3) ";
+    int choice;
+    std::cin >> choice;
+    if (choice < 1 || choice >= 4) {
+        cout << "Invalid choice" << endl;
+    }
+    else {
+        LogLevel logLevel = LogLevel(choice - 1);
+        if (auto owner = _ownerMenu.lock()) {
+            owner->setLogLevel(logLevel);
+        }
+    }
+    return SAME;
 }
 
 MenuType TrainMenu::run() {
@@ -152,8 +189,10 @@ MenuType Return::run() {
 }
 
 MenuType PrintStatistics::run() {
-    for each(std::shared_ptr<Train>& train in _data.world->)
-    return VEHICLE;
+    for each(std::shared_ptr<Train> train in _data.world->getAllTrains()) {
+        train->print();
+    }
+    return SAME;
 }
 
 // ----------------------------------------------------------
@@ -161,15 +200,15 @@ MenuType PrintStatistics::run() {
 // ----------------------------------------------------------
 
 MenuType SearchTrainByNumber::run() {
-    return TRAIN;
+    return SAME;
 }
 
 MenuType SearchTrainByVehicleId::run() {
-    return TRAIN;
+    return SAME;
 }
 
 MenuType ShowAllTrains::run() {
-    return TRAIN;
+    return SAME;
 }
 
 // ----------------------------------------------------------
@@ -180,7 +219,7 @@ MenuType ShowStationNames::run() {
     for each(auto s in _data.world->getAllStations()) {
         cout << s->getName() << endl;
     }
-    return STATION;
+    return SAME;
 }
 
 MenuType ShowStationByName::run() {
@@ -197,11 +236,11 @@ MenuType ShowStationByName::run() {
         cout <<
             "Name: " << s->getName() << endl;
     }
-    return STATION;
+    return SAME;
 }
 
 MenuType ShowAllStations::run() {
-    return STATION;
+    return SAME;
 }
 
 // ----------------------------------------------------------
@@ -209,11 +248,38 @@ MenuType ShowAllStations::run() {
 // ----------------------------------------------------------
 
 MenuType ShowVehicleById::run() {
-    return VEHICLE;
+    return SAME;
 }
 
 MenuType ShowAllVehicles::run() {
-    return VEHICLE;
+    LogLevel logLevel;
+    if (auto owner = _ownerMenu.lock()) {
+        logLevel = owner->getLogLevel();
+    }
+    cout << "======================== Vehicles in a station (" << _data.world->numberOfCarsInStation() << ") ========================" << endl;
+    for each (auto station in _data.world->getAllStations()) {
+        cout << "  " << station->getName() << ", " << station->getAllCars().size() << " cars" << endl;
+        if (logLevel >= MEDIUM) {
+            for each (auto& car in station->getAllCars()) {
+                cout << "    " << car->getInfo() << endl;
+            }
+            cout << endl;
+        }
+    }
+    cout << "======================== Vehicles in a train (" << _data.world->numberOfCarsInTrain() << ") ========================" << endl;
+    for each (auto train in _data.world->getAllTrains()) {
+        int numberOfCars = train->getAllCars().size();
+        if (numberOfCars > 0) {
+            cout << "  Train id: " << train->getId() << ", " << train->getDepartureStation() << " to " << train->getDestinationStation() << ", " << numberOfCars << " cars" << endl;
+            if (logLevel >= MEDIUM) {
+                for each (auto& car in train->getAllCars()) {
+                    cout << "    " << car->getInfo() << endl;
+                }
+                cout << endl;
+            }
+        }
+    }
+    return SAME;
 }
 
 // ----------------------------------------------------------
@@ -222,18 +288,44 @@ MenuType ShowAllVehicles::run() {
 
 void Menu::addItem(std::unique_ptr<MenuItem> item) {
     item->setItemNumber(_menuItems.size() + 1);
+    item->setOwner(shared_from_this());
     _menuItems.push_back(move(item));
 }
 
 void Menu::printItems() {
     for each (auto& item in _menuItems) {
-        cout << item->getItemNumber() << ". " << item->getTitle() << endl;
+        if (item->isActive()) {
+            cout << item->getItemNumber() << ". " << item->getTitle() << endl;
+        }
     }
 }
 
-void Menu::userInteract() {
-    if (!processChoice(getChoice())) {
-        cout << "Invalid choice" << endl;
+MenuType Menu::getNextMenu() {
+    return processChoice(getChoice());
+}
+
+void Menu::disableItem(int i) {
+    _menuItems[i]->setActive(false);
+}
+
+void Menu::setLogLevel(LogLevel logLevel) {
+    _logLevel = logLevel;
+}
+
+LogLevel Menu::getLogLevel() const {
+    return _logLevel;
+}
+
+std::string Menu::getLogLevelString() const {
+    switch (_logLevel) {
+    case LOW:
+        return "LOW";
+    case MEDIUM:
+        return "MEDIUM";
+    case HIGH:
+        return "HIGH";
+    default:
+        return "UNKNOWN";
     }
 }
 
@@ -243,14 +335,13 @@ int Menu::getChoice() const {
     return choice;
 }
 
-bool Menu::processChoice(int choice) {
+MenuType Menu::processChoice(int choice) {
     auto it = std::find_if(_menuItems.begin(), _menuItems.end(), [choice](std::unique_ptr<MenuItem>& item) { return item->getItemNumber() == choice; });
-    if (it != _menuItems.end()) {
-        (*it)->run();
-        return true;
+    if (it != _menuItems.end() && (*it)->isActive()) {
+        return (*it)->run();
     }
     else {
-        return false;
+        return INVALID;
     }
 }
 
@@ -263,13 +354,13 @@ UI::UI() {
     _data.simulation = std::make_shared<Simulation>();
     _data.world->initialize(_data.simulation);
 
-    std::unique_ptr<Menu> mainMenu = std::make_unique<Menu>();              // Main Menu
+    std::shared_ptr<Menu> mainMenu = std::make_shared<Menu>();              // Main Menu
     mainMenu->addItem(std::make_unique<ChangeStartTime>(_data));            //  - Change start time
     mainMenu->addItem(std::make_unique<ChangeEndTime>(_data));              //  - Change end time
     mainMenu->addItem(std::make_unique<StartSimulation>(_data));            //  - Start simulation
     mainMenu->addItem(std::make_unique<Exit>(_data));                       //  - Exit
 
-    std::unique_ptr<Menu> simulationMenu = std::make_unique<Menu>();        // Simulation menu
+    std::shared_ptr<Menu> simulationMenu = std::make_shared<Menu>();        // Simulation menu
     simulationMenu->addItem(std::make_unique<ChangeInterval>(_data));       //  - Change interval
     simulationMenu->addItem(std::make_unique<RunNextInterval>(_data));      //  - Run next interval
     simulationMenu->addItem(std::make_unique<NextEvent>(_data));            //  - Next event
@@ -278,23 +369,24 @@ UI::UI() {
     simulationMenu->addItem(std::make_unique<TrainMenu>(_data));            //  - Open train menu
     simulationMenu->addItem(std::make_unique<StationMenu>(_data));          //  - Open station menu
     simulationMenu->addItem(std::make_unique<VehicleMenu>(_data));          //  - Open vehicle menu
+    simulationMenu->addItem(std::make_unique<PrintStatistics>(_data));      //  - Print statistics
     simulationMenu->addItem(std::make_unique<Return>(_data));               //  - Return
 
-    std::unique_ptr<Menu> trainMenu = std::make_unique<Menu>();             // Train menu
+    std::shared_ptr<Menu> trainMenu = std::make_shared<Menu>();             // Train menu
     trainMenu->addItem(std::make_unique<SearchTrainByNumber>(_data));       //  - Search train by number
     trainMenu->addItem(std::make_unique<SearchTrainByVehicleId>(_data));    //  - Search train by vehicle id
     trainMenu->addItem(std::make_unique<ShowAllTrains>(_data));             //  - Show all trains
     trainMenu->addItem(std::make_unique<ChangeLogLevel>(_data));            //  - Change log level
     trainMenu->addItem(std::make_unique<Return>(_data));                    //  - Return
 
-    std::unique_ptr<Menu> stationMenu = std::make_unique<Menu>();           // Station menu
+    std::shared_ptr<Menu> stationMenu = std::make_shared<Menu>();           // Station menu
     stationMenu->addItem(std::make_unique<ShowStationNames>(_data));        //  - Show station names
     stationMenu->addItem(std::make_unique<ShowStationByName>(_data));       //  - Show station by name
     stationMenu->addItem(std::make_unique<ShowAllStations>(_data));         //  - Show all stations
     stationMenu->addItem(std::make_unique<ChangeLogLevel>(_data));          //  - Change log level
     stationMenu->addItem(std::make_unique<Return>(_data));                  //  - Return
 
-    std::unique_ptr<Menu> vehicleMenu = std::make_unique<Menu>();           // Vehicle menu
+    std::shared_ptr<Menu> vehicleMenu = std::make_shared<Menu>();           // Vehicle menu
     vehicleMenu->addItem(std::make_unique<ShowVehicleById>(_data));         //  - Show vehicle by id
     vehicleMenu->addItem(std::make_unique<ShowAllVehicles>(_data));         //  - Show all vehicles
     vehicleMenu->addItem(std::make_unique<ChangeLogLevel>(_data));          //  - Change log level
@@ -311,22 +403,32 @@ UI::UI() {
     }
 }
 
-void UI::setMenu(std::unique_ptr<Menu>& menu, MenuType type) {
+UI::~UI() {
+    _data.simulation.reset();
+    _data.world.reset();
+    _mainMenu.reset();
+    _simulationMenu.reset();
+    _trainMenu.reset();
+    _stationMenu.reset();
+    _vehicleMenu.reset();
+}
+
+void UI::setMenu(std::shared_ptr<Menu> menu, MenuType type) {
     switch (type) {
     case MAIN:
-        _mainMenu = move(menu);
+        _mainMenu = menu;
         break;
     case SIMULATION:
-        _simulationMenu = move(menu);
+        _simulationMenu = menu;
         break;
     case TRAIN:
-        _trainMenu = move(menu);
+        _trainMenu = menu;
         break;
     case STATION:
-        _stationMenu = move(menu);
+        _stationMenu = menu;
         break;
     case VEHICLE:
-        _vehicleMenu = move(menu);
+        _vehicleMenu = menu;
         break;
     default:
         break;
@@ -334,28 +436,47 @@ void UI::setMenu(std::unique_ptr<Menu>& menu, MenuType type) {
 }
 
 void UI::accessMenu() {
+    MenuType previousMenu = _currentMenu;
     switch (_currentMenu) {
     case MAIN:
         _mainMenu->printItems();
-        _currentMenu = _mainMenu->userInteract();
+        _currentMenu = _mainMenu->getNextMenu();
         break;
     case SIMULATION:
         _simulationMenu->printItems();
-        _simulationMenu->userInteract();
+        _currentMenu = _simulationMenu->getNextMenu();
         break;
     case TRAIN:
         _trainMenu->printItems();
-        _trainMenu->userInteract();
+        _currentMenu = _trainMenu->getNextMenu();
         break;
     case STATION:
         _stationMenu->printItems();
-        _stationMenu->userInteract();
+        _currentMenu = _stationMenu->getNextMenu();
         break;
     case VEHICLE:
         _vehicleMenu->printItems();
-        _vehicleMenu->userInteract();
+        _currentMenu = _vehicleMenu->getNextMenu();
         break;
     default:
         break;
+    }
+    if (_currentMenu == BACK) {
+        if (previousMenu == TRAIN || previousMenu == STATION || previousMenu == VEHICLE) {
+            _currentMenu = SIMULATION;
+        }
+        else if (previousMenu == SIMULATION) {
+            _currentMenu = MAIN;
+        }
+        else {
+            _running = false;
+        }
+    }
+    if (_currentMenu == SAME) {
+        _currentMenu = previousMenu;
+    }
+    if (_currentMenu == INVALID) {
+        cout << "Invalid choice" << endl;
+        _currentMenu = previousMenu;
     }
 }

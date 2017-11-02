@@ -43,10 +43,9 @@ void GetReadyEvent::processEvent() {
 
 void LeaveStationEvent::processEvent() {
     // leave station logic
-    //auto t = _station->removeTrainById(_trainId);
+    _station->removeTrain(_train);
     _train->setCurrentState(RUNNING);
     Time arrivalTime = _train->getScheduledDestinationTime()->getMinutes();
-    //_sim->addTrainToTransit(t);
     std::shared_ptr<Event> arrive = std::make_shared<ArriveEvent>(_sim, _train, arrivalTime);
     if (auto sim = _sim.lock()) {
         sim->scheduleEvent(arrive);
@@ -54,11 +53,7 @@ void LeaveStationEvent::processEvent() {
 }
 
 void ArriveEvent::processEvent() {
-    //std::unique_ptr<Train> train = move(_sim->removeTrainById(_trainId));
     std::shared_ptr<Station> station = _train->getDestinationStationPointer();
-    //if (auto sim = _sim.lock()) {
-    //    station = sim->getStation(_train->getDestinationStation());
-    //}
     _train->setCurrentState(ARRIVED);
     station->addTrain(_train);
     std::shared_ptr<Event> disassemble = std::make_shared<DisassembleEvent>(_sim, _train, station, _time.getMinutes() + 20);

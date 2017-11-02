@@ -12,34 +12,39 @@ enum MenuType {
     TRAIN,
     STATION,
     VEHICLE,
-    BACK
+    BACK,
+    SAME,
+    INVALID
 };
-
-using std::cout;
-using std::endl;
 
 class Simulation;
 class World;
+class Menu;
 
 struct Data {
     std::shared_ptr<World> world;
     std::shared_ptr<Simulation> simulation;
 };
 
-class MenuItem {
+class MenuItem{
 public:
     MenuItem(Data data) : _data(data) {}
     virtual ~MenuItem() {}
     
     std::string getHeader() const;
     void setItemNumber(int);
+    void setOwner(std::shared_ptr<Menu>);
     virtual std::string getTitle() const = 0;
     int getItemNumber() const;
     virtual MenuType run() = 0;
+    void setActive(bool);
+    bool isActive() const;
 protected:
     Data _data;
     int _itemNumber;
     int _menuWidth = 50;
+    bool _active = true;
+    std::weak_ptr<Menu> _ownerMenu;
 };
 
 // ----------------------------------------------------------
@@ -127,7 +132,7 @@ public:
     ChangeLogLevel(Data data) : MenuItem(data) {}
     virtual ~ChangeLogLevel() {}
 
-    std::string getTitle() const override { return "Change log level"; }
+    std::string getTitle() const override;
     MenuType run() override;
 };
 
@@ -264,31 +269,44 @@ public:
 // ------------------------ MENU ----------------------------
 // ----------------------------------------------------------
 
-class Menu {
+enum LogLevel {
+    LOW,
+    MEDIUM,
+    HIGH
+};
+
+class Menu : public std::enable_shared_from_this<Menu> {
 public:
     Menu() {}
+    ~Menu() {}
     void addItem(std::unique_ptr<MenuItem>);
     void printItems();
-    void userInteract();
+    MenuType getNextMenu();
+    void disableItem(int);
+    void setLogLevel(LogLevel);
+    LogLevel getLogLevel() const;
+    std::string getLogLevelString() const;
 private:
     int getChoice() const;
-    bool processChoice(int);
+    MenuType processChoice(int);
+private:
     std::vector<std::unique_ptr<MenuItem>> _menuItems;
+    LogLevel _logLevel = MEDIUM;
 };
 
 class UI {
 public:
     UI();
-    ~UI() {}
+    ~UI();
 
-    void setMenu(std::unique_ptr<Menu>&, MenuType);
+    void setMenu(std::shared_ptr<Menu>, MenuType);
     void accessMenu();
 private:
-    std::unique_ptr<Menu> _mainMenu;
-    std::unique_ptr<Menu> _simulationMenu;
-    std::unique_ptr<Menu> _trainMenu;
-    std::unique_ptr<Menu> _stationMenu;
-    std::unique_ptr<Menu> _vehicleMenu;
+    std::shared_ptr<Menu> _mainMenu;
+    std::shared_ptr<Menu> _simulationMenu;
+    std::shared_ptr<Menu> _trainMenu;
+    std::shared_ptr<Menu> _stationMenu;
+    std::shared_ptr<Menu> _vehicleMenu;
     MenuType _currentMenu = MAIN;
     bool _running = true;
     Data _data;
