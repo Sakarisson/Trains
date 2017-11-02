@@ -147,3 +147,7 @@ std::shared_ptr<Station> World::getStation(std::string station) {
         return nullptr;
     }
 }
+
+std::vector<std::shared_ptr<Train>> World::getAllTrains() {
+    return _trains;
+}

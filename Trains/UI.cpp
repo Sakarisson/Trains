@@ -152,6 +152,7 @@ MenuType Return::run() {
 }
 
 MenuType PrintStatistics::run() {
+    for each(std::shared_ptr<Train>& train in _data.world->)
     return VEHICLE;
 }
 
