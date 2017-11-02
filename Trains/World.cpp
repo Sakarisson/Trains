@@ -5,6 +5,7 @@
 #include "Train.h"
 #include "Time.h"
 #include "Distance.h"
+#include "Car.h"
 
 #include <sstream>
 #include <regex>
@@ -79,6 +80,30 @@ int World::numberOfCarsInTrain() const {
         result += train->getAllCars().size();
     }
     return result;
+}
+
+const std::unique_ptr<Car>& World::getCarById(int& id, bool& found, std::shared_ptr<Train>& ownerTrain, std::shared_ptr<Station>& ownerStation) {
+    std::unique_ptr<Car> dummy;
+    for each (auto train in _trains) {
+        for each (auto& car in train->getAllCars()) {
+            if (car->getId() == id) {
+                ownerTrain = train;
+                found = true;
+                return car;
+            }
+        }
+    }
+    for each (auto station in _stations) {
+        for each (auto& car in station->getAllCars()) {
+            if (car->getId() == id) {
+                ownerStation = station;
+                found = true;
+                return car;
+            }
+        }
+    }
+    found = false;
+    return dummy;
 }
 
 void World::processStations(std::vector<std::string>& trainStationData) {

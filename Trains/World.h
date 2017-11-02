@@ -10,6 +10,7 @@ class Train;
 class Station;
 class DistanceManager;
 class Simulation;
+class Car;
 
 class World
 {
@@ -22,6 +23,7 @@ public:
     std::vector<std::shared_ptr<Train>> getAllTrains();
     int numberOfCarsInStation() const;
     int numberOfCarsInTrain() const;
+    const std::unique_ptr<Car>& getCarById(int&, bool&, std::shared_ptr<Train>&, std::shared_ptr<Station>&);
 private:
     std::vector<std::string> splitBySpace(std::string&);
     void processStations(std::vector<std::string>&);

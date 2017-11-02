@@ -248,6 +248,34 @@ MenuType ShowAllStations::run() {
 // ----------------------------------------------------------
 
 MenuType ShowVehicleById::run() {
+    LogLevel logLevel;
+    if (auto owner = _ownerMenu.lock()) {
+        logLevel = owner->getLogLevel();
+    }
+    cout << "Vehicle ID: ";
+    int id;
+    std::cin >> id;
+    bool found;
+    std::shared_ptr<Train> train;
+    std::shared_ptr<Station> station;
+    const std::unique_ptr<Car>& car = _data.world->getCarById(id, found, train, station);
+    if (found) {
+        cout << car->getInfo() << endl;
+        if (logLevel >= MEDIUM) {
+            if (station != nullptr) {
+                cout << "Is at " << station->getName() << endl;
+            }
+            else if (train != nullptr) {
+                cout << "Is attached to train with ID " << train->getId() << endl;
+                if (logLevel == HIGH) {
+                    cout << "On the way to " << train->getDestinationStation() << endl;
+                }
+            }
+        }
+    }
+    else {
+        cout << "Car not found" << endl;
+    }
     return SAME;
 }
 
@@ -255,13 +283,13 @@ std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel lo
     std::stringstream output;
     int columnCount = 10;
     if (logLevel == LOW) {
-        output << "    IDs:" << endl << "      ";
+        output << "    IDs:";
         int counter = 0;
         for each (auto& car in cars) {
-            output << car->getId() << " ";
-            if (++counter % columnCount == 0) {
+            if (counter++ % columnCount == 0) {
                 output << endl << "      ";
             }
+            output << std::setw(3) << car->getId() << " ";
         }
         output << endl;
     }
@@ -278,19 +306,19 @@ std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel lo
             carTypes.push_back(car->getType());
         }
     }
+    std::sort(carTypes.begin(), carTypes.end());
     if (logLevel == MEDIUM) {
         for each (CarType type in carTypes) {
             int counter = 0;
             auto it = std::find_if(cars.begin(), cars.end(), [type](auto& car) { return car->getType() == type; });
-            //output << "    type " << type << ":" << endl << "      ";
             if (it != cars.end()) {
-                output << "    " << (*it)->getTypeString() << "s" << endl << "      ";
+                output << "    " << (*it)->getTypeString() << "s";
             }
             while (it != cars.end()) {
-                output << (*it)->getId() << " ";
-                if (++counter % columnCount == 0) {
+                if (counter++ % columnCount == 0) {
                     output << endl << "      ";
                 }
+                output << std::setw(3) << (*it)->getId() << " ";
                 it = std::find_if(++it, cars.end(), [type](auto& car) { return car->getType() == type; });
             }
             output << endl;

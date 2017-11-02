@@ -90,10 +90,6 @@ void Simulation::goToStart() {
 
 void Simulation::goToNextInterval() {
     while (_currentTime < _lastInterval + _interval) {
-        //bool test1 = _currentTime <= _lastInterval + _interval;
-        //bool test2 = _eventQueue.top()->getTime() <= _lastInterval + _interval;
-        //Time nextEventTime = _eventQueue.top()->getTime();
-        //Time stop = _lastInterval + _interval;
         if (_eventQueue.top()->getTime() <= _lastInterval + _interval) {
             if (!processNextEvent()) {
                 return;
