@@ -251,6 +251,59 @@ MenuType ShowVehicleById::run() {
     return SAME;
 }
 
+std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel logLevel) {
+    std::stringstream output;
+    int columnCount = 10;
+    if (logLevel == LOW) {
+        output << "    IDs:" << endl << "      ";
+        int counter = 0;
+        for each (auto& car in cars) {
+            output << car->getId() << " ";
+            if (++counter % columnCount == 0) {
+                output << endl << "      ";
+            }
+        }
+        output << endl;
+    }
+    std::vector<CarType> carTypes;
+    for each (auto& car in cars) {
+        bool found = false;
+        for each (CarType type in carTypes) {
+            if (type == car->getType()) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            carTypes.push_back(car->getType());
+        }
+    }
+    if (logLevel == MEDIUM) {
+        for each (CarType type in carTypes) {
+            int counter = 0;
+            auto it = std::find_if(cars.begin(), cars.end(), [type](auto& car) { return car->getType() == type; });
+            //output << "    type " << type << ":" << endl << "      ";
+            if (it != cars.end()) {
+                output << "    " << (*it)->getTypeString() << "s" << endl << "      ";
+            }
+            while (it != cars.end()) {
+                output << (*it)->getId() << " ";
+                if (++counter % columnCount == 0) {
+                    output << endl << "      ";
+                }
+                it = std::find_if(++it, cars.end(), [type](auto& car) { return car->getType() == type; });
+            }
+            output << endl;
+        }
+    }
+    if (logLevel == HIGH) {
+        for each (auto& car in cars) {
+            output << "    " << car->getInfo() << endl;
+        }
+    }
+    return output.str();
+}
+
 MenuType ShowAllVehicles::run() {
     LogLevel logLevel;
     if (auto owner = _ownerMenu.lock()) {
@@ -258,25 +311,17 @@ MenuType ShowAllVehicles::run() {
     }
     cout << "======================== Vehicles in a station (" << _data.world->numberOfCarsInStation() << ") ========================" << endl;
     for each (auto station in _data.world->getAllStations()) {
-        cout << "  " << station->getName() << ", " << station->getAllCars().size() << " cars" << endl;
-        if (logLevel >= MEDIUM) {
-            for each (auto& car in station->getAllCars()) {
-                cout << "    " << car->getInfo() << endl;
-            }
-            cout << endl;
-        }
+        cout << 
+            "  Station: " << station->getName() << ", " << station->getAllCars().size() << " cars" << endl <<
+            analyzeVehicles(station->getAllCars(), logLevel) << endl;
     }
     cout << "======================== Vehicles in a train (" << _data.world->numberOfCarsInTrain() << ") ========================" << endl;
     for each (auto train in _data.world->getAllTrains()) {
         int numberOfCars = train->getAllCars().size();
         if (numberOfCars > 0) {
-            cout << "  Train id: " << train->getId() << ", " << train->getDepartureStation() << " to " << train->getDestinationStation() << ", " << numberOfCars << " cars" << endl;
-            if (logLevel >= MEDIUM) {
-                for each (auto& car in train->getAllCars()) {
-                    cout << "    " << car->getInfo() << endl;
-                }
-                cout << endl;
-            }
+            cout <<
+                "  Train id: " << train->getId() << ", " << train->getDepartureStation() << " to " << train->getDestinationStation() << ", " << numberOfCars << " cars" << endl <<
+                analyzeVehicles(train->getAllCars(), logLevel) << endl;
         }
     }
     return SAME;
