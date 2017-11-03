@@ -33,7 +33,6 @@ public:
     MenuItem(Data data) : _data(data) {}
     virtual ~MenuItem() {}
     
-    std::string getHeader() const;
     void setItemNumber(int);
     void setOwner(std::shared_ptr<Menu>);
     virtual std::string getTitle() const = 0;
@@ -46,7 +45,6 @@ protected:
 protected:
     Data _data;
     int _itemNumber;
-    int _menuWidth = 50;
     bool _active = true;
     std::weak_ptr<Menu> _ownerMenu;
 };
@@ -317,6 +315,8 @@ public:
 
     void setMenu(std::shared_ptr<Menu>, MenuType);
     void accessMenu();
+private:
+    std::string getHeader() const;
 private:
     std::shared_ptr<Menu> _mainMenu;
     std::shared_ptr<Menu> _simulationMenu;

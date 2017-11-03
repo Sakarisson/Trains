@@ -15,20 +15,6 @@ using std::endl;
 // ----------------------------------------------------------
 
 /*
- Get Header of MenuItem
- input:  void
- output: std::string
-*/
-std::string MenuItem::getHeader() const {
-    std::stringstream header;
-    header <<
-        std::setw(_menuWidth) << std::setfill('=') << "" << endl <<
-        "|          Main project - Trains                 |" << endl <<
-        std::setw(_menuWidth) << std::setfill('=') << "" << endl;
-    return header.str();
-}
-
-/*
  Set the owner of current MenuItem
  input:  std::shared_ptr<Menu>
  output: void
@@ -837,6 +823,7 @@ void UI::setMenu(std::shared_ptr<Menu> menu, MenuType type) {
 
 void UI::accessMenu() {
     MenuType previousMenu = _currentMenu;
+    cout << getHeader();
     switch (_currentMenu) {
     case MAIN:
         _mainMenu->printItems();
@@ -879,4 +866,19 @@ void UI::accessMenu() {
         cout << "Invalid choice" << endl;
         _currentMenu = previousMenu;
     }
+}
+
+/*
+Get Header of UI
+input:  void
+output: std::string
+*/
+std::string UI::getHeader() const {
+    std::stringstream header;
+    header <<
+        "==================================================" << endl <<
+        "|          Main project - Trains                 |" << endl <<
+        "==================================================" << endl <<
+        "   Current time: " << _data.simulation->getTimeString() << endl;
+    return header.str();
 }

@@ -161,12 +161,6 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mempool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Memstat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include "Memstat.h"
-
 #include "UI.h"
 
 using std::cout;
