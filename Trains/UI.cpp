@@ -226,10 +226,28 @@ MenuType SearchTrainByNumber::run() {
 }
 
 MenuType SearchTrainByVehicleId::run() {
+    LogLevel logLevel = getLogLevel();
+    cout <<
+        "Vehicle ID: ";
+    int carId;
+    std::cin >> carId;
+    for each (auto train in _data.world->getAllTrains()) {
+        for each (auto& car in train->getAllCars()) {
+            if (car->getId() == carId) {
+                train->print(logLevel);
+                return SAME;
+            }
+        }
+    }
+    cout << "That vehicle does not belong to any train" << endl;
     return SAME;
 }
 
 MenuType ShowAllTrains::run() {
+    LogLevel logLevel = getLogLevel();
+    for each (auto train in _data.world->getAllTrains()) {
+        train->print(logLevel);
+    }
     return SAME;
 }
 
