@@ -35,8 +35,8 @@ public:
     std::string getStartTimeString() const;
     std::string getEndTimeString() const;
     int getNumberOfEventsInQueue() const;
-    std::vector<std::string> getAllPastEvents(LogLevel) const;
-    std::vector<std::string> getEventsSinceLastInterval(LogLevel) const;
+    std::vector<std::string> getAllPastEvents() const;
+    std::vector<std::string> getEventsSinceLastInterval() const;
 
     // ------------------ LOGIC ------------------
     void scheduleAssembleEvent(std::shared_ptr<Train>, std::shared_ptr<Station>, Time);

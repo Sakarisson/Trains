@@ -26,6 +26,7 @@ enum TrainState {
 };
 
 class Station;
+class World;
 
 class Train {
 public:
@@ -36,7 +37,8 @@ public:
         std::shared_ptr<Station> destinationStation,
         Time departureTime,
         Time destinationTime,
-        int maxSpeed);
+        double maxSpeed,
+        int travelDistance);
     ~Train();
 
     // ----------------- GETTERS -----------------
@@ -48,7 +50,6 @@ public:
 
     std::string getDestinationStation() const;
     std::shared_ptr<Station> getDestinationStationPointer();
-    std::string getTrainNumber() const;
     std::string getDepartureStation() const;
     TrainState getCurrentState() const;
     std::string getCurrentStateString() const;
@@ -56,6 +57,8 @@ public:
     std::vector<CarType> getMissingCars();
     std::vector<std::unique_ptr<Car>>& getAllCars();
     bool isEmpty() const;
+    double getSpeed() const;
+    double getMaxSpeed() const;
 
     // ----------------- SETTERS -----------------
     void setCurrentState(TrainState currentState);
@@ -66,19 +69,18 @@ public:
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();
     void eraseMissingCar(int&);
-    void print(LogLevel) const;
-private:
+    void print(LogLevel) const;private:
     std::vector<CarType> _missingCars;
     std::vector<std::unique_ptr<Car>> _cars;
     int _id;
-    std::string _trainNumber;
     std::string _departureStation;
     std::unique_ptr<Time> _scheduledDepartureTime;
     std::unique_ptr<Time> _expectedDepartureTime;
     std::weak_ptr<Station> _destinationStation;
     std::unique_ptr<Time> _scheduledDestinationTime;
     std::unique_ptr<Time> _expectedDestinationTime;
-    int _maxSpeed;
+    double _maxSpeed;
+    int _travelDistance;
     TrainState _currentState = NOT_ASSEMBLED; // Trains are not assembled at initialization
 };
 

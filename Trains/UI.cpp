@@ -198,7 +198,7 @@ MenuType Return::run() {
 
 MenuType PrintStatistics::run() {
     LogLevel logLevel = getLogLevel();
-    for each(std::string e in _data.simulation->getAllPastEvents(logLevel)) {
+    for each(std::string e in _data.simulation->getAllPastEvents()) {
         cout << e << endl;
     }
     return SAME;

@@ -44,8 +44,8 @@ void World::initialize(std::shared_ptr<Simulation> sim) {
 
     // ---------- PROCESS STATIONS --------------------
     processStations(_trainStationData->getLines());
-    processTrains(sim, _trainData->getLines());
     processTrainMaps(_trainMapData->getLines());
+    processTrains(sim, _trainData->getLines());
 }
 
 std::vector<std::shared_ptr<Station>> World::getAllStations() {
@@ -145,6 +145,25 @@ void World::processStations(std::vector<std::string>& trainStationData) {
     }
 }
 
+void World::processTrainMaps(std::vector<std::string>& trainMapData) {
+    _distanceManager = std::make_shared<DistanceManager>();
+    if (trainMapData.size() == 0) {
+        throw std::range_error("TrainStations.txt: File is empty!");
+    }
+    int lineCounter = 1;
+    for each (std::string line in trainMapData) {
+        std::vector<std::string> rawData = splitBySpace(line);
+        if (rawData.size() != 3) {
+            throw std::range_error("TrainMap.txt line " + std::to_string(lineCounter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
+        }
+        std::string a = rawData[0];
+        std::string b = rawData[1];
+        int distance = stoi(rawData[2]);
+        _distanceManager->addDistance(a, b, distance);
+        ++lineCounter;
+    }
+}
+
 void World::processTrains(std::shared_ptr<Simulation> simulation, std::vector<std::string>& trainData) {
     if (trainData.size() == 0) {
         throw std::range_error("TrainData.txt: File is empty!");
@@ -161,7 +180,8 @@ void World::processTrains(std::shared_ptr<Simulation> simulation, std::vector<st
             getStation(data[2]),
             data[3],
             data[4],
-            stoi(data[5])
+            stoi(data[5]),
+            _distanceManager->getDistance(data[1], data[2])
             );
         for (size_t i = 6; i < data.size(); ++i) {
             newTrain->requestCar(CarType(stoi(data[i])));
@@ -175,25 +195,6 @@ void World::processTrains(std::shared_ptr<Simulation> simulation, std::vector<st
                 break;
             }
         }
-        ++lineCounter;
-    }
-}
-
-void World::processTrainMaps(std::vector<std::string>& trainMapData) {
-    _distanceManager = std::make_shared<DistanceManager>();
-    if (trainMapData.size() == 0) {
-        throw std::range_error("TrainStations.txt: File is empty!");
-    }
-    int lineCounter = 1;
-    for each (std::string line in trainMapData) {
-        std::vector<std::string> rawData = splitBySpace(line);
-        if (rawData.size() != 3) {
-            throw std::range_error("TrainMap.txt line " + std::to_string(lineCounter) + ": Expected 3 pieces of data. Found " + std::to_string(rawData.size()));
-        }
-        std::string a = rawData[0];
-        std::string b = rawData[1];
-        int distance = stoi(rawData[2]);
-        _distanceManager->addDistance(a, b, distance);
         ++lineCounter;
     }
 }

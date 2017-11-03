@@ -27,8 +27,8 @@ public:
 private:
     std::vector<std::string> splitBySpace(std::string&);
     void processStations(std::vector<std::string>&);
-    void processTrains(std::shared_ptr<Simulation>, std::vector<std::string>&);
     void processTrainMaps(std::vector<std::string>&);
+    void processTrains(std::shared_ptr<Simulation>, std::vector<std::string>&);
 private:
     std::vector<std::shared_ptr<Station>> _stations;
     std::vector<std::shared_ptr<Train>> _trains;
