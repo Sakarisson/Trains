@@ -14,6 +14,11 @@ using std::endl;
 // ------------------- MENUITEM -----------------------------
 // ----------------------------------------------------------
 
+/*
+ Get Header of MenuItem
+ input:  void
+ output: std::string
+*/
 std::string MenuItem::getHeader() const {
     std::stringstream header;
     header <<
@@ -23,30 +28,61 @@ std::string MenuItem::getHeader() const {
     return header.str();
 }
 
+/*
+ Set the owner of current MenuItem
+ input:  std::shared_ptr<Menu>
+ output: void
+*/
 void MenuItem::setOwner(std::shared_ptr<Menu> owner) {
     _ownerMenu = owner;
 }
 
+/*
+ Set item number of MenuItem. This is the number that will be shown 
+ in front of the item when the UI is being run
+ input:  int
+ output: void
+*/
 void MenuItem::setItemNumber(int itemNumber) {
     _itemNumber = itemNumber;
 }
 
+/*
+ Get the item number of MenuItem
+ input:  void
+ output: int
+*/
 int MenuItem::getItemNumber() const {
     return _itemNumber;
 }
 
+/*
+ Set active flag of MenuItem
+ input:  bool
+ output: void
+*/
 void MenuItem::setActive(bool active) {
     _active = active;
 }
 
+/*
+ Check whether or not a MenuItem is activated
+ input:  void
+ output: bool
+*/
 bool MenuItem::isActive() const {
     return _active;
 }
 
+/*
+ Get current LogLevel of Menu
+ input:  void
+ output: LogLevel
+*/
 LogLevel MenuItem::getLogLevel() const {
     LogLevel logLevel;
-    if (auto owner = _ownerMenu.lock()) {
-        logLevel = owner->getLogLevel();
+    if (auto owner = _ownerMenu.lock()) { // Lock weak_ptr to owner menu
+        logLevel = owner->getLogLevel();  // Get LogLevel of owner
     }
     return logLevel;
 }
@@ -55,10 +91,20 @@ LogLevel MenuItem::getLogLevel() const {
 // ------------- INHERITED ITEMS ----------------------------
 // ----------------------------------------------------------
 
+/*
+ Get title of Change Start Time item
+ input:  void
+ output: std::string
+*/
 std::string ChangeStartTime::getTitle() const {
     return "Change start time[" + _data.simulation->getStartTimeString() + "]";
 }
 
+/*
+ Override run() of ChangeStartTime
+ input:  void
+ output: MenuType
+*/
 MenuType ChangeStartTime::run() {
     cout <<
         "At what time would you like the simulation to start? [" << _data.simulation->getStartTimeString() << "] ";
@@ -70,15 +116,25 @@ MenuType ChangeStartTime::run() {
         _data.simulation->changeStartTime(start);
     }
     catch (std::exception &e) {
-        cout << e.what() << endl;
+        cout << e.what() << endl; // If it doesn't work, it's because Time was inputed in a wrong format
     }
     return SAME;
 }
 
+/*
+ Change End Time title
+ input:  void
+ output: std:.string
+*/
 std::string ChangeEndTime::getTitle() const {
     return "Change end time[" + _data.simulation->getEndTimeString() + "]";
 }
 
+/*
+ Override run() of ChangeEndTime
+ input:  void
+ output: MenuType
+*/
 MenuType ChangeEndTime::run() {
     cout <<
         "At what time would you like the simulation to end? [" << _data.simulation->getEndTimeString() << "] ";
@@ -87,7 +143,13 @@ MenuType ChangeEndTime::run() {
     Time end;
     try {
         end = endTime;
-        _data.simulation->changeEndTime(end);
+        if (_data.simulation->getStartTime() <= end) { // Check if StartTime is before proposed EndTime
+            _data.simulation->changeEndTime(end);
+        }
+        else {
+            cout <<
+                "You can't have an end time before a start time" << endl;
+        }
     }
     catch (std::exception &e) {
         cout << e.what() << endl;
@@ -95,14 +157,24 @@ MenuType ChangeEndTime::run() {
     return SAME;
 }
 
+/*
+ Override run() of StartTimulation
+ input:  void
+ output: MenuType
+*/
 MenuType StartSimulation::run() {
     _data.simulation->goToStart();
-    if (auto owner = _ownerMenu.lock()) {
-        owner->disableItem(0);
+    if (auto owner = _ownerMenu.lock()) { // Lock owner Menu
+        owner->disableItem(0); // Disable the first item (i.e. change start time)
     }
     return SIMULATION;
 }
 
+/*
+ Override run() of Exit
+ input:  void
+ output: MenuType
+*/
 MenuType Exit::run() {
     return BACK;
 }
@@ -112,10 +184,20 @@ MenuType Exit::run() {
 // ------------- SIMULATION MENU ITEMS ----------------------
 // ----------------------------------------------------------
 
-std::string ChangeInterval::getTitle() const{
+/*
+ Get title of ChangeInterval
+ input:  void
+ output: std::string
+*/
+std::string ChangeInterval::getTitle() const {
     return "Change interval [" + _data.simulation->getIntervalString() + "]";
 }
 
+/*
+ Override run() of ChangeInterval
+ input:  void
+ output: MenuType
+*/
 MenuType ChangeInterval::run() {
     cout <<
         "What interval time would you like? [" << _data.simulation->getIntervalString() << "] ";
@@ -124,7 +206,7 @@ MenuType ChangeInterval::run() {
     Time interval;
     try {
         interval = intervalTime;
-        _data.simulation->changeIntervalTime(interval);
+        _data.simulation->changeIntervalTime(interval); // Set new interval
     }
     catch (std::exception &e) {
         cout << e.what() << endl;
@@ -132,16 +214,26 @@ MenuType ChangeInterval::run() {
     return SAME;
 }
 
+/*
+ Override run() of RunNextInterval
+ input:  void
+ output: MenuType
+*/
 MenuType RunNextInterval::run() {
     _data.simulation->goToNextInterval();
     return SAME;
 }
 
+/*
+ Override run() of NextEvent
+ input:  void
+ output: MenuType
+*/
 MenuType NextEvent::run() {
-    if (_data.simulation->processNextEvent()) {
+    if (_data.simulation->processNextEvent()) { // Check if event was processed
         cout <<
             "Event has been processed" << endl <<
-            _data.simulation->getNumberOfEventsInQueue() << " events in queue" << endl;
+            _data.simulation->getNumberOfEventsInQueue() << " events in queue" << endl; // Print number of events left
     }
     else {
         cout << "There is no event to process" << endl;
@@ -149,8 +241,13 @@ MenuType NextEvent::run() {
     return SAME;
 }
 
+/*
+ Override run() of Finish
+ input:  void
+ output: MenuType
+*/
 MenuType Finish::run() {
-    while (_data.simulation->processNextEvent()) {}
+    while (_data.simulation->processNextEvent()) {} // Keep processing next event until it the end
     cout << "Simulation complete" << endl;
     return SAME;
 }
@@ -163,6 +260,11 @@ std::string ChangeLogLevel::getTitle() const {
     return "Change log level (" + logLevel + ")";
 }
 
+/*
+ Override run() of ChangeLogLevel
+ input:  void
+ output: MenuType
+*/
 MenuType ChangeLogLevel::run() {
     cout <<
         "What log level would you like? Options: LOW(1), MEDIUM(2), HIGH(3) ";
@@ -173,31 +275,56 @@ MenuType ChangeLogLevel::run() {
     }
     else {
         LogLevel logLevel = LogLevel(choice - 1);
-        if (auto owner = _ownerMenu.lock()) {
-            owner->setLogLevel(logLevel);
+        if (auto owner = _ownerMenu.lock()) { // Lock weak_ptr
+            owner->setLogLevel(logLevel); // Set new log level
         }
     }
     return SAME;
 }
 
+/*
+ Override run() of TrainMenu
+ input:  void
+ output: MenuType
+*/
 MenuType TrainMenu::run() {
     return TRAIN;
 }
 
+/*
+ Override run() of StationMenu
+ input:  void
+ output: MenuType
+*/
 MenuType StationMenu::run() {
     return STATION;
 }
 
+/*
+ Override run() of VehicleMenu
+ input:  void
+ output: MenuType
+*/
 MenuType VehicleMenu::run() {
     return VEHICLE;
 }
 
+/*
+ Override run() of Return
+ input:  void
+ output: MenuType
+*/
 MenuType Return::run() {
     return BACK;
 }
 
+/*
+ Override run() of PrintStatistics
+ input:  void
+ output: MenuType
+*/
 MenuType PrintStatistics::run() {
-    LogLevel logLevel = getLogLevel();
+    // Print all past events
     for each(std::string e in _data.simulation->getAllPastEvents()) {
         cout << e << endl;
     }
@@ -208,6 +335,11 @@ MenuType PrintStatistics::run() {
 // ---------------- TRAIN MENU ITEMS ------------------------
 // ----------------------------------------------------------
 
+/*
+ Override run() of SearchTrainByNumber
+ input:  void
+ output: MenuType
+*/
 MenuType SearchTrainByNumber::run() {
     LogLevel logLevel = getLogLevel();
     cout <<
@@ -215,9 +347,10 @@ MenuType SearchTrainByNumber::run() {
     int trainNumber;
     std::cin >> trainNumber;
     auto trains = _data.world->getAllTrains();
+    // Find train matching ID
     auto it = std::find_if(trains.begin(), trains.end(), [trainNumber](auto train) { return train->getId() == trainNumber; });
     if (it != trains.end()) {
-        (*it)->print(logLevel);
+        (*it)->print(logLevel); // Print train details if found
     }
     else {
         cout << "Could not find train" << endl;
@@ -225,12 +358,19 @@ MenuType SearchTrainByNumber::run() {
     return SAME;
 }
 
+/*
+ Override run() of SearchTrainByVehicleId
+ input:  void
+ output: MenuType
+*/
 MenuType SearchTrainByVehicleId::run() {
     LogLevel logLevel = getLogLevel();
     cout <<
         "Vehicle ID: ";
     int carId;
     std::cin >> carId;
+    // Iterate through all trains and their respective cars
+    // Print Train details if vehicle found and return
     for each (auto train in _data.world->getAllTrains()) {
         for each (auto& car in train->getAllCars()) {
             if (car->getId() == carId) {
@@ -243,9 +383,14 @@ MenuType SearchTrainByVehicleId::run() {
     return SAME;
 }
 
+/*
+ Override run() of ShowAllTrains
+ input:  void
+ output: MenuType
+*/
 MenuType ShowAllTrains::run() {
     LogLevel logLevel = getLogLevel();
-    for each (auto train in _data.world->getAllTrains()) {
+    for each (auto train in _data.world->getAllTrains()) { // Print all trains
         train->print(logLevel);
     }
     return SAME;
@@ -255,13 +400,23 @@ MenuType ShowAllTrains::run() {
 // ---------------- STATION MENU ITEMS ----------------------
 // ----------------------------------------------------------
 
+/*
+ Override run() of ShowStationMenu
+ input:  void
+ output: MenuType
+*/
 MenuType ShowStationNames::run() {
-    for each (auto s in _data.world->getAllStations()) {
+    for each (auto s in _data.world->getAllStations()) { // Go through Stations
         cout << s->getName() << endl;
     }
     return SAME;
 }
 
+/*
+ Analyze different aspects of a Station and return
+ a string with various info, depending on the logLevel
+ input:  std::string&, LogLevel, std::shared_ptr<World>
+*/
 std::string analyzeStation(std::string& name, LogLevel logLevel, std::shared_ptr<World> world) {
     std::stringstream output;
     auto s = world->getStation(name);
@@ -273,21 +428,51 @@ std::string analyzeStation(std::string& name, LogLevel logLevel, std::shared_ptr
         output <<
             "Name: " << s->getName() << endl <<
             "Trains at station: " << s->getAllTrains().size();
+        std::string trainIds = "";
+        std::string carIds = "";
+        if (logLevel >= MEDIUM) {
+            if (logLevel == HIGH) {
+                trainIds += "\nIDs: ";
+                for each (auto train in s->getAllTrains()) {
+                    trainIds += std::to_string(train->getId()) + " "; // Add ids
+                }
+                carIds += "\nIDs: ";
+                for each (auto& car in s->getAllCars()) {
+                    carIds += std::to_string(car->getId()) + " "; // Add ids
+                }
+            }
+            output << trainIds << endl <<
+                "Cars at station: " << s->getAllCars().size() << carIds;
+        }
     }
     return output.str();
 }
 
+/*
+ Override run() of ShowStationByName
+ input:  void
+ output: MenuType
+*/
 MenuType ShowStationByName::run() {
     LogLevel logLevel = getLogLevel();
     std::string name;
     cout <<
         "Type in station name: ";
     std::cin >> name;
-    cout << analyzeStation(name, logLevel, _data.world) << endl;
+    cout << analyzeStation(name, logLevel, _data.world) << endl << endl;
     return SAME;
 }
 
+/*
+ Override run() of ShowAllStations
+ input:  void
+ output: MenuType
+*/
 MenuType ShowAllStations::run() {
+    LogLevel logLevel = getLogLevel();
+    for each (auto station in _data.world->getAllStations()) {
+        cout << analyzeStation(station->getName(), logLevel, _data.world) << endl << endl;
+    }
     return SAME;
 }
 
@@ -295,6 +480,11 @@ MenuType ShowAllStations::run() {
 // ---------------- VEHICLE MENU ITEMS ----------------------
 // ----------------------------------------------------------
 
+/*
+ Override run() of ShowVehicleById
+ input:  void
+ output: MenuType
+*/
 MenuType ShowVehicleById::run() {
     LogLevel logLevel = getLogLevel();
     cout << "Vehicle ID: ";
@@ -303,17 +493,17 @@ MenuType ShowVehicleById::run() {
     bool found;
     std::shared_ptr<Train> train;
     std::shared_ptr<Station> station;
-    const std::unique_ptr<Car>& car = _data.world->getCarById(id, found, train, station);
-    if (found) {
-        cout << car->getInfo() << endl;
-        if (logLevel >= MEDIUM) {
+    const std::unique_ptr<Car>& car = _data.world->getCarById(id, found, train, station); // Get car
+    if (found) { // If Car was found...
+        cout << car->getInfo() << endl; // Print info about Car
+        if (logLevel >= MEDIUM) { // Log level medium
             if (station != nullptr) {
-                cout << "Is at " << station->getName() << endl;
+                cout << "Is at " << station->getName() << endl; // Print info about station
             }
             else if (train != nullptr) {
                 cout << "Is attached to train with ID " << train->getId() << endl;
-                if (logLevel == HIGH) {
-                    cout << "On the way to " << train->getDestinationStation() << endl;
+                if (logLevel == HIGH) { // Log level high
+                    cout << "On the way to " << train->getDestinationStation() << endl; // Print info about destination
                 }
             }
         }
@@ -324,13 +514,18 @@ MenuType ShowVehicleById::run() {
     return SAME;
 }
 
+/*
+ Analyzes a vehicle and returns an info string dependin on the log level
+ input:  std::unique_ptr<Car>&, LogLevel
+ output: void
+*/
 std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel logLevel) {
     std::stringstream output;
     int columnCount = 10;
-    if (logLevel == LOW) {
+    if (logLevel == LOW) { // Log level low
         output << "    IDs:";
         int counter = 0;
-        for each (auto& car in cars) {
+        for each (auto& car in cars) { // Write info about Car IDs
             if (counter++ % columnCount == 0) {
                 output << endl << "      ";
             }
@@ -338,55 +533,63 @@ std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel lo
         }
         output << endl;
     }
+    // Create a vector of unique car types from input vector
     std::vector<CarType> carTypes;
     for each (auto& car in cars) {
-        bool found = false;
+        bool found = false; // Has this car type already been found?
         for each (CarType type in carTypes) {
             if (type == car->getType()) {
                 found = true;
                 break;
             }
         }
-        if (!found) {
+        if (!found) { // If this car type has not been found, add to vector
             carTypes.push_back(car->getType());
         }
     }
-    std::sort(carTypes.begin(), carTypes.end());
-    if (logLevel == MEDIUM) {
-        for each (CarType type in carTypes) {
+    std::sort(carTypes.begin(), carTypes.end()); // Sort carTypes
+    if (logLevel == MEDIUM) { // Log level medium
+        for each (CarType type in carTypes) { // For the car types that were found earlier
             int counter = 0;
             auto it = std::find_if(cars.begin(), cars.end(), [type](auto& car) { return car->getType() == type; });
             if (it != cars.end()) {
-                output << "    " << (*it)->getTypeString() << "s";
+                output << "    " << (*it)->getTypeString() << "s"; // write the type of that cars
             }
             while (it != cars.end()) {
-                if (counter++ % columnCount == 0) {
-                    output << endl << "      ";
+                if (counter++ % columnCount == 0) { // If reached column count
+                    output << endl << "      "; // end line and write 6 spaces
                 }
-                output << std::setw(3) << (*it)->getId() << " ";
-                it = std::find_if(++it, cars.end(), [type](auto& car) { return car->getType() == type; });
+                output << std::setw(3) << (*it)->getId() << " "; // Write car id
+                it = std::find_if(++it, cars.end(), [type](auto& car) { return car->getType() == type; }); // Increase iterator
             }
             output << endl;
         }
     }
-    if (logLevel == HIGH) {
+    if (logLevel == HIGH) { // Log level high
         for each (auto& car in cars) {
-            output << "    " << car->getInfo() << endl;
+            output << "    " << car->getInfo() << endl; // write full info for each car
         }
     }
     return output.str();
 }
 
+/*
+ Override run() for ShowAllVehicles
+ input:  void
+ output: MenuType
+*/
 MenuType ShowAllVehicles::run() {
     LogLevel logLevel = getLogLevel();
     cout << "======================== Vehicles in a station (" << _data.world->numberOfCarsInStation() << ") ========================" << endl;
     for each (auto station in _data.world->getAllStations()) {
+        // For each station, write info about cars
         cout << 
             "  Station: " << station->getName() << ", " << station->getAllCars().size() << " cars" << endl <<
             analyzeVehicles(station->getAllCars(), logLevel) << endl;
     }
     cout << "======================== Vehicles in a train (" << _data.world->numberOfCarsInTrain() << ") ========================" << endl;
     for each (auto train in _data.world->getAllTrains()) {
+        // for each train, write information about cars
         int numberOfCars = train->getAllCars().size();
         if (numberOfCars > 0) {
             cout <<
@@ -397,12 +600,19 @@ MenuType ShowAllVehicles::run() {
     return SAME;
 }
 
+/*
+ Override of run() for GetCurrentVehicleLocation
+ input:  void
+ output: MenuType
+*/
 MenuType GetCurrentVehicleLocation::run() {
     cout <<
         "Vehicle ID: ";
     int id;
     std::cin >> id;
     bool found = false;
+    // For each car in each train
+    // Check if it is the car we are looking for
     for each (auto train in _data.world->getAllTrains()) {
         for each (auto& car in train->getAllCars()) {
             if (car->getId() == id) {
@@ -411,6 +621,9 @@ MenuType GetCurrentVehicleLocation::run() {
             }
         }
     }
+
+    // Alternatively, for each car in each station
+    // Check if it is the car we are looking for
     for each (auto station in _data.world->getAllStations()) {
         for each (auto& car in station->getAllCars()) {
             if (car->getId() == id) {
@@ -425,7 +638,16 @@ MenuType GetCurrentVehicleLocation::run() {
     return SAME;
 }
 
+/*
+ Override run() of ShowLocationHistory
+ input:  void
+ output: MenuType
+*/
 MenuType ShowLocationHistory::run() {
+    /*
+    Iterate through all cars and like in the previous class
+    If car exists, write its location history
+    */
     cout <<
         "Vehicle ID: ";
     int id;

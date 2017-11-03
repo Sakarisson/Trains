@@ -43,6 +43,10 @@ std::string Simulation::getIntervalString() const {
     return _interval.getString();
 }
 
+Time Simulation::getStartTime() const {
+    return _startTime;
+}
+
 std::string Simulation::getStartTimeString() const {
     return _startTime.getString();
 }

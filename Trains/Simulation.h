@@ -32,6 +32,7 @@ public:
     int getTime() const;
     std::string getTimeString() const;
     std::string getIntervalString() const;
+    Time getStartTime() const;
     std::string getStartTimeString() const;
     std::string getEndTimeString() const;
     int getNumberOfEventsInQueue() const;
