@@ -124,6 +124,7 @@
     <ClCompile Include="CoachCar.cpp" />
     <ClCompile Include="SleepingCar.cpp" />
     <ClCompile Include="Station.cpp" />
+    <ClCompile Include="Statistic.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Train.cpp" />
     <ClCompile Include="Simulation.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="PassengerCar.h" />
     <ClInclude Include="SleepingCar.h" />
     <ClInclude Include="Station.h" />
+    <ClInclude Include="Statistic.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Train.h" />
     <ClInclude Include="Simulation.h" />

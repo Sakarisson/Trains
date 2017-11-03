@@ -4,8 +4,7 @@
 #include <string>
 #include <memory>
 
-class Time
-{
+class Time {
 public:
     Time() : _minutesSinceMidnight(0) {}
     Time(int mins) : _minutesSinceMidnight(mins) {}
@@ -19,6 +18,7 @@ public:
     const bool operator<(Time&);
     const bool operator<=(Time&);
     Time operator+(Time&);
+    Time operator-(Time&);
 private:
     int validateInput(std::string&);
 private:

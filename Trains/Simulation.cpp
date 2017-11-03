@@ -56,8 +56,42 @@ int Simulation::getNumberOfEventsInQueue() const {
 }
 
 std::string analyzeEvent(std::shared_ptr<Event> e, LogLevel logLevel) {
+    std::shared_ptr<Train> train = e->getTrain();
+    std::shared_ptr<Station> station = e->getStation();
     std::stringstream output;
-    output << e->getTime().getString();
+    if (e->getEventType() == LEAVESTATION) {
+        int i;
+    }
+    output <<
+        e->getTime().getString() << endl <<
+        "  Train ID: " << train->getId() << endl <<
+        "  " << e->getEventTypeString() << " at " << station->getName();
+    if (logLevel >= MEDIUM) {
+        if (e->getEventType() == LEAVESTATION && train->getScheduledDepartureTime()->getMinutes() != train->getExpectedDepartureTime()->getMinutes()) {
+            output <<
+                endl <<
+                "  Delayed by " << Time(*train->getScheduledDepartureTime() - *train->getExpectedDepartureTime()).getMinutes() << " minutes";
+        }
+        else if (e->getEventType() == ARRIVED && train->getScheduledDestinationTime()->getMinutes() != train->getExpectedDestinationTime()->getMinutes()) {
+            output <<
+                endl <<
+                "  " << Time(*train->getScheduledDestinationTime() - *train->getExpectedDestinationTime()).getMinutes() << " minutes too late";
+        }
+        std::string ownedCars = "";
+        std::string missingCars = "";
+        if (logLevel == HIGH) {
+            for each (auto& car in train->getAllCars()) {
+                ownedCars += "\n      " + car->getInfo();
+            }
+            for each (auto missingCar in train->getMissingCars()) {
+                missingCars += "\n      " + std::to_string(missingCar);
+            }
+        }
+        output << endl <<
+            "  Cars in train: " << train->getAllCars().size() << ownedCars << endl <<
+            "  Cars missing: " << train->getMissingCars().size() << missingCars;
+    }
+    
     return output.str();
 }
 

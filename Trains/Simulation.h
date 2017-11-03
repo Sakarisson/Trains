@@ -12,6 +12,7 @@
 
 class Train;
 class Time;
+class Statistic;
 
 // Priority queue of pointers to Event
 // Sorted according to the next event, which will happen

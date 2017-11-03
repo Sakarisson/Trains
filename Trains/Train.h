@@ -27,8 +27,7 @@ enum TrainState {
 
 class Station;
 
-class Train
-{
+class Train {
 public:
     Train();
     Train(

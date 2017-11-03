@@ -52,6 +52,17 @@ Time Time::operator+(Time& other) {
     return this->_minutesSinceMidnight + other.getMinutes();
 }
 
+// Minus operator overload
+// NOTE: Returns absolute (i.e. non-negative) value
+Time Time::operator-(Time& other) {
+    if (this->getMinutes() - other.getMinutes() >= 0) {
+        return this->getMinutes() - other.getMinutes();
+    }
+    else {
+        return other.getMinutes() - this->getMinutes();
+    }
+}
+
 int Time::validateInput(std::string& input) {
     if (input.length() != 5) {
         throw std::runtime_error("Invalid input");
