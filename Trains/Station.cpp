@@ -44,6 +44,7 @@ void Station::removeTrain(std::shared_ptr<Train> train) {
 }
 
 void Station::addCarToPool(int id, CarType type, int param0, int param1) {
+    // Create car according to type and push back to _carPool
     switch (type) {
     case COACHCAR:
         _carPool.push_back(std::make_unique<CoachCar>(id, param0, param1));
@@ -66,12 +67,12 @@ void Station::addCarToPool(int id, CarType type, int param0, int param1) {
     default:
         break;
     }
-    _carPool[_carPool.size() - 1]->addStationToHistory(this->getName());
+    _carPool.back()->addStationToHistory(this->getName()); // Add station to new car's history
 }
 
 void Station::addCarToPool(std::unique_ptr<Car>& car) {
     if (car != nullptr) {
-        car->addStationToHistory(this->getName());
+        car->addStationToHistory(this->getName()); // Add station to car's history
         _carPool.push_back(move(car));
     }
 }

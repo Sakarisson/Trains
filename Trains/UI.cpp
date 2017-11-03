@@ -398,10 +398,6 @@ MenuType ShowAllVehicles::run() {
 }
 
 MenuType GetCurrentVehicleLocation::run() {
-    return SAME;
-}
-
-MenuType ShowLocationHistory::run() {
     cout <<
         "Vehicle ID: ";
     int id;
@@ -411,8 +407,37 @@ MenuType ShowLocationHistory::run() {
         for each (auto& car in train->getAllCars()) {
             if (car->getId() == id) {
                 found = true;
+                cout << car->getLocationHistory().back() << endl;
+            }
+        }
+    }
+    for each (auto station in _data.world->getAllStations()) {
+        for each (auto& car in station->getAllCars()) {
+            if (car->getId() == id) {
+                found = true;
+                cout << car->getLocationHistory().back() << endl;
+            }
+        }
+    }
+    if (!found) {
+        cout << "Could not find vehicle" << endl;
+    }
+    return SAME;
+}
+
+MenuType ShowLocationHistory::run() {
+    cout <<
+        "Vehicle ID: ";
+    int id;
+    std::cin >> id;
+    bool found = false;
+    int counter = 0;
+    for each (auto train in _data.world->getAllTrains()) {
+        for each (auto& car in train->getAllCars()) {
+            if (car->getId() == id) {
+                found = true;
                 for each (std::string station in car->getLocationHistory()) {
-                    cout << station << endl;
+                    cout << ++counter << ". " << station << endl;
                 }
             }
         }
@@ -422,7 +447,7 @@ MenuType ShowLocationHistory::run() {
             if (car->getId() == id) {
                 found = true;
                 for each (std::string station in car->getLocationHistory()) {
-                    cout << station << endl;
+                    cout << ++counter << ". " << station << endl;
                 }
             }
         }
