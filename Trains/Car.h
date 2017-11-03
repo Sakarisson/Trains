@@ -2,6 +2,7 @@
 #define CAR_H
 
 #include <string>
+#include <vector>
 
 #include "Constants.h"
 
@@ -17,6 +18,8 @@ public:
 
     // Static functions for all Cars
     int getId() const { return _id; }
+    void addStationToHistory(std::string);
+    std::vector<std::string> getLocationHistory() const;
 
     // Capacity functions for Freight Cars
     virtual int getCapacity() const { return 0; }
@@ -43,6 +46,7 @@ public:
     virtual std::string getInfo() const = 0;
 protected:
     int _id;
+    std::vector<std::string> _locationHistory;
 };
 
 #endif // !CAR_H

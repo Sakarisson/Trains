@@ -66,10 +66,12 @@ void Station::addCarToPool(int id, CarType type, int param0, int param1) {
     default:
         break;
     }
+    _carPool[_carPool.size() - 1]->addStationToHistory(this->getName());
 }
 
 void Station::addCarToPool(std::unique_ptr<Car>& car) {
     if (car != nullptr) {
+        car->addStationToHistory(this->getName());
         _carPool.push_back(move(car));
     }
 }

@@ -57,8 +57,8 @@ private:
     Time _interval;
     Time _lastInterval;
     std::vector<std::shared_ptr<Train>> _trainsInTransit;
-    std::vector<std::shared_ptr<Event>> _pastEvents;
-    std::vector<std::shared_ptr<Event>> _eventsSinceLastInterval;
+    std::vector<Statistic> _pastEvents;
+    std::vector<Statistic> _eventsSinceLastInterval;
     EventQueue _eventQueue;
 };
 

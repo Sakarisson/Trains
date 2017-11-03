@@ -269,6 +269,24 @@ public:
     MenuType run() override;
 };
 
+class GetCurrentVehicleLocation : public MenuItem {
+public:
+    GetCurrentVehicleLocation(Data data) : MenuItem(data) {}
+    virtual ~GetCurrentVehicleLocation() {}
+
+    std::string getTitle() const override { return "Show current vehicle location"; }
+    MenuType run() override;
+};
+
+class ShowLocationHistory : public MenuItem {
+public:
+    ShowLocationHistory(Data data) : MenuItem(data) {}
+    virtual ~ShowLocationHistory() {}
+
+    std::string getTitle() const override { return "Show location history"; }
+    MenuType run() override;
+};
+
 // ----------------------------------------------------------
 // ------------------------ MENU ----------------------------
 // ----------------------------------------------------------

@@ -397,6 +397,42 @@ MenuType ShowAllVehicles::run() {
     return SAME;
 }
 
+MenuType GetCurrentVehicleLocation::run() {
+    return SAME;
+}
+
+MenuType ShowLocationHistory::run() {
+    cout <<
+        "Vehicle ID: ";
+    int id;
+    std::cin >> id;
+    bool found = false;
+    for each (auto train in _data.world->getAllTrains()) {
+        for each (auto& car in train->getAllCars()) {
+            if (car->getId() == id) {
+                found = true;
+                for each (std::string station in car->getLocationHistory()) {
+                    cout << station << endl;
+                }
+            }
+        }
+    }
+    for each (auto station in _data.world->getAllStations()) {
+        for each (auto& car in station->getAllCars()) {
+            if (car->getId() == id) {
+                found = true;
+                for each (std::string station in car->getLocationHistory()) {
+                    cout << station << endl;
+                }
+            }
+        }
+    }
+    if (!found) {
+        cout << "Could not find vehicle" << endl;
+    }
+    return SAME;
+}
+
 // ----------------------------------------------------------
 // ------------------ MENU ----------------------------------
 // ----------------------------------------------------------
@@ -469,43 +505,45 @@ UI::UI() {
     _data.simulation = std::make_shared<Simulation>();
     _data.world->initialize(_data.simulation);
 
-    std::shared_ptr<Menu> mainMenu = std::make_shared<Menu>();              // Main Menu
-    mainMenu->addItem(std::make_unique<ChangeStartTime>(_data));            //  - Change start time
-    mainMenu->addItem(std::make_unique<ChangeEndTime>(_data));              //  - Change end time
-    mainMenu->addItem(std::make_unique<StartSimulation>(_data));            //  - Start simulation
-    mainMenu->addItem(std::make_unique<Exit>(_data));                       //  - Exit
+    std::shared_ptr<Menu> mainMenu = std::make_shared<Menu>();                  // Main Menu
+    mainMenu->addItem(std::make_unique<ChangeStartTime>(_data));                //  - Change start time
+    mainMenu->addItem(std::make_unique<ChangeEndTime>(_data));                  //  - Change end time
+    mainMenu->addItem(std::make_unique<StartSimulation>(_data));                //  - Start simulation
+    mainMenu->addItem(std::make_unique<Exit>(_data));                           //  - Exit
 
-    std::shared_ptr<Menu> simulationMenu = std::make_shared<Menu>();        // Simulation menu
-    simulationMenu->addItem(std::make_unique<ChangeInterval>(_data));       //  - Change interval
-    simulationMenu->addItem(std::make_unique<RunNextInterval>(_data));      //  - Run next interval
-    simulationMenu->addItem(std::make_unique<NextEvent>(_data));            //  - Next event
-    simulationMenu->addItem(std::make_unique<Finish>(_data));               //  - Finish simulation
-    simulationMenu->addItem(std::make_unique<ChangeLogLevel>(_data));       //  - Change log level
-    simulationMenu->addItem(std::make_unique<TrainMenu>(_data));            //  - Open train menu
-    simulationMenu->addItem(std::make_unique<StationMenu>(_data));          //  - Open station menu
-    simulationMenu->addItem(std::make_unique<VehicleMenu>(_data));          //  - Open vehicle menu
-    simulationMenu->addItem(std::make_unique<PrintStatistics>(_data));      //  - Print statistics
-    simulationMenu->addItem(std::make_unique<Return>(_data));               //  - Return
+    std::shared_ptr<Menu> simulationMenu = std::make_shared<Menu>();            // Simulation menu
+    simulationMenu->addItem(std::make_unique<ChangeInterval>(_data));           //  - Change interval
+    simulationMenu->addItem(std::make_unique<RunNextInterval>(_data));          //  - Run next interval
+    simulationMenu->addItem(std::make_unique<NextEvent>(_data));                //  - Next event
+    simulationMenu->addItem(std::make_unique<Finish>(_data));                   //  - Finish simulation
+    simulationMenu->addItem(std::make_unique<ChangeLogLevel>(_data));           //  - Change log level
+    simulationMenu->addItem(std::make_unique<TrainMenu>(_data));                //  - Open train menu
+    simulationMenu->addItem(std::make_unique<StationMenu>(_data));              //  - Open station menu
+    simulationMenu->addItem(std::make_unique<VehicleMenu>(_data));              //  - Open vehicle menu
+    simulationMenu->addItem(std::make_unique<PrintStatistics>(_data));          //  - Print statistics
+    simulationMenu->addItem(std::make_unique<Return>(_data));                   //  - Return
 
-    std::shared_ptr<Menu> trainMenu = std::make_shared<Menu>();             // Train menu
-    trainMenu->addItem(std::make_unique<SearchTrainByNumber>(_data));       //  - Search train by number
-    trainMenu->addItem(std::make_unique<SearchTrainByVehicleId>(_data));    //  - Search train by vehicle id
-    trainMenu->addItem(std::make_unique<ShowAllTrains>(_data));             //  - Show all trains
-    trainMenu->addItem(std::make_unique<ChangeLogLevel>(_data));            //  - Change log level
-    trainMenu->addItem(std::make_unique<Return>(_data));                    //  - Return
+    std::shared_ptr<Menu> trainMenu = std::make_shared<Menu>();                 // Train menu
+    trainMenu->addItem(std::make_unique<SearchTrainByNumber>(_data));           //  - Search train by number
+    trainMenu->addItem(std::make_unique<SearchTrainByVehicleId>(_data));        //  - Search train by vehicle id
+    trainMenu->addItem(std::make_unique<ShowAllTrains>(_data));                 //  - Show all trains
+    trainMenu->addItem(std::make_unique<ChangeLogLevel>(_data));                //  - Change log level
+    trainMenu->addItem(std::make_unique<Return>(_data));                        //  - Return
 
-    std::shared_ptr<Menu> stationMenu = std::make_shared<Menu>();           // Station menu
-    stationMenu->addItem(std::make_unique<ShowStationNames>(_data));        //  - Show station names
-    stationMenu->addItem(std::make_unique<ShowStationByName>(_data));       //  - Show station by name
-    stationMenu->addItem(std::make_unique<ShowAllStations>(_data));         //  - Show all stations
-    stationMenu->addItem(std::make_unique<ChangeLogLevel>(_data));          //  - Change log level
-    stationMenu->addItem(std::make_unique<Return>(_data));                  //  - Return
+    std::shared_ptr<Menu> stationMenu = std::make_shared<Menu>();               // Station menu
+    stationMenu->addItem(std::make_unique<ShowStationNames>(_data));            //  - Show station names
+    stationMenu->addItem(std::make_unique<ShowStationByName>(_data));           //  - Show station by name
+    stationMenu->addItem(std::make_unique<ShowAllStations>(_data));             //  - Show all stations
+    stationMenu->addItem(std::make_unique<ChangeLogLevel>(_data));              //  - Change log level
+    stationMenu->addItem(std::make_unique<Return>(_data));                      //  - Return
 
-    std::shared_ptr<Menu> vehicleMenu = std::make_shared<Menu>();           // Vehicle menu
-    vehicleMenu->addItem(std::make_unique<ShowVehicleById>(_data));         //  - Show vehicle by id
-    vehicleMenu->addItem(std::make_unique<ShowAllVehicles>(_data));         //  - Show all vehicles
-    vehicleMenu->addItem(std::make_unique<ChangeLogLevel>(_data));          //  - Change log level
-    vehicleMenu->addItem(std::make_unique<Return>(_data));                  //  - Return
+    std::shared_ptr<Menu> vehicleMenu = std::make_shared<Menu>();               // Vehicle menu
+    vehicleMenu->addItem(std::make_unique<ShowVehicleById>(_data));             //  - Show vehicle by id
+    vehicleMenu->addItem(std::make_unique<ShowAllVehicles>(_data));             //  - Show all vehicles
+    vehicleMenu->addItem(std::make_unique<ChangeLogLevel>(_data));              //  - Change log level
+    vehicleMenu->addItem(std::make_unique<GetCurrentVehicleLocation>(_data));   //  - Get current vehicle location
+    vehicleMenu->addItem(std::make_unique<ShowLocationHistory>(_data));         //  - Show location history
+    vehicleMenu->addItem(std::make_unique<Return>(_data));                      //  - Return
 
     this->setMenu(mainMenu, MAIN);
     this->setMenu(simulationMenu, SIMULATION);

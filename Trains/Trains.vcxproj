@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="CoveredFreightCar.cpp" />
     <ClCompile Include="DataReader.cpp" />
     <ClCompile Include="DieselEngine.cpp" />

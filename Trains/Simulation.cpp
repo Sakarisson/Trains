@@ -7,6 +7,7 @@
 #include "Train.h"
 #include "Time.h"
 #include "Station.h"
+#include "Statistic.h"
 
 using std::cout;
 using std::endl;
@@ -55,50 +56,10 @@ int Simulation::getNumberOfEventsInQueue() const {
     return _eventQueue.size();
 }
 
-std::string analyzeEvent(std::shared_ptr<Event> e, LogLevel logLevel) {
-    std::shared_ptr<Train> train = e->getTrain();
-    std::shared_ptr<Station> station = e->getStation();
-    std::stringstream output;
-    if (e->getEventType() == LEAVESTATION) {
-        int i;
-    }
-    output <<
-        e->getTime().getString() << endl <<
-        "  Train ID: " << train->getId() << endl <<
-        "  " << e->getEventTypeString() << " at " << station->getName();
-    if (logLevel >= MEDIUM) {
-        if (e->getEventType() == LEAVESTATION && train->getScheduledDepartureTime()->getMinutes() != train->getExpectedDepartureTime()->getMinutes()) {
-            output <<
-                endl <<
-                "  Delayed by " << Time(*train->getScheduledDepartureTime() - *train->getExpectedDepartureTime()).getMinutes() << " minutes";
-        }
-        else if (e->getEventType() == ARRIVED && train->getScheduledDestinationTime()->getMinutes() != train->getExpectedDestinationTime()->getMinutes()) {
-            output <<
-                endl <<
-                "  " << Time(*train->getScheduledDestinationTime() - *train->getExpectedDestinationTime()).getMinutes() << " minutes too late";
-        }
-        std::string ownedCars = "";
-        std::string missingCars = "";
-        if (logLevel == HIGH) {
-            for each (auto& car in train->getAllCars()) {
-                ownedCars += "\n      " + car->getInfo();
-            }
-            for each (auto missingCar in train->getMissingCars()) {
-                missingCars += "\n      " + std::to_string(missingCar);
-            }
-        }
-        output << endl <<
-            "  Cars in train: " << train->getAllCars().size() << ownedCars << endl <<
-            "  Cars missing: " << train->getMissingCars().size() << missingCars;
-    }
-    
-    return output.str();
-}
-
 std::vector<std::string> Simulation::getAllPastEvents(LogLevel logLevel) const {
     std::vector<std::string> output;
     for each (auto e in _pastEvents) {
-        output.push_back(analyzeEvent(e, logLevel));
+        output.push_back(e.getStatistic(logLevel));
     }
     return output;
 }
@@ -106,7 +67,7 @@ std::vector<std::string> Simulation::getAllPastEvents(LogLevel logLevel) const {
 std::vector<std::string> Simulation::getEventsSinceLastInterval(LogLevel logLevel) const {
     std::vector<std::string> output;
     for each (auto e in _pastEvents) {
-        output.push_back(analyzeEvent(e, logLevel));
+        output.push_back(e.getStatistic(logLevel));
     }
     return output;
 }
@@ -174,7 +135,57 @@ bool Simulation::processNextEvent() {
     return true;
 }
 
+// Create a Statistic object, which is used in UI, PrintStatistics
+// Input:  std::shared_ptr<Event>
+// Output: Statistic
+Statistic analyzeEvent(std::shared_ptr<Event> e) {
+    std::shared_ptr<Train> train = e->getTrain();
+    std::shared_ptr<Station> station = e->getStation();
+    std::stringstream ss;
+    Statistic output;
+    if (e->getEventType() == LEAVESTATION) {
+        int i;
+    }
+    ss <<
+        e->getTime().getString() << endl <<
+        "  Train ID: " << train->getId() << endl <<
+        "  " << e->getEventTypeString() << " at " << station->getName();
+    output.addStatistic(ss.str(), LOW);
+    if (e->getEventType() == LEAVESTATION && train->getScheduledDepartureTime()->getMinutes() != train->getExpectedDepartureTime()->getMinutes()) {
+        ss <<
+            endl <<
+            "  Delayed by " << Time(*train->getScheduledDepartureTime() - *train->getExpectedDepartureTime()).getMinutes() << " minutes";
+    }
+    else if (e->getEventType() == ARRIVED && train->getScheduledDestinationTime()->getMinutes() != train->getExpectedDestinationTime()->getMinutes()) {
+        ss <<
+            endl <<
+            "  " << Time(*train->getScheduledDestinationTime() - *train->getExpectedDestinationTime()).getMinutes() << " minutes too late";
+    }
+    std::string ownedCars = "";
+    std::string missingCars = "";
+    std::string temp_ss = ss.str();
+    ss << endl <<
+        "  Cars in train: " << train->getAllCars().size() << ownedCars << endl <<
+        "  Cars missing: " << train->getMissingCars().size() << missingCars;
+    output.addStatistic(ss.str(), MEDIUM);
+    ss.clear();
+    ss << temp_ss;
+
+    for each (auto& car in train->getAllCars()) {
+        ownedCars += "\n      " + car->getInfo();
+    }
+    for each (auto missingCar in train->getMissingCars()) {
+        missingCars += "\n      " + std::to_string(missingCar);
+    }
+    ss << endl <<
+        "  Cars in train: " << train->getAllCars().size() << ownedCars << endl <<
+        "  Cars missing: " << train->getMissingCars().size() << missingCars;
+
+    output.addStatistic(ss.str(), HIGH);
+    return output;
+}
+
 void Simulation::addToStatistics(std::shared_ptr<Event> e) {
-    _pastEvents.push_back(e);
-    _eventsSinceLastInterval.push_back(e);
+    _pastEvents.push_back(analyzeEvent(e));
+    _eventsSinceLastInterval.push_back(analyzeEvent(e));
 }
