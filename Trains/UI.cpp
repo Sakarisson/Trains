@@ -198,8 +198,8 @@ MenuType Return::run() {
 
 MenuType PrintStatistics::run() {
     LogLevel logLevel = getLogLevel();
-    for each(std::shared_ptr<Train> train in _data.world->getAllTrains()) {
-        train->print(logLevel);
+    for each(std::string e in _data.simulation->getAllPastEvents(logLevel)) {
+        cout << e << endl;
     }
     return SAME;
 }
@@ -256,7 +256,7 @@ MenuType ShowAllTrains::run() {
 // ----------------------------------------------------------
 
 MenuType ShowStationNames::run() {
-    for each(auto s in _data.world->getAllStations()) {
+    for each (auto s in _data.world->getAllStations()) {
         cout << s->getName() << endl;
     }
     return SAME;

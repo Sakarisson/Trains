@@ -55,6 +55,28 @@ int Simulation::getNumberOfEventsInQueue() const {
     return _eventQueue.size();
 }
 
+std::string analyzeEvent(std::shared_ptr<Event> e, LogLevel logLevel) {
+    std::stringstream output;
+    output << e->getTime().getString();
+    return output.str();
+}
+
+std::vector<std::string> Simulation::getAllPastEvents(LogLevel logLevel) const {
+    std::vector<std::string> output;
+    for each (auto e in _pastEvents) {
+        output.push_back(analyzeEvent(e, logLevel));
+    }
+    return output;
+}
+
+std::vector<std::string> Simulation::getEventsSinceLastInterval(LogLevel logLevel) const {
+    std::vector<std::string> output;
+    for each (auto e in _pastEvents) {
+        output.push_back(analyzeEvent(e, logLevel));
+    }
+    return output;
+}
+
 // ------------------ LOGIC ------------------
 void Simulation::scheduleAssembleEvent(std::shared_ptr<Train> train, std::shared_ptr<Station> station, Time time) {
     std::shared_ptr<Event> assembleEvent = std::make_shared<AssembleEvent>(shared_from_this(), train, station, train->getScheduledDepartureTime()->getMinutes() - 30);
@@ -114,5 +136,11 @@ bool Simulation::processNextEvent() {
     _eventQueue.pop();
     _currentTime = nextEvent->getTime();
     nextEvent->processEvent();
+    addToStatistics(nextEvent);
     return true;
+}
+
+void Simulation::addToStatistics(std::shared_ptr<Event> e) {
+    _pastEvents.push_back(e);
+    _eventsSinceLastInterval.push_back(e);
 }

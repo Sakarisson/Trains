@@ -8,6 +8,7 @@
 
 #include "DataReader.h"
 #include "Event.h"
+#include "Constants.h"
 
 class Train;
 class Time;
@@ -33,6 +34,8 @@ public:
     std::string getStartTimeString() const;
     std::string getEndTimeString() const;
     int getNumberOfEventsInQueue() const;
+    std::vector<std::string> getAllPastEvents(LogLevel) const;
+    std::vector<std::string> getEventsSinceLastInterval(LogLevel) const;
 
     // ------------------ LOGIC ------------------
     void scheduleAssembleEvent(std::shared_ptr<Train>, std::shared_ptr<Station>, Time);
@@ -44,6 +47,8 @@ public:
     void goToNextInterval();
     bool processNextEvent();
 private:
+    void addToStatistics(std::shared_ptr<Event>);
+private:
     // ----------- INTERNAL VARIABLES -----------
     Time _startTime;
     Time _endTime;
@@ -51,6 +56,8 @@ private:
     Time _interval;
     Time _lastInterval;
     std::vector<std::shared_ptr<Train>> _trainsInTransit;
+    std::vector<std::shared_ptr<Event>> _pastEvents;
+    std::vector<std::shared_ptr<Event>> _eventsSinceLastInterval;
     EventQueue _eventQueue;
 };
 
