@@ -99,9 +99,6 @@
     <ClCompile Include="Distance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Statistic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Car.cpp">
       <Filter>Source Files\Train</Filter>
     </ClCompile>
@@ -168,9 +165,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Memstat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Statistic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
