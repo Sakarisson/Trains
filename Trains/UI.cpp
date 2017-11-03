@@ -43,6 +43,14 @@ bool MenuItem::isActive() const {
     return _active;
 }
 
+LogLevel MenuItem::getLogLevel() const {
+    LogLevel logLevel;
+    if (auto owner = _ownerMenu.lock()) {
+        logLevel = owner->getLogLevel();
+    }
+    return logLevel;
+}
+
 // ----------------------------------------------------------
 // ------------- INHERITED ITEMS ----------------------------
 // ----------------------------------------------------------
@@ -189,8 +197,9 @@ MenuType Return::run() {
 }
 
 MenuType PrintStatistics::run() {
+    LogLevel logLevel = getLogLevel();
     for each(std::shared_ptr<Train> train in _data.world->getAllTrains()) {
-        train->print();
+        train->print(logLevel);
     }
     return SAME;
 }
@@ -200,6 +209,7 @@ MenuType PrintStatistics::run() {
 // ----------------------------------------------------------
 
 MenuType SearchTrainByNumber::run() {
+    LogLevel logLevel = getLogLevel();
     cout <<
         "Train number: ";
     int trainNumber;
@@ -207,7 +217,7 @@ MenuType SearchTrainByNumber::run() {
     auto trains = _data.world->getAllTrains();
     auto it = std::find_if(trains.begin(), trains.end(), [trainNumber](auto train) { return train->getId() == trainNumber; });
     if (it != trains.end()) {
-        (*it)->print();
+        (*it)->print(logLevel);
     }
     else {
         cout << "Could not find train" << endl;
@@ -250,10 +260,7 @@ std::string analyzeStation(std::string& name, LogLevel logLevel, std::shared_ptr
 }
 
 MenuType ShowStationByName::run() {
-    LogLevel logLevel;
-    if (auto owner = _ownerMenu.lock()) {
-        logLevel = owner->getLogLevel();
-    }
+    LogLevel logLevel = getLogLevel();
     std::string name;
     cout <<
         "Type in station name: ";
@@ -271,10 +278,7 @@ MenuType ShowAllStations::run() {
 // ----------------------------------------------------------
 
 MenuType ShowVehicleById::run() {
-    LogLevel logLevel;
-    if (auto owner = _ownerMenu.lock()) {
-        logLevel = owner->getLogLevel();
-    }
+    LogLevel logLevel = getLogLevel();
     cout << "Vehicle ID: ";
     int id;
     std::cin >> id;
@@ -356,10 +360,7 @@ std::string analyzeVehicles(std::vector<std::unique_ptr<Car>>& cars, LogLevel lo
 }
 
 MenuType ShowAllVehicles::run() {
-    LogLevel logLevel;
-    if (auto owner = _ownerMenu.lock()) {
-        logLevel = owner->getLogLevel();
-    }
+    LogLevel logLevel = getLogLevel();
     cout << "======================== Vehicles in a station (" << _data.world->numberOfCarsInStation() << ") ========================" << endl;
     for each (auto station in _data.world->getAllStations()) {
         cout << 

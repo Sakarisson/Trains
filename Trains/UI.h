@@ -6,6 +6,8 @@
 #include <string>
 #include <iostream>
 
+#include "Constants.h"
+
 enum MenuType {
     MAIN,
     SIMULATION,
@@ -39,6 +41,8 @@ public:
     virtual MenuType run() = 0;
     void setActive(bool);
     bool isActive() const;
+protected:
+    LogLevel getLogLevel() const;
 protected:
     Data _data;
     int _itemNumber;
@@ -268,12 +272,6 @@ public:
 // ----------------------------------------------------------
 // ------------------------ MENU ----------------------------
 // ----------------------------------------------------------
-
-enum LogLevel {
-    LOW,
-    MEDIUM,
-    HIGH
-};
 
 class Menu : public std::enable_shared_from_this<Menu> {
 public:

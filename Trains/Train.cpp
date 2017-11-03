@@ -65,11 +65,17 @@ std::string Train::getDestinationStation() const {
     if (auto dest = _destinationStation.lock()) {
         return dest->getName();
     }
+    else {
+        return "Could not find destination station";
+    }
 }
 
 std::shared_ptr<Station> Train::getDestinationStationPointer() {
     if (auto dest = _destinationStation.lock()) {
         return dest;
+    }
+    else {
+        return nullptr;
     }
 }
 
@@ -171,16 +177,20 @@ void Train::eraseMissingCar(int& index) {
     }
 }
 
-void Train::print() const {
+void Train::print(LogLevel logLevel) const {
     int i = 0;
     if (auto dest = _destinationStation.lock()) {
         cout <<
             "Train [" << std::to_string(_id) << "] (" << getCurrentStateString() << "), " <<
-            "from " << _departureStation << " " << _scheduledDepartureTime->getString() <<
-            " to " << dest->getName() << " " << _scheduledDestinationTime->getString() << endl <<
-            "  Vehicles: (" << _cars.size() << ")" << endl;
+            "from " << _departureStation << " " << _scheduledDepartureTime->getString() << " (" << _expectedDepartureTime->getString() << ") " <<
+            "to " << dest->getName() << " " << _scheduledDestinationTime->getString() << " (" << _expectedDestinationTime->getString() << ") " << endl;
     }
-    for each(auto &car in _cars) {
-        cout << "    " << ++i << ": " << car->getInfo() << endl;
+    if (logLevel >= MEDIUM) {
+        cout << "  Vehicles: (" << _cars.size() << ")" << endl;
+        if (logLevel == HIGH) {
+            for each(auto &car in _cars) {
+                cout << "    " << ++i << ": " << car->getInfo() << endl;
+            }
+        }
     }
 }

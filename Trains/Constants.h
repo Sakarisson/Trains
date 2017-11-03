@@ -11,4 +11,10 @@ enum CarType {
     UNKNOWN // Unknown car type
 };
 
+enum LogLevel {
+    LOW,
+    MEDIUM,
+    HIGH
+};
+
 #endif // !CONSTANTS_H

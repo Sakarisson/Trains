@@ -67,7 +67,7 @@ public:
     void addCar(std::unique_ptr<Car>&);      // Add existing Car
     std::unique_ptr<Car> detachFirstCar();
     void eraseMissingCar(int&);
-    void print() const;
+    void print(LogLevel) const;
 private:
     std::vector<CarType> _missingCars;
     std::vector<std::unique_ptr<Car>> _cars;
